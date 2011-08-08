@@ -3,5 +3,9 @@ require 'bundler/setup'
 
 
 RSpec.configure do |config|
-  # some (optional) config here
+  config.mock_with :rr
+  config.before(:each) do
+    Project.delete_all
+    Category.delete_all
+  end
 end

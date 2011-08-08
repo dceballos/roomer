@@ -1,3 +1,3 @@
-== Roomer
+= Roomer
 
 Roomer is a Multi Tenant framework for Rails
