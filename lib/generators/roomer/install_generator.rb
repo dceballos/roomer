@@ -9,9 +9,15 @@ module Roomer
         template "roomer.rb", "config/initializers/roomer.rb"
       end
       
+      def create_migration_file
+        template "migration.rb", "db/migrate/global/#{file_name}.rb"
+      end
+      
       def show_readme
         readme "README" if behavior == :invoke
       end
+      
+      
     end
   end
 end
