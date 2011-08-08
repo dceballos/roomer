@@ -1,6 +1,6 @@
 = Roomer
 
-Roomer is a Multi Tenant framework for Rails using PostgreSQL
+Roomer is a multitenant framework for Rails using PostgreSQL
 
 == Multitenant Data Strategy
 

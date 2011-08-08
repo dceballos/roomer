@@ -8,18 +8,18 @@ Gem::Specification.new do |s|
   s.authors     = ["Greg Osuri","Daniel Ceballos"]
   s.email       = ["gosuri@gmail.com","dceballos@gmail.com"]
   s.homepage    = "https://github.com/gosuri/roomer"
-  s.summary     = "A multi-tenant gem for Rails using Postgres"
-  s.description = "A multi-tenant gem for Rails using Postgres"
-
+  s.summary     = "Roomer is a multitenant framework for Rails using PostgreSQL"
+  s.description = "Roomer is a multitenant framework for Rails using PostgreSQL"
+  s.rubyforge_project = s.name
+  
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   
+  s.required_rubygems_version = ">= 1.3.4"
   s.add_development_dependency 'rspec', '~> 2.1.0'
   s.add_development_dependency 'rails', '~> 3.0.9'
   s.add_development_dependency 'rr',    '~> 0.10.11'
-  
-  s.rubyforge_project = s.name
-  s.required_rubygems_version = ">= 1.3.4"
+  s.add_development_dependency 'pg',    '~> 0.11.0'
 end
