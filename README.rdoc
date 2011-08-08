@@ -1,3 +1,18 @@
 = Roomer
 
-Roomer is a Multi Tenant framework for Rails
+Roomer is a Multi Tenant framework for Rails using PostgreSQL
+
+== Multi Tenant Strategy
+
+While there are several strategies for multi-tenancy, Roomer uses PostgreSQL's schemas (namespaces) to achieve its goal. You can use Roomer if your application has the below characteristics:
+
+* Each Tenant's data has be to be private to the Tenant.
+* No (or minimal) requirement to run cross-tenant queries.
+
+Each Tenant's data is stored in separate schema and shared data is stored in a "global" schema accessible to all the Tenants.
+
+How does PostgreSQL "Schemas" work?
+
+A database in PostgreSQL contains one or more named schemas, which in turn contain tables. Schemas also contain other kinds of named objects, including data types, functions, and operators. The same object name can be used in different schemas without conflict; for example, both schema1 and myschema may contain tables named mytable. Unlike databases, schemas are not rigidly separated: a user may access objects in any of the schemas in the database he is connected to, if he has privileges to do so.
+
+More information at [http://www.postgresql.org/docs/8.2/static/ddl-schemas.html]
