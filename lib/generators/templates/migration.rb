@@ -1,17 +1,13 @@
-class <%= migration_class_name %> < ActiveRecord::Migration
+class RoomerCreate<%= options[:model_name].to_s.camelize %> < ActiveRecord::Migration
   def self.up
-<% attributes.each do |attribute| -%>
-  <%- if migration_action -%>
-    <%= migration_action %>_column :<%= table_name %>, :<%= attribute.name %><% if migration_action == 'add' %>, :<%= attribute.type %><% end %>
-  <%- end -%>
-<%- end -%>
+    create_table(:<%= options[:model_name].to_s.downcase.pluralize %>) do |t|
+      t.string :domain_name
+      t.string :name
+      t.timestamps
+    end
   end
 
   def self.down
-<% attributes.reverse.each do |attribute| -%>
-  <%- if migration_action -%>
-    <%= migration_action == 'add' ? 'remove' : 'add' %>_column :<%= table_name %>, :<%= attribute.name %><% if migration_action == 'remove' %>, :<%= attribute.type %><% end %>
-  <%- end -%>
-<%- end -%>
+    drop_table :<%= options[:model_name].to_s.downcase.pluralize %>
   end
 end
