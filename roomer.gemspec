@@ -5,12 +5,13 @@ require "roomer/version"
 Gem::Specification.new do |s|
   s.name        = "roomer"
   s.version     = Roomer::VERSION.dup
-  s.authors     = ["Greg Osuri","Daniel Ceballos"]
-  s.email       = ["gosuri@gmail.com","dceballos@gmail.com"]
+  s.platform    = Gem::Platform::RUBY  
   s.homepage    = "https://github.com/gosuri/roomer"
   s.summary     = "Roomer is a multitenant framework for Rails using PostgreSQL"
   s.description = "Roomer is a multitenant framework for Rails using PostgreSQL"
   s.rubyforge_project = s.name
+  s.authors     = ["Greg Osuri","Daniel Ceballos"]
+  s.email       = ["gosuri@gmail.com","dceballos@gmail.com"]
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

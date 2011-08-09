@@ -21,7 +21,7 @@ module Roomer
       end
       
       def create_migration_file
-        migration_template "migration.rb", "db/migrate/#{schema_name}/roomer_create_#{table_name}"
+        migration_template "global_migration.rb", "db/migrate/#{schema_name}/roomer_create_#{table_name}"
       end
       
       def show_readme
