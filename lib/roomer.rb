@@ -1,11 +1,9 @@
 require 'rails'
 require 'active_support/dependencies'
-require "roomer/version"
-require "roomer/rails"
-require "roomer/tools"
 
 module Roomer
-  
+  autoload :Tools,    'roomer/tools'
+
   # Name of the tenant model
   mattr_accessor :tenant_model_name
   @@tenant_model_name = :tenant
@@ -18,3 +16,6 @@ module Roomer
     yield self
   end
 end
+
+require 'roomer/rails'
+require 'roomer/version'

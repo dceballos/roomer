@@ -10,13 +10,13 @@ module Roomer
         ActiveRecord::Base.connection.schema_search_path = path.join(',')
       end
       
-      # creates the shares schema if it doesn't exist
-      def create_shared_schema
-        create_schema(Roomer.shared_schema_name.to_s) unless schemas.include?(Roomer.shared_schema_name.to_s)
-      end
+      
+
       
       def create_schema(name)
-        ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
+        unless schemas.include?(name.to_s)
+          ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
+        end
         ensure_schema_migration(name.to_s)
       end
       
@@ -32,6 +32,7 @@ module Roomer
         ActiveRecord::Base.table_name_prefix = "#{schema}."
         ActiveRecord::Base.connection.initialize_schema_migrations_table
       end
+      
     end
   end
 end
