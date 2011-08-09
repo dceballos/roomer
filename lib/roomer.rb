@@ -1,5 +1,6 @@
 require 'rails'
 require 'active_support/dependencies'
+require 'roomer/version'
 
 module Roomer
   autoload :Tools, 'roomer/tools'
@@ -17,13 +18,9 @@ module Roomer
   end
 end
 
-module ActiveRecord
-  class Base
-    def self.table_name_prefix
-      "barson"
-    end
-  end
-end
 
+require 'roomer/extensions/active_record'
 require 'roomer/rails'
 require 'roomer/version'
+
+
