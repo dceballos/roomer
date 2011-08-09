@@ -6,6 +6,7 @@ module Roomer
 
       class_option :model_name,   :default => :tenant, :desc => "Name of Tenant model", :aliases => "-m"
       class_option :schema_name,  :default => :global, :desc => "Name of shared schema", :aliases => "-s"
+      
             
       desc "Creates a Roomer initializer for your application and generates the necessary migration"
       
@@ -14,7 +15,7 @@ module Roomer
       end
       
       def create_migration_file
-        template "migration.rb", "db/migrate/global/roomer_create_#{options[:model_name]}.rb"
+        template "migration.rb", "db/migrate/#{options[:schema_name]}/roomer_create_#{options[:model_name]}.rb"
       end
       
       def show_readme
