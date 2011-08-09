@@ -2,7 +2,7 @@ require 'rails'
 require 'active_support/dependencies'
 
 module Roomer
-  autoload :Tools,    'roomer/tools'
+  autoload :Tools, 'roomer/tools'
 
   # Name of the tenant model
   mattr_accessor :tenant_model_name
@@ -14,6 +14,14 @@ module Roomer
   
   def self.setup
     yield self
+  end
+end
+
+module ActiveRecord
+  class Base
+    def self.table_name_prefix
+      "barson"
+    end
   end
 end
 
