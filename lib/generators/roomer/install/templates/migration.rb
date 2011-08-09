@@ -1,6 +1,6 @@
-class RoomerCreate<%= options[:model_name].to_s.camelize %> < ActiveRecord::Migration
+class RoomerCreate<%= table_name.camelcase %> < ActiveRecord::Migration
   def self.up
-    create_table(:<%= options[:model_name].to_s.downcase.pluralize %>) do |t|
+    create_table(:<%= table_name %>) do |t|
       t.string :domain_name
       t.string :name
       t.timestamps
@@ -8,6 +8,6 @@ class RoomerCreate<%= options[:model_name].to_s.camelize %> < ActiveRecord::Migr
   end
 
   def self.down
-    drop_table :<%= options[:model_name].to_s.downcase.pluralize %>
+    drop_table :<%= table_name %>
   end
 end

@@ -1,5 +1,5 @@
 Roomer.setup do |config|
   # App Config goes here
-  config.tenant_model :<%= options[:model_name].to_s.downcase %>
-  config.global_schema_name :<%= options[:schema_name].to_s.downcase %>
+  config.tenant_model :<%= model_name %>
+  config.shared_schema_name :<%= schema_name %>
 end
