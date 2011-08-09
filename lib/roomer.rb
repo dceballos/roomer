@@ -1,6 +1,8 @@
 require 'rails'
 require 'active_support/dependencies'
 require "roomer/version"
+require "roomer/rails"
+require "roomer/tools"
 
 module Roomer
   
