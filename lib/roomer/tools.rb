@@ -16,11 +16,21 @@ module Roomer
       end
       
       def create_schema(name)
-        ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name}"
+        ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
+        ensure_schema_migration(name.to_s)
+      end
+      
+      def drop_schema(name)
+        ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{name.to_s} CASCADE")
       end
       
       def schemas
         ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten
+      end
+      
+      def ensure_schema_migration(schema)
+        ActiveRecord::Base.table_name_prefix = "#{schema}."
+        ActiveRecord::Base.connection.initialize_schema_migrations_table
       end
     end
   end
