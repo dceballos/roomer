@@ -21,17 +21,17 @@ More information at http://www.postgresql.org/docs/8.2/static/ddl-schemas.html
 
 Roomer currently only supports Rails 3
 
-	gem install roomer
+    gem install roomer
 	
 After you install Roomer and add it to your Gemfile, you need to run the generator:
 	
-	rails generate roomer:install
+    rails generate roomer:install
 	
 Roomer will use default values "tenant" for Tenant scoped models and "global" for shared models. If you'd like to override the defaults use the optional parameters
 
-	rails generate roomer:install -s SCHEMA_NAME -m MODEL_NAME
+    rails generate roomer:install -s SCHEMA_NAME -m MODEL_NAME
 	
 	# example
-	rails generate roomer:install -s shared -m organizations
+    rails generate roomer:install -s shared -m organizations
 
 The generator will install an initializer under config/initializers/roomer.rb which describes ALL Roomer’s configuration options and you MUST take a look at it.
