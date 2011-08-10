@@ -16,3 +16,22 @@ Each Tenant's data is stored in separate schema and shared data is stored in a "
 A database in PostgreSQL contains one or more named schemas, which in turn contain tables. Schemas also contain other kinds of named objects, including data types, functions, and operators. The same object name can be used in different schemas without conflict; for example, both schema1 and myschema may contain tables named mytable. Unlike databases, schemas are not rigidly separated: a user may access objects in any of the schemas in the database he is connected to, if he has privileges to do so.
 
 More information at http://www.postgresql.org/docs/8.2/static/ddl-schemas.html
+
+== Installation
+
+Roomer currently only supports Rails 3
+
+	gem install roomer
+	
+After you install Roomer and add it to your Gemfile, you need to run the generator:
+	
+	rails generate roomer:install
+	
+Roomer will use default values "tenant" for Tenant scoped models and "global" for shared models. If you'd like to override the defaults use the optional parameters
+
+	rails generate roomer:install -s SCHEMA_NAME -m MODEL_NAME
+	
+	# example
+	rails generate roomer:install -s shared -m organizations
+
+The generator will install an initializer under config/initializers/roomer.rb which describes ALL Roomer’s configuration options and you MUST take a look at it.
