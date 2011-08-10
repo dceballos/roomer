@@ -10,9 +10,6 @@ module Roomer
         ActiveRecord::Base.connection.schema_search_path = path.join(',')
       end
       
-      
-
-      
       def create_schema(name)
         unless schemas.include?(name.to_s)
           ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
