@@ -33,5 +33,6 @@ The generator will install an initializer under config/initializers/roomer.rb wh
 
 === Setup
 
-After you 
+After you've done the necessary config changes to the initializer, run the setup:
+
     rails generate roomer:setup 
