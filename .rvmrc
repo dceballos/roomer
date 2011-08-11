@@ -1,1 +1,2 @@
 rvm ruby-1.8.7-p160@roomer --create
+echo "commencing countdown, engines on"
