@@ -23,7 +23,7 @@ module Roomer
       
       def schemas
         ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten
-      end
+      end``
       
       def ensure_schema_migration(schema)
         ActiveRecord::Base.table_name_prefix = "#{schema}."
