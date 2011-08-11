@@ -18,7 +18,6 @@ module Roomer
   end
 end
 
-
 require 'roomer/extensions/active_record'
 require 'roomer/rails'
 require 'roomer/version'
