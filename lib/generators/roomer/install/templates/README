@@ -1,4 +1,9 @@
 ===============================================================================
-Roomer is successfully installed.
+                  Hooray! Roomer is successfully installed
+
+Step 1: Initializer is under config/initializers/roomer.rb. This describes ALL
+        configuration options and you MUST take a look at it.
+
+Step 2: Run 
 
 ===============================================================================
