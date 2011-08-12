@@ -3,7 +3,12 @@ require 'active_support/dependencies'
 require 'roomer/version'
 
 module Roomer
-  autoload :Tools, 'roomer/tools'
+  autoload :Tools,          'roomer/tools'
+  
+  module Helpers
+    autoload :ModelHelper,  'roomer/helpers/model'
+  end
+  
   
   # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
