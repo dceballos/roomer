@@ -10,6 +10,6 @@ Step 2: Setup roomer, run:
 
 Step 3: Run shared migrations, this will create the tenants table in the shared schema
         
-        rake roomer:migrate:shared
+        rake roomer:shared:migrate
 
 ===============================================================================
