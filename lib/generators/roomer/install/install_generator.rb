@@ -12,6 +12,10 @@ module Roomer
             
       desc "Creates a Roomer initializer for your application and generates the necessary migration"
       
+      # Reads the tenants-table option and assigns it 
+      # to Roomer.tenants_table config parameter
+      # == Returns:
+      # tenants table name
       def tenants_table
         Roomer.tenants_table ||= options[:tenants_table].tableize
       end

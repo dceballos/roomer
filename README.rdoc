@@ -32,7 +32,6 @@ After you install Roomer and add it to your Gemfile, you need to run the generat
 
 The generator will install an initializer under config/initializers/roomer.rb which describes ALL Roomer’s configuration options and you MUST take a look at it.
 
-
 === Setup
 
 After you've done the necessary config changes to the initializer, run the setup:
@@ -45,3 +44,6 @@ The setup will generate migrations under db/migration/[shared_shema_name], by de
 
     rake roomer:migrate:shared
 
+= Contributors
+
+https://github.com/gosuri/roomer/contributors

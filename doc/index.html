@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.7.2
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'>
+<h1>Roomer</h1>
+
+<p>Roomer is a multitenant framework for Rails using PostgreSQL</p>
+
+<h2>Multitenant Data Strategy</h2>
+
+<p>While there are several strategies for multi-tenancy, Roomer uses
+PostgreSQL’s schemas (namespaces) to achieve its goal. You can use Roomer
+if your application has the below characteristics:</p>
+<ul><li>
+<p>Each Tenant’s data has be to be private to the Tenant.</p>
+</li><li>
+<p>No (or minimal) requirement to run cross-tenant queries.</p>
+</li></ul>
+
+<p>Each Tenant’s data is stored in separate schema and shared data is stored
+in a “global” schema accessible to all the Tenants.</p>
+
+<h3>PostgreSQL “Schemas”</h3>
+
+<p>A database in PostgreSQL contains one or more named schemas, which in turn
+contain tables. Schemas also contain other kinds of named objects,
+including data types, functions, and operators. The same object name can be
+used in different schemas without conflict; for example, both schema1 and
+myschema may contain tables named mytable. Unlike databases, schemas are
+not rigidly separated: a user may access objects in any of the schemas in
+the database he is connected to, if he has privileges to do so.</p>
+
+<p>More information at <a
+href="http://www.postgresql.org/docs/8.2/static/ddl-schemas.html">www.postgresql.org/docs/8.2/static/ddl-schemas.html</a></p>
+
+<h2>Usage</h2>
+
+<h3>Installation</h3>
+
+<p>Roomer currently only supports Rails 3</p>
+
+<pre class="code"><span class='gem identifier id'>gem</span> <span class='install identifier id'>install</span> <span class='roomer identifier id'>roomer</span>
+</pre>
+
+<p>After you install Roomer and add it to your Gemfile, you need to run the
+generator. Roomer will use default values “tenant” for Tenant scoped
+models and “global” for shared models. If you’d like to override the
+defaults use the optional parameters</p>
+
+<pre class="code"><span class='rails identifier id'>rails</span> <span class='generate identifier id'>generate</span> <span class='roomer identifier id'>roomer</span><span class='symbol val'>:install</span>
+</pre>
+
+<p></p>
+
+<p>The generator will install an initializer under
+config/initializers/roomer.rb which describes ALL Roomer’s configuration
+options and you MUST take a look at it.</p>
+
+<h3>Setup</h3>
+
+<p>After you’ve done the necessary config changes to the initializer, run
+the setup:</p>
+
+<pre class="code"><span class='rails identifier id'>rails</span> <span class='generate identifier id'>generate</span> <span class='roomer identifier id'>roomer</span><span class='symbol val'>:setup</span>
+</pre>
+
+<h3>Running Migrations</h3>
+
+<p>The setup will generate migrations under db/migration/[shared_shema_name],
+by default it should be db/migration/global. You need to run the shared
+migrations to setup the tenant tables</p>
+
+<pre class="code"><span class='rake identifier id'>rake</span> <span class='roomer identifier id'>roomer</span><span class='symbol val'>:migrate</span><span class='symbol val'>:shared</span>
+</pre>
+
+<h1>Contributors</h1>
+
+<p><a
+href="https://github.com/gosuri/roomer/contributors">github.com/gosuri/roomer/contributors</a></p>
+</div></div>
+    
+    <div id="footer">
+  Generated on Thu Aug 11 23:35:48 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.2 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

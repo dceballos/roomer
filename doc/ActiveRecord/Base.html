@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: ActiveRecord::Base
+  
+    &mdash; Documentation by YARD 0.7.2
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (B)</a> &raquo; 
+    <span class='title'>ActiveRecord</span>
+     &raquo; 
+    <span class="title">Base</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: ActiveRecord::Base
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/roomer/extensions/active_record.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#roomer-class_method" title="roomer (class method)">+ (Object) <strong>roomer</strong>(scope) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Sets the roomer scope for the model and changes the model’s
+table_name_prefix If :shared is passed, the global schema will be used as
+the table name prefix if :tenanted is pased, the current tenant’s schema
+will be used as the table name prefix.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#table_name_prefix-class_method" title="table_name_prefix (class method)">+ (Object) <strong>table_name_prefix</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Overrides ActiveRecord::Base.table_name_prefix Defaults to blank if roomer
+class method is not set in model Returns the shared schema name prefix if
+roomer method is set to :shared Returns the current tenants schema name if
+roomer class method is set to :tenanted.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="roomer-class_method">
+  
+    + (<tt>Object</tt>) <strong>roomer</strong>(scope) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Sets the roomer scope for the model and changes the model’s
+table_name_prefix If :shared is passed, the global schema will be used as
+the table name prefix if :tenanted is pased, the current tenant’s schema
+will be used as the table name prefix</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/roomer/extensions/active_record.rb', line 22</span>
+
+<span class='def def kw'>def</span> <span class='roomer identifier id'>roomer</span><span class='lparen token'>(</span><span class='scope identifier id'>scope</span><span class='rparen token'>)</span>
+  <span class='case case kw'>case</span> <span class='scope identifier id'>scope</span>
+    <span class='when when kw'>when</span> <span class='symbol val'>:shared</span>
+      <span class='@roomer_scope ivar id'>@roomer_scope</span> <span class='assign token'>=</span> <span class='symbol val'>:shared</span>
+    <span class='when when kw'>when</span> <span class='symbol val'>:tenanted</span>
+      <span class='@roomer_scope ivar id'>@roomer_scope</span> <span class='assign token'>=</span> <span class='symbol val'>:tenanted</span>
+    <span class='else else kw'>else</span>
+      <span class='raise identifier id'>raise</span> <span class='string val'>&quot;Invalid roomer model scope.  Choose :shared or :tenanted&quot;</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="table_name_prefix-class_method">
+  
+    + (<tt>Object</tt>) <strong>table_name_prefix</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Overrides ActiveRecord::Base.table_name_prefix Defaults to blank if roomer
+class method is not set in model Returns the shared schema name prefix if
+roomer method is set to :shared Returns the current tenants schema name if
+roomer class method is set to :tenanted</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/roomer/extensions/active_record.rb', line 8</span>
+
+<span class='def def kw'>def</span> <span class='table_name_prefix identifier id'>table_name_prefix</span>
+  <span class='return return kw'>return</span> <span class='@table_name_prefix ivar id'>@table_name_prefix</span> <span class='unless unless_mod kw'>unless</span> <span class='@table_name_prefix ivar id'>@table_name_prefix</span><span class='dot token'>.</span><span class='blank? fid id'>blank?</span>
+  <span class='if if kw'>if</span> <span class='shared? fid id'>shared?</span>
+    <span class='Roomer constant id'>Roomer</span><span class='dot token'>.</span><span class='shared_schema_name identifier id'>shared_schema_name</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='tenanted? fid id'>tenanted?</span>
+    <span class='self self kw'>self</span><span class='dot token'>.</span><span class='current_tenant identifier id'>current_tenant</span><span class='lbrack token'>[</span><span class='Roomer constant id'>Roomer</span><span class='dot token'>.</span><span class='tenant_schema_name_column identifier id'>tenant_schema_name_column</span><span class='rbrack token'>]</span>
+  <span class='else else kw'>else</span>
+    <span class='string val'>&quot;&quot;</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Aug 11 23:35:48 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.2 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

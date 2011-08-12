@@ -1,3 +1,14 @@
 module Roomer
-  VERSION = "0.0.1".freeze
+  module VERSION # :nodoc:
+    unless defined? MAJOR
+      MAJOR  = 0
+      MINOR  = 0
+      TINY   = 1
+      PRE    = nil
+
+      STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
+
+      SUMMARY = "roomer #{STRING}"
+    end
+  end
 end
