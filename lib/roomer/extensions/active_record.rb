@@ -9,9 +9,9 @@ class ActiveRecord::Base
     def table_name_prefix
       return @table_name_prefix unless @table_name_prefix.blank?
       if shared?
-        Roomer.shared_schema_name.to_s
+        roomer_full_table_name_prefix(Roomer.shared_schema_name)
       elsif tenanted?
-        self.current_tenant[Roomer.tenant_schema_name_column]
+        roomer_full_table_name_prefix(Roomer.tenant_schema_name_column)
       else
         ""
       end
@@ -33,6 +33,10 @@ class ActiveRecord::Base
     end
 
     protected
+    def roomer_full_table_name_prefix(schema_name)
+      "#{schema_name.to_s}#{Roomer.schema_seperator}"
+    end
+
     # Confirms if model is shared
     # @return [True,False]
     def shared?
