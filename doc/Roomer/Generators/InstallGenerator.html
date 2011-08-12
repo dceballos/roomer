@@ -89,7 +89,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/generators/roomer/install/install_generator.rb</dd>
+    <dd class="r2 last">lib/generators/install/install_generator.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -240,7 +240,7 @@ config parameter.</p>
 30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/generators/roomer/install/install_generator.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/generators/install/install_generator.rb', line 28</span>
 
 <span class='def def kw'>def</span> <span class='copy_initializer identifier id'>copy_initializer</span>
   <span class='template identifier id'>template</span> <span class='string val'>&quot;roomer.rb&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;config/initializers/roomer.rb&quot;</span>
@@ -297,7 +297,7 @@ config parameter.</p>
 25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/generators/roomer/install/install_generator.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/generators/install/install_generator.rb', line 23</span>
 
 <span class='def def kw'>def</span> <span class='shared_schema_name identifier id'>shared_schema_name</span>
   <span class='Roomer constant id'>Roomer</span><span class='dot token'>.</span><span class='shared_schema_name identifier id'>shared_schema_name</span> <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:shared_schema_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='tableize identifier id'>tableize</span>
@@ -336,7 +336,7 @@ config parameter.</p>
 35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/generators/roomer/install/install_generator.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/generators/install/install_generator.rb', line 33</span>
 
 <span class='def def kw'>def</span> <span class='show_readme identifier id'>show_readme</span>
   <span class='readme identifier id'>readme</span> <span class='string val'>&quot;README&quot;</span> <span class='if if_mod kw'>if</span> <span class='behavior identifier id'>behavior</span> <span class='eq op'>==</span> <span class='symbol val'>:invoke</span>
@@ -394,7 +394,7 @@ config parameter</p>
 19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/generators/roomer/install/install_generator.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/generators/install/install_generator.rb', line 17</span>
 
 <span class='def def kw'>def</span> <span class='tenants_table identifier id'>tenants_table</span>
   <span class='Roomer constant id'>Roomer</span><span class='dot token'>.</span><span class='tenants_table identifier id'>tenants_table</span> <span class='opasgn op'>||=</span> <span class='options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:tenants_table</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='tableize identifier id'>tableize</span>
@@ -410,7 +410,7 @@ config parameter</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Aug 12 00:12:17 2011 by 
+  Generated on Fri Aug 12 10:39:12 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.2 (ruby-1.8.7).
 </div>

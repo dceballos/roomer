@@ -52,7 +52,7 @@ module Roomer
       def ensure_prefix(prefix, &block)
         ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator}"
         yield
-        ActiveRecord::Base.table_name_prefix = old_prefix
+        ActiveRecord::Base.table_name_prefix = nil
       end
       
       # Ensures schema_migrations table exists and creates otherwise

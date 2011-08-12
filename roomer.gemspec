@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY  
   s.homepage    = "https://github.com/gosuri/roomer"
   s.summary     = "Roomer is a multitenant framework for Rails using PostgreSQL"
-  s.description = "Roomer is a multitenant framework for Rails using PostgreSQL"  
+  s.description = Roomer::VERSION::SUMMARY  
   s.rubyforge_project = s.name
   s.authors     = ["Greg Osuri","Daniel Ceballos"]
   s.email       = ["gosuri@gmail.com","dceballos@gmail.com"]

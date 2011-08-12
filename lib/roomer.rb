@@ -5,7 +5,6 @@ require 'roomer/version'
 module Roomer
   autoload :Tools, 'roomer/tools'
   
-
   # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
   #  * :path    -  identifying the tenant by the path
@@ -43,18 +42,24 @@ module Roomer
   @@tenant_schema_name_column = :schema_name
 
   # The schema seperator. This is used when generating the table name. 
-  # The default is set to ".". for e.g., tenant's table by default will 
-  # be global.tenants
+  # The default is set to "."
+  # Example: tenant's table by default will be global.tenants
   mattr_accessor :schema_seperator
   @@schema_seperator = '.'
   
+  # Rails DB Migrations Directory
+  # @return [String] full path to the migrations directory
+  def self.migrations_directory
+    File.join("db","migrate")
+  end
+  
   # Directory where shared migrations are stored.
   mattr_accessor :shared_migrations_directory
-  @@shared_migrations_directory = "db/migrate/#{shared_schema_name.to_s}"
+  @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
   
   # Directory where the tenanted migrations are stored.
   mattr_accessor :tenanted_migrations_directory
-  @@tenanted_migrations_directory = "db/migrate/#{tenants_table.to_s}"
+  @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
   
   # Consutructs the full name for the tenants table with schema 
   # Example: 'global.tenant'
@@ -69,6 +74,8 @@ module Roomer
   def self.full_shared_shema_migration_path
     "#{Rails.root}/#{shared_migrations_directory}"
   end
+  
+
   
   # Default way to setup Roomer. Run rails generate roomer:install to create
   # a fresh initializer with all configuration values.
