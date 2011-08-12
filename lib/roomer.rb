@@ -28,7 +28,7 @@ module Roomer
   # contain two required columns configured under tenant_url_identifier_column and
   # tenant_schema_name_column
   mattr_accessor :tenants_table
-  @@tenants_table = :tenant
+  @@tenants_table = :tenants
   
   # The column name that stores the url identfier in the tenants tables.
   # A url idenfier is a unique value that identifies the tenant from the URL.
