@@ -30,8 +30,7 @@ class ActiveRecord::Base
       end
     end
 
-    private
-
+    protected
     # Confirms if model is shared
     def shared?
       @roomer_scope == :shared
