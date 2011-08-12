@@ -1,3 +1,6 @@
+*NOTE*: We started writing this few days and haven't released yet, please don't use. If you are interested in contributing, drop me a note at gosuri{at}gmail.ccom
+
+
 = Roomer
 
 Roomer is a multitenant framework for Rails using PostgreSQL

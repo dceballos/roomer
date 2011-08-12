@@ -12,22 +12,24 @@ module Roomer
             
       desc "Creates a Roomer initializer for your application and generates the necessary migration"
       
-      # Reads the tenants-table option and assigns it 
-      # to Roomer.tenants_table config parameter
-      # == Returns:
-      # tenants table name
+      # Reads the tenants-table option and assigns it to Roomer.tenants_table config parameter
+      # @return [Symbol] tenants table name
       def tenants_table
         Roomer.tenants_table ||= options[:tenants_table].tableize
       end
       
+      # Reads the shared-schema-name and assigns it to Roomer.shared_schema_name
+      # @return [Symbol] shared schema name
       def shared_schema_name
         Roomer.shared_schema_name ||= options[:shared_schema_name].tableize
       end
       
+      # Generates the Initializer under config/initializers/roomer.rb
       def copy_initializer
         template "roomer.rb", "config/initializers/roomer.rb"
       end
 
+      # Displays the instructions for setting up Roomer
       def show_readme
         readme "README" if behavior == :invoke
       end

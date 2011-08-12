@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_tenant
 
   private
+  # Fetches the URL Identifier
+  # @return [True, False]
   def url_identifier
     case Roomer.url_routing_strategy
       when :domain
