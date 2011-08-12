@@ -11,10 +11,7 @@ module Roomer
       end
       
       def create_schema(name)
-        unless schemas.include?(name.to_s)
-          ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
-        end
-        ensure_schema_migration(name.to_s)
+        ActiveRecord::Base.connection.execute "CREATE SCHEMA #{name.to_s}"
       end
       
       def drop_schema(name)
@@ -23,12 +20,22 @@ module Roomer
       
       def schemas
         ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten
-      end``
+      end
       
-      def ensure_schema_migration(schema)
-        ActiveRecord::Base.table_name_prefix = "#{schema}."
+      def ensure_schema_migrations
         ActiveRecord::Base.connection.initialize_schema_migrations_table
       end
+      
+      def ensuring_schema(schema_name, &block)
+        raise ArgumentError.new("schema_name not present") unless schema_name
+        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+        create_schema(schema_name) unless schemas.include?(schema_name.to_s)
+        ActiveRecord::Base.table_name_prefix = "#{schema_name}#{Roomer.schema_seperator}"
+        ensure_schema_migrations
+        yield
+        ActiveRecord::Base.table_name_prefix = nil
+      end
+      
       
     end
   end

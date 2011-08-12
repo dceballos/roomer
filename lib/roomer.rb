@@ -26,7 +26,7 @@ module Roomer
   # @see #tenant_url_identifier_column
   # @see #tenant_schema_name_column
   mattr_accessor :tenants_table
-  @@tenant_model_name = :tenant
+  @@tenants_table = :tenant
   
   # The name of the shared schema, this is where all the shared 
   # tables are be present
@@ -50,13 +50,17 @@ module Roomer
   @@schema_seperator = '.'
   
   mattr_accessor :shared_migrations_directory
-  @shared_migrations_directory = "db/migrations/#{shared_schema_name}"
+  @@shared_migrations_directory = "db/migrate/#{shared_schema_name.to_s}"
   
   mattr_accessor :tenanted_migrations_directory
-  @tenanted_migrations_directory = "db/migrations/#{tenants_table}"
+  @@tenanted_migrations_directory = "db/migrate/#{tenants_table.to_s}"
   
   def self.full_tenants_table_name
     "#{shared_schema_name}#{schema_seperator}#{tenants_table}"
+  end
+  
+  def self.full_shared_shema_migration_path
+    "#{Rails.root}/#{shared_migrations_directory}"
   end
   
   def self.setup

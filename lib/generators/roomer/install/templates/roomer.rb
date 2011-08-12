@@ -47,10 +47,10 @@ Roomer.setup do |config|
   
   # Directory where shared migrations are stored. Please make
   # sure your migrations are present in this directory.
-  config.shared_migrations_directory = "db/migrations/#{Roomer.shared_schema_name}"
+  config.shared_migrations_directory = "#{Roomer.shared_migrations_directory}"
   
   # Directory where tenanted migrations are stored. Please make
   # sure your migrations are present in this directory.
-  config.tenanted_migrations_directory = "db/migrations/#{Roomer.tenants_table}"
+  config.tenanted_migrations_directory = "#{Roomer.tenanted_migrations_directory}"
   
 end

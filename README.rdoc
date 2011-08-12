@@ -17,7 +17,9 @@ A database in PostgreSQL contains one or more named schemas, which in turn conta
 
 More information at http://www.postgresql.org/docs/8.2/static/ddl-schemas.html
 
-== Installation
+== Usage
+
+=== Installation
 
 Roomer currently only supports Rails 3
 
@@ -31,8 +33,15 @@ After you install Roomer and add it to your Gemfile, you need to run the generat
 The generator will install an initializer under config/initializers/roomer.rb which describes ALL Roomer’s configuration options and you MUST take a look at it.
 
 
-== Setup
+=== Setup
 
 After you've done the necessary config changes to the initializer, run the setup:
 
     rails generate roomer:setup 
+
+=== Running Migrations
+
+The setup will generate migrations under db/migration/[shared_shema_name], by default it should be db/migration/global. You need to run the shared migrations to setup the tenant tables
+
+    rake roomer:migrate:shared
+

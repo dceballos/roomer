@@ -7,7 +7,7 @@ module Roomer
       extend ActiveRecord::Generators::Migration
       
       def create_migration_file
-        migration_template "global_migration.rb", "db/migrate/#{Roomer.shared_schema_name}/roomer_create_#{Roomer.tenants_table}"
+        migration_template "global_migration.rb", "db/migrate/#{Roomer.shared_schema_name.to_s}/roomer_create_#{Roomer.tenants_table.to_s}"
       end
     end
   end
