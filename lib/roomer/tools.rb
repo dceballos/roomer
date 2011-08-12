@@ -31,11 +31,18 @@ module Roomer
         ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
         create_schema(schema_name) unless schemas.include?(schema_name.to_s)
         ActiveRecord::Base.table_name_prefix = "#{schema_name}#{Roomer.schema_seperator}"
-        ensure_schema_migrations
-        yield
-        ActiveRecord::Base.table_name_prefix = nil
+        ensure_prefix(schema_name) do
+          ensure_schema_migrations
+          yield
+        end
       end
       
+      # Should be used carefully
+      def ensure_prefix(prefix, &block)
+        ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator}"
+        yield
+        ActiveRecord::Base.table_name_prefix = old_prefix
+      end
       
     end
   end
