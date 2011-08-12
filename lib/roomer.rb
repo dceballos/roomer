@@ -28,11 +28,13 @@ module Roomer
   mattr_accessor :tenants_table
   @@tenants_table = :tenant
   
+  # @attribute
   # The name of the shared schema, this is where all the shared 
   # tables are be present
   mattr_accessor :shared_schema_name
   @@shared_schema_name = :global
   
+  # @attribute
   # The column name that stores the url identfier in the tenants tables.
   # A url idenfier is a unique value that identifies the tenant from the URL.
   # For e.g: if you use domains and the url is http://mytenant.myapp.com, 
@@ -40,9 +42,12 @@ module Roomer
   mattr_accessor :tenant_url_identifier_column
   @@tenant_url_identifier_column = :url_identifier
   
+  # @attribute
+  # The column name that strores the schema name in the tenants tables. 
   mattr_accessor :tenant_schema_name_column
   @@tenant_schema_name_column = :schema_name
   
+  # @attribute
   # The schema seperator. This is used when generating the table name. 
   # The default is set to ".". for e.g., tenant's table by default will 
   # be global.tenants
