@@ -38,8 +38,7 @@ module Roomer
           yield
         end
       end
-      
-      
+       
       # Ensures the same ActiveRecord::Base#table_name_prefix for all the 
       # models executed in the block
       # @param [#to_s] A Symbol declaring the table name prefix
