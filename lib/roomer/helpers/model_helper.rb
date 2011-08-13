@@ -18,7 +18,7 @@ module Roomer
       # Checks if roomer is configured for the model
       # @return [True,False]
       def roomer_model?(model_name)
-        modelify(model_name).send(:shared?) || modelify(model_name).send(:tenanted?)
+        modelify(model_name.to_s).send(:shared?) || modelify(model_name.to_s).send(:tenanted?)
       end
       
       # Constantizes a String
@@ -26,6 +26,15 @@ module Roomer
       # @return [Constant]
       def modelify(model_name)
         model_name.classify.constantize
+      end
+      
+      def shared?
+        @shared ||= options[:shared]
+      end
+      
+      def migration_dir
+        return Roomer.shared_migrations_directory if shared?
+        return Roomer.tenanted_migrations_directory
       end
       
     end

@@ -1,4 +1,4 @@
-#require 'rails'
+require 'rails'
 require 'active_support'
 require 'active_support/dependencies'
 require 'roomer/version'
@@ -67,8 +67,9 @@ module Roomer
   @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
   
   # Directory where the tenanted migrations are stored.
-  mattr_accessor :tenanted_migrations_directory
+  mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
+  
   
   # Default way to setup Roomer. Run rails generate roomer:install to create
   # a fresh initializer with all configuration values.
@@ -78,6 +79,11 @@ module Roomer
   #     end
   def self.setup
     yield self
+  end
+  
+  def self.tenanted_migrations_directory
+    return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
+    return migrations_directory
   end
   
 end

@@ -58,6 +58,11 @@ module Roomer
       def ensure_schema_migrations
         ActiveRecord::Base.connection.initialize_schema_migrations_table
       end
+      
+      def shared_migrations_pending?
+        ActiveRecord::Migrator.new(:up,Roomer.shared_migrations_directory)
+      end
+      
     end
   end
 end

@@ -19,8 +19,10 @@ module Roomer
     # Constructs the full path to the shared schema directory
     # Example: /Users/Greg/Projects/roomer/db/migrate/global  
     # @return [String] full path to the shared schema directory
-    def full_shared_shema_migration_path
+    def full_shared_schema_migration_path
       "#{Rails.root}/#{shared_migrations_directory}"
     end
+    
+    
   end
 end

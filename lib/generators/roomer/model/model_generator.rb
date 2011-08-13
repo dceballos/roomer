@@ -20,7 +20,7 @@ module Roomer
       end
       
       def copy_roomer_migration
-        if model_exists?
+        if roomer_model?(name)
           info_message "model already exists in #{model_path}. skipping migration file."
         else
           migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
@@ -28,7 +28,7 @@ module Roomer
       end
       
       def inject_roomer_content
-        unless roomer_exists?(name.to_s)
+        unless roomer_model?(name)
           inject_into_class model_path, class_name do
 <<-CONTENT  
   # tell roomer if this is a shared or tenanted model  
@@ -36,16 +36,6 @@ module Roomer
 CONTENT
           end
         end
-      end
-      
-      def shared?
-        @shared ||= options[:shared]
-      end
-      
-      def migration_dir
-        return Roomer.shared_migrations_directory if shared?
-        return Roomer.shared_migrations_directory if Roomer.use_tenanted_migrations_directory?
-        return Roomer.migrations_directory
       end
       
     end

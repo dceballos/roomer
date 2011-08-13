@@ -9,7 +9,7 @@ module Roomer
       
       # creates a migration file under /db/migrate/shared_schema_name
       def create_migration_file
-        migration_template "global_migration.rb", "db/migrate/#{Roomer.shared_schema_name.to_s}/roomer_create_#{Roomer.tenants_table.to_s}"
+        migration_template "global_migration.rb", "#{Roomer.shared_migrations_directory}/roomer_create_#{Roomer.tenants_table.to_s}"
       end
     end
   end
