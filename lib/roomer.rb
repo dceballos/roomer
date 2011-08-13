@@ -4,12 +4,12 @@ require 'active_support/dependencies'
 require 'roomer/version'
 
 module Roomer
-  autoload :Tools,              'roomer/tools'
   autoload :Utils,              'roomer/utils'
   
   module Helpers
-    autoload :GeneratorHelper,  'roomer/helpers/generator'
-    autoload :ModelHelper,      'roomer/helpers/model'
+    autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
+    autoload :ModelHelper,      'roomer/helpers/model_helper'
+    autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
   end
   
   extend Utils
@@ -79,6 +79,7 @@ module Roomer
   def self.setup
     yield self
   end
+  
 end
 
 require 'roomer/extensions/active_record'

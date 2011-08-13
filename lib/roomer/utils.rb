@@ -1,10 +1,12 @@
+require 'active_record/migration'
+
 module Roomer
   module Utils
     
     # Rails DB Migrations Directory
-    # @return [String] full path to the migrations directory
+    # @return [String] full path to the current migrations directory
     def migrations_directory
-      File.join("db","migrate")
+      ActiveRecord::Migrator.migrations_path
     end
 
     # Consutructs the full name for the tenants table with schema 

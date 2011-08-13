@@ -1,6 +1,7 @@
 module Roomer
   module Helpers
     module GeneratorHelper
+      
       # Prints an error message and exits
       # TODO: Implement colors
       # @example exit_out_and_exit("Error message")
