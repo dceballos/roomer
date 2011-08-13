@@ -5,6 +5,7 @@ module Roomer
       include Rails::Generators::Migration
       extend  ActiveRecord::Generators::Migration
       include Roomer::Helpers::ModelHelper
+      
       source_root File.expand_path("../templates", __FILE__)
       
       argument      :attributes,  :type => :array,   :default => [],    
@@ -12,27 +13,39 @@ module Roomer
                     
       class_option  :shared,      :type => :boolean, :default => false, 
                     :aliases => "-s", :desc => "shared?" 
-
+      
+     
       def generate_model
         invoke "active_record:model", [name], :migration => false unless model_exists? && behavior == :invoke
       end
       
       def copy_roomer_migration
-        migration_dir = shared? ? Roomer.shared_migrations_directory : Roomer.tenanted_migrations_directory
-        migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
+        if model_exists?
+          info_message "model already exists in #{model_path}. skipping migration file."
+        else
+          migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
+        end
       end
       
       def inject_roomer_content
-        inject_into_class model_path, class_name do
+        unless roomer_exists?(name.to_s)
+          inject_into_class model_path, class_name do
 <<-CONTENT  
   # tell roomer if this is a shared or tenanted model  
   roomer :#{shared? ? "shared" : "tenanted"}
 CONTENT
+          end
         end
       end
       
       def shared?
         @shared ||= options[:shared]
+      end
+      
+      def migration_dir
+        return Roomer.shared_migrations_directory if shared?
+        return Roomer.shared_migrations_directory if Roomer.use_tenanted_migrations_directory?
+        return Roomer.migrations_directory
       end
       
     end

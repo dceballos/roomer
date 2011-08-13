@@ -52,6 +52,17 @@ module Roomer
   mattr_accessor :schema_seperator
   @@schema_seperator = '.'
   
+  # Use Tentant migrations directory?
+  # Default is set to false  
+  def self.use_tenanted_migrations_directory=(val)
+    @@use_tenanted_migrations_directory = val
+  end
+  
+  def self.use_tenanted_migrations_directory?
+    @@use_tenanted_migrations_directory
+  end
+  @@use_tenanted_migrations_directory = false
+  
   # Rails DB Migrations Directory
   # @return [String] full path to the migrations directory
   def self.migrations_directory
