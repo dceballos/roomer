@@ -28,10 +28,13 @@ module Roomer
         model_name.classify.constantize
       end
       
+      # Reads the --shared option specified when running "rails generate roomer:model"
+      # @return [True,False]
       def shared?
         @shared ||= options[:shared]
       end
       
+      # Fetchs the migration directory for the migrations
       def migration_dir
         return Roomer.shared_migrations_directory if shared?
         return Roomer.tenanted_migrations_directory

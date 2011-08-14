@@ -70,6 +70,14 @@ module Roomer
   mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
   
+  # Fetches the migrations directory for Tenanted migrations. 
+  # returns the standard rails migration directory "db/migrate" is the 
+  # use_tenanted_migrations_directory is set to false
+  # @return [String] String representing the tenanted migrations
+  def self.tenanted_migrations_directory
+    return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
+    return migrations_directory
+  end
   
   # Default way to setup Roomer. Run rails generate roomer:install to create
   # a fresh initializer with all configuration values.
@@ -81,10 +89,6 @@ module Roomer
     yield self
   end
   
-  def self.tenanted_migrations_directory
-    return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
-    return migrations_directory
-  end
   
 end
 
