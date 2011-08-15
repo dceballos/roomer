@@ -1,25 +1,24 @@
 module Roomer
-  class Tools
-    class << self
-            
+  module Helpers
+    module PostgresHelper
       # Creates a schema in PostgreSQL
       # @param [#to_s] schema_name declaring the name of the schema
       def create_schema(schema_name)
         ActiveRecord::Base.connection.execute "CREATE SCHEMA #{schema_name.to_s}"
       end
-      
+
       # Drops a schema and all it's objects (Cascades)
       # @param [#to_s] schema_name declaring the name of the schema to drop
       def drop_schema(schema_name)
         ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{name.to_s} CASCADE")
       end
-      
+
       # lists the schemas available
       # @return [Array] list of schemas
       def schemas
         ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten
       end
-      
+
       # Ensures the schema and schema_migrations exist(creates them otherwise) 
       # and executes the code block
       # @param [#to_s] schema_name declaring name to ensure
@@ -38,8 +37,7 @@ module Roomer
           yield
         end
       end
-      
-      
+
       # Ensures the same ActiveRecord::Base#table_name_prefix for all the 
       # models executed in the block
       # @param [#to_s] A Symbol declaring the table name prefix
@@ -54,11 +52,15 @@ module Roomer
         yield
         ActiveRecord::Base.table_name_prefix = nil
       end
-      
+
       # Ensures schema_migrations table exists and creates otherwise
       # @see ActiveRecord::Base.connection#initialize_schema_migrations_table
       def ensure_schema_migrations
         ActiveRecord::Base.connection.initialize_schema_migrations_table
+      end
+      
+      def shared_migrations_pending?
+        ActiveRecord::Migrator.new(:up,Roomer.shared_migrations_directory)
       end
       
     end

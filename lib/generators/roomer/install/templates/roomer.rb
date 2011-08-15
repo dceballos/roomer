@@ -45,6 +45,10 @@ Roomer.setup do |config|
   # The default is set to ".". for e.g., tenant's table by default will be global.tenants
   # config.schema_seperator = "."
   
+  # Use Tentant migrations directory?
+  # Default is set to false
+  # config.use_tenanted_migrations_directory = false
+  
   # Directory where shared migrations are stored. Please make
   # sure your migrations are present in this directory.
   config.shared_migrations_directory = "#{Roomer.shared_migrations_directory}"

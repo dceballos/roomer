@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     @current_tenant ||= ActiveRecord::Base.connection.select_all %{
       SELECT *
       FROM   #{Roomer.full_tenants_table_name}
-      WHERE  #{Roomer.tenant_url_identifier_column} = #{url_identifier}
+      WHERE  #{Roomer.tenant_url_identifier_column} = '#{url_identifier}'
     }
   end
 end

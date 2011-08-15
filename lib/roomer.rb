@@ -1,9 +1,18 @@
 require 'rails'
+require 'active_support'
 require 'active_support/dependencies'
 require 'roomer/version'
 
 module Roomer
-  autoload :Tools, 'roomer/tools'
+  autoload :Utils,              'roomer/utils'
+  
+  module Helpers
+    autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
+    autoload :ModelHelper,      'roomer/helpers/model_helper'
+    autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
+  end
+  
+  extend Utils
   
   # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
@@ -47,35 +56,28 @@ module Roomer
   mattr_accessor :schema_seperator
   @@schema_seperator = '.'
   
-  # Rails DB Migrations Directory
-  # @return [String] full path to the migrations directory
-  def self.migrations_directory
-    File.join("db","migrate")
-  end
+  # Use Tentant migrations directory?
+  # Default is set to false 
+  mattr_accessor :use_tenanted_migrations_directory
+  alias_method   :use_tenanted_migrations_directory?, :use_tenanted_migrations_directory 
+  @@use_tenanted_migrations_directory = false
   
   # Directory where shared migrations are stored.
   mattr_accessor :shared_migrations_directory
   @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
   
   # Directory where the tenanted migrations are stored.
-  mattr_accessor :tenanted_migrations_directory
+  mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
   
-  # Consutructs the full name for the tenants table with schema 
-  # Example: 'global.tenant'
-  # @return [String] full name of the tenant table
-  def self.full_tenants_table_name
-    "#{shared_schema_name}#{schema_seperator}#{tenants_table}"
+  # Fetches the migrations directory for Tenanted migrations. 
+  # returns the standard rails migration directory "db/migrate" is the 
+  # use_tenanted_migrations_directory is set to false
+  # @return [String] String representing the tenanted migrations
+  def self.tenanted_migrations_directory
+    return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
+    return migrations_directory
   end
-  
-  # Constructs the full path to the shared schema directory
-  # Example: /Users/Greg/Projects/roomer/db/migrate/global  
-  # @return [String] full path to the shared schema directory
-  def self.full_shared_shema_migration_path
-    "#{Rails.root}/#{shared_migrations_directory}"
-  end
-  
-
   
   # Default way to setup Roomer. Run rails generate roomer:install to create
   # a fresh initializer with all configuration values.
@@ -86,6 +88,8 @@ module Roomer
   def self.setup
     yield self
   end
+  
+  
 end
 
 require 'roomer/extensions/active_record'
