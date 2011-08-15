@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  before_filter :set_current_tenant
+  before_filter :ensure_current_tenant
 
-  private
+  protected
   # Fetches the URL Identifier
   # @return [True, False]
   def url_identifier
@@ -13,16 +13,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_current_tenant
+  def ensure_current_tenant
     raise "No tenant found for '#{url_identifier}' url identifier" if current_tenant.blank?
     ActiveRecord::Base.current_tenant = current_tenant
   end
 
   def current_tenant
-    @current_tenant ||= ActiveRecord::Base.connection.select_all %{
-      SELECT *
-      FROM   #{Roomer.full_tenants_table_name}
-      WHERE  #{Roomer.tenant_url_identifier_column} = '#{url_identifier}'
-    }
+    @current_tenant ||= Roomer.tenant_model.find_by_url_identifier(url_identifier)
   end
 end

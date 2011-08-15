@@ -39,7 +39,6 @@ module Roomer
         return Roomer.shared_migrations_directory if shared?
         return Roomer.tenanted_migrations_directory
       end
-      
     end
   end
 end

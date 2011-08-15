@@ -11,7 +11,10 @@ class ActiveRecord::Base
       if shared?
         roomer_full_table_name_prefix(Roomer.shared_schema_name)
       elsif tenanted?
-        roomer_full_table_name_prefix(Roomer.tenant_schema_name_column)
+        if current_tenant.blank?
+          raise "No current tenant found.  Try #{self.to_s}.current_tenant = \#\{tenant\}"
+        end
+        roomer_full_table_name_prefix(current_tenant.namespace)
       else
         ""
       end
@@ -32,11 +35,6 @@ class ActiveRecord::Base
       end
     end
 
-    protected
-    def roomer_full_table_name_prefix(schema_name)
-      "#{schema_name.to_s}#{Roomer.schema_seperator}"
-    end
-
     # Confirms if model is shared
     # @return [True,False]
     def shared?
@@ -54,23 +52,27 @@ class ActiveRecord::Base
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
-      key = :"#{self}_current_tenant"
+      key = :"current_tenant"
       Thread.current[key] = val
     end
    
     # Fetches the current tenant
     # @return [Symbol] the current tenant key in the thread
     def current_tenant
-      key = :"#{self}_current_tenant"
-      Thread.current[key] || ""
+      key = :"current_tenant"
+      Thread.current[key]
     end
 
     # Reset current tenant
     # @return [Nil]
     def reset_current_tenant
-      key = :"#{self}_current_tenant"
+      key = :"current_tenant"
       Thread.current[key] = nil
     end
-  end
 
+    protected
+    def roomer_full_table_name_prefix(schema_name)
+      "#{schema_name.to_s}#{Roomer.schema_seperator}"
+    end
+  end
 end

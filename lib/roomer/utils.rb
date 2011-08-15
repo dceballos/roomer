@@ -22,7 +22,12 @@ module Roomer
     def full_shared_schema_migration_path
       "#{Rails.root}/#{shared_migrations_directory}"
     end
-    
+     
+    # Returns tenant model as a constant
+    # Example: users => User
+    def tenant_model
+      Roomer.tenants_table.to_s.classify.constantize
+    end   
     
   end
 end
