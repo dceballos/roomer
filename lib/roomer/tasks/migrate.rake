@@ -7,7 +7,7 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       ensuring_schema(Roomer.shared_schema_name) do
-        ActiveRecord::Migrator.migrate(Roomer.full_shared_shema_migration_path, version)
+        ActiveRecord::Migrator.migrate(Roomer.shared_migrations_directory, version)
       end
     end
     
@@ -15,7 +15,7 @@ namespace :roomer do
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       ensuring_schema(Roomer.shared_schema_name) do
-        ActiveRecord::Migrator.rollback(Roomer.full_shared_shema_migration_path, step)
+        ActiveRecord::Migrator.rollback(Roomer.shared_migrations_directory, step)
       end
     end  
   end
@@ -25,13 +25,10 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       tenant_model = modelify(Roomer.tenants_table.to_s)
-
-      ActiveRecord::Base.transaction do
-        tenants = tenant_model.find(:all)
-        tenants.each do |tenant|
-          ensuring_schema(tenant.namespace) do
-            ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
-          end
+      tenants = tenant_model.find(:all)
+      tenants.each do |tenant|
+        ensuring_schema(tenant.namespace) do
+          ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
     end
@@ -40,13 +37,10 @@ namespace :roomer do
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       tenant_model = modelify(Roomer.tenants_table.to_s)
-
-      ActiveRecord::Base.transaction do
-        tenants = tenant_model.find(:all)
-        tenants.each do |tenant|
-          ensuring_schema(tenant.namespace) do
-            ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
-          end
+      tenants = tenant_model.find(:all)
+      tenants.each do |tenant|
+        ensuring_schema(tenant.namespace) do
+          ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
         end
       end
     end
