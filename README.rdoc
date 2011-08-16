@@ -46,13 +46,13 @@ After you've done the necessary config changes to the initializer, run the setup
 
 The setup will generate migrations under db/migrate/[shared_shema_name], by default it should be db/migrate/global. You need to run the shared migrations to setup the tenant tables
 
-    rake roomer:migrate:shared
+    rake roomer:shared:migrate
     
 ==== Tenanted
 
 This will run migrations under db/migrate. If you set the "config.use_tenanted_migrations_directory" parameter to true, it should run the migrations under db/migrate/[tenant_table_name]/*
 
-    rake roomer:migrate:tenanted
+    rake roomer:shared:tenanted
     
 
 
