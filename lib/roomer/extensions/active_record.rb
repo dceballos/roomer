@@ -11,10 +11,7 @@ class ActiveRecord::Base
       if shared?
         roomer_full_table_name_prefix(Roomer.shared_schema_name)
       elsif tenanted?
-        if current_tenant.blank?
-          raise "No current tenant found.  Try #{self.to_s}.current_tenant = \#\{tenant\}"
-        end
-        roomer_full_table_name_prefix(current_tenant.namespace)
+        roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
       else
         ""
       end
@@ -74,5 +71,6 @@ class ActiveRecord::Base
     def roomer_full_table_name_prefix(schema_name)
       "#{schema_name.to_s}#{Roomer.schema_seperator}"
     end
+
   end
 end

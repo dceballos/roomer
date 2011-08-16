@@ -24,7 +24,7 @@ module Roomer
     end
      
     # Returns tenant model as a constant
-    # Example: users => User
+    # Example: Tenant
     def tenant_model
       Roomer.tenants_table.to_s.classify.constantize
     end   

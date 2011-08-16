@@ -89,12 +89,8 @@ module Roomer
     yield self
   end
   
-  
 end
 
 require 'roomer/extensions/active_record'
+require 'roomer/extensions/controller'
 require 'roomer/rails'
-
-
-
-
