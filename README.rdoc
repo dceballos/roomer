@@ -52,8 +52,30 @@ The setup will generate migrations under db/migrate/[shared_shema_name], by defa
 
 This will run migrations under db/migrate. If you set the "config.use_tenanted_migrations_directory" parameter to true, it should run the migrations under db/migrate/[tenant_table_name]/*
 
-    rake roomer:shared:tenanted
+    rake roomer:tenanted:migrate
+
+== Generating Models
+
+=== Models
+
+To enable Roomer on your models, simply call the roomer method and specify the type in your Model Class definition:
+
+    class Orders < ActiveRecord::Base
+      roomer :tenanted
+    end
+
+Roomer supports types of scoped models
+
+* :shared   - Shared by all tenants
+* :tenanted - Scoped to a tenant
+
+Roomer also provides generators, if you have the Model defined already, it will append to it. For Example:
+
+    rails generate roomer:model user name:string email:string
     
+Optionally, you can specify --shared flag to generate a shared model
+
+    rails generate roomer:model organizations name:string desc:string --shared
 
 
 = Contributors
