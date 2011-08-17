@@ -22,20 +22,6 @@ module Roomer
         set_roomer_table_name_prefix
       end
 
-      # Sets the model's table name prefix to the current tenant's schema name
-      def set_roomer_table_name_prefix
-        self.table_name_prefix = begin
-          case @roomer_scope
-            when :shared
-              roomer_full_table_name_prefix(Roomer.shared_schema_name)
-            when :tenanted
-              roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
-            else
-              ""
-          end
-        end
-      end
-
       # Confirms if model is shared
       # @return [True,False]
       def shared?
@@ -74,6 +60,22 @@ module Roomer
       protected
       def roomer_full_table_name_prefix(schema_name)
         "#{schema_name.to_s}#{Roomer.schema_seperator}"
+      end
+
+      # Sets the model's table name prefix to the current tenant's schema name
+      # It defaults to public if model is marked as tenanted but tenant table
+      # hasn't been populated
+      def set_roomer_table_name_prefix
+        self.table_name_prefix = begin
+          case @roomer_scope
+            when :shared
+              roomer_full_table_name_prefix(Roomer.shared_schema_name)
+            when :tenanted
+              roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
+            else
+              ""
+          end
+        end
       end
     end
   end
