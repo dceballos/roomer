@@ -1,5 +1,9 @@
 module Roomer
   module Controller
+    def self.included(base)
+      base.before_filter :ensure_current_tenant
+    end
+
     protected
     # Fetches the URL Identifier
     # @return [True, False]
