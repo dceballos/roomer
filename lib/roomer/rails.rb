@@ -9,10 +9,6 @@ module Roomer
           # if :tenanted is pased, the current tenant's schema will be used as the table name prefix
           # @return [Symbol] :shared or :tenanted
           def roomer(scope)
-            unless self.include?(Roomer::Model)
-              include Roomer::Model
-            end
-
             case scope
               when :shared
                 @roomer_scope = :shared
@@ -20,6 +16,9 @@ module Roomer
                 @roomer_scope = :tenanted
               else
                 raise "Invalid roomer model scope.  Choose :shared or :tenanted"
+            end
+            unless self.include?(Roomer::Model)
+              include Roomer::Model
             end
           end
         end
