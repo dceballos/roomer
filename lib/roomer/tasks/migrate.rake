@@ -24,7 +24,7 @@ namespace :roomer do
     desc "Migrates the tenanted tables. Target specific version with VERSION=x"
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
-      tenant_model = modelify(Roomer.tenants_table.to_s)
+      tenant_model = constantify(Roomer.tenants_table.to_s)
       tenants = tenant_model.find(:all)
       tenants.each do |tenant|
         ensuring_schema(tenant.namespace) do
@@ -36,7 +36,7 @@ namespace :roomer do
     desc "Rolls back tenanted tables. Target specific version with STEP=x"
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
-      tenant_model = modelify(Roomer.tenants_table.to_s)
+      tenant_model = constantify(Roomer.tenants_table.to_s)
       tenants = tenant_model.find(:all)
       tenants.each do |tenant|
         ensuring_schema(tenant.namespace) do

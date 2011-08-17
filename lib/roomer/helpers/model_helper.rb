@@ -27,7 +27,7 @@ module Roomer
       def modelify(model_name)
         model_name.classify.constantize
       end
-      
+      alias_method :constantify, :modelify
       # Reads the --shared option specified when running "rails generate roomer:model"
       # @return [True,False]
       def shared?
