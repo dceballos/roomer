@@ -24,13 +24,15 @@ module Roomer
 
       # Sets the model's table name prefix to the current tenant's schema name
       def set_roomer_table_name_prefix
-        self.table_name_prefix = case @roomer_scope
-          when :shared
-            roomer_full_table_name_prefix(Roomer.shared_schema_name)
-          when :tenanted
-            roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
-          else
-            ""
+        self.table_name_prefix = begin
+          case @roomer_scope
+            when :shared
+              roomer_full_table_name_prefix(Roomer.shared_schema_name)
+            when :tenanted
+              roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
+            else
+              ""
+          end
         end
       end
 
