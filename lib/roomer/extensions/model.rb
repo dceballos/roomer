@@ -5,19 +5,32 @@ module Roomer
     end
 
     module ClassMethods
-      # Overrides ActiveRecord::Base.table_name_prefix
-      # Defaults to blank if roomer class method is not set in model
-      # Returns the shared schema name prefix if roomer method is set to :shared
-      # Returns the current tenants schema name if roomer class method is set to :tenanted
-      # @return [String] shared schema name prefix or current tenants schema name 
-      def table_name_prefix
-        return @table_name_prefix unless @table_name_prefix.blank?
-        if shared?
-          roomer_full_table_name_prefix(Roomer.shared_schema_name)
-        elsif tenanted?
-          roomer_full_table_name_prefix(current_tenant.namespace)
-        else
-          ""
+      # Sets the roomer scope for the model and changes the model's table_name_prefix
+      # Includes Roomer::Model mixin
+      # If :shared is passed, the global schema will be used as the table name prefix
+      # if :tenanted is pased, the current tenant's schema will be used as the table name prefix
+      # @return [Symbol] :shared or :tenanted
+      def roomer(scope)
+        case scope
+          when :shared
+            @roomer_scope = :shared
+          when :tenanted
+            @roomer_scope = :tenanted
+          else
+            raise "Invalid roomer model scope.  Choose :shared or :tenanted"
+        end
+        set_roomer_table_name_prefix
+      end
+
+      # Sets the model's table name prefix to the current tenant's schema name
+      def set_roomer_table_name_prefix
+        self.table_name_prefix = case @roomer_scope
+          when :shared
+            roomer_full_table_name_prefix(Roomer.shared_schema_name)
+          when :tenanted
+            roomer_full_table_name_prefix(current_tenant.try(:namespace) || "public")
+          else
+            ""
         end
       end
 
