@@ -25,9 +25,8 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       tenant_model = constantify(Roomer.tenants_table.to_s)
-      tenants = tenant_model.find(:all)
-      tenants.each do |tenant|
-        ensuring_schema(tenant.send(Roomer.tenant_schema_name_column)) do
+      tenant_model.find(:all).each do |tenant|
+        ensuring_schema(tenant.try(Roomer.tenant_schema_name_column)) do
           ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
@@ -37,9 +36,8 @@ namespace :roomer do
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       tenant_model = constantify(Roomer.tenants_table.to_s)
-      tenants = tenant_model.find(:all)
-      tenants.each do |tenant|
-        ensuring_schema(Roomer.tenant_schema_name_column) do
+      tenant_model.find(:all).each do |tenant|
+        ensuring_schema(tenant.try(Roomer.tenant_schema_name_column)) do
           ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
         end
       end
