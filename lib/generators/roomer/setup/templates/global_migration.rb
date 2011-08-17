@@ -4,7 +4,7 @@ class RoomerCreate<%= Roomer.tenants_table.to_s.camelize %> < ActiveRecord::Migr
     create_table(:<%= Roomer.tenants_table %>) do |t|
       t.string :name
       t.string :url_identifier
-      t.string :namespace
+      t.string :schema_name
       t.timestamps
     end
   end

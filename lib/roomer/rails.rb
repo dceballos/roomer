@@ -3,25 +3,7 @@ module Roomer
 
     initializer 'roomer.extensions' do |app|
       ActiveSupport.on_load(:active_record) do
-        class << self
-          # Sets the roomer scope for the model and changes the model's table_name_prefix
-          # If :shared is passed, the global schema will be used as the table name prefix
-          # if :tenanted is pased, the current tenant's schema will be used as the table name prefix
-          # @return [Symbol] :shared or :tenanted
-          def roomer(scope)
-            case scope
-              when :shared
-                @roomer_scope = :shared
-              when :tenanted
-                @roomer_scope = :tenanted
-              else
-                raise "Invalid roomer model scope.  Choose :shared or :tenanted"
-            end
-            unless self.include?(Roomer::Model)
-              include Roomer::Model
-            end
-          end
-        end
+        include Roomer::Model
       end
 
       ActiveSupport.on_load(:action_controller) do
