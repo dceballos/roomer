@@ -50,7 +50,7 @@ module Roomer
               roomer_full_table_name_prefix(Roomer.shared_schema_name)
             when :tenanted
               unless Roomer.current_tenant
-                puts "[WARNING] Roomer.current_tenant is nil.  Set with Roomer.current_tenant="
+                warn "[WARNING] Roomer.current_tenant is nil.  Set with Roomer.current_tenant="
               end
               roomer_full_table_name_prefix(Roomer.current_tenant.try(:schema_name) || "public")
             else
