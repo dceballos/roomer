@@ -52,7 +52,7 @@ module Roomer
               unless Roomer.current_tenant
                 warn "[WARNING] Roomer.current_tenant is nil.  Set with Roomer.current_tenant="
               end
-              roomer_full_table_name_prefix(Roomer.current_tenant.try(:schema_name) || "public")
+              roomer_full_table_name_prefix(Roomer.current_tenant.try(Roomer.tenant_schema_name_column) || "public")
             else
               ""
           end
