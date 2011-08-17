@@ -91,6 +91,6 @@ module Roomer
   
 end
 
-require 'roomer/extensions/active_record'
+require 'roomer/extensions/model'
 require 'roomer/extensions/controller'
 require 'roomer/rails'

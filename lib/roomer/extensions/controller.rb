@@ -1,6 +1,5 @@
 module Roomer
   module ControllerExtensions
-
     protected
     # Fetches the URL Identifier
     # @return [True, False]
