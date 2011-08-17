@@ -27,7 +27,7 @@ namespace :roomer do
       tenant_model = constantify(Roomer.tenants_table.to_s)
       tenants = tenant_model.find(:all)
       tenants.each do |tenant|
-        ensuring_schema(tenant.namespace) do
+        ensuring_schema(tenant.send(Roomer.tenant_schema_name_column)) do
           ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
@@ -39,7 +39,7 @@ namespace :roomer do
       tenant_model = constantify(Roomer.tenants_table.to_s)
       tenants = tenant_model.find(:all)
       tenants.each do |tenant|
-        ensuring_schema(tenant.namespace) do
+        ensuring_schema(Roomer.tenant_schema_name_column) do
           ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
         end
       end

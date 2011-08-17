@@ -1,2 +1,4 @@
+* Generate Roomer Tenant Model during setup
 * Generators for models
-* Multi Tenant Routes 
+* Multi Tenant Routes
+* Ignore warning while adding Tenant
