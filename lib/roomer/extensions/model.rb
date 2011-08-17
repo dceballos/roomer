@@ -1,5 +1,5 @@
 module Roomer
-  module ModelExtensions
+  module Model
     def self.included(base)
       base.extend(ClassMethods)
     end
