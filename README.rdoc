@@ -54,9 +54,8 @@ This will run migrations under db/migrate. If you set the "config.use_tenanted_m
 
     rake roomer:tenanted:migrate
 
-== Generating Models
 
-=== Models
+== Models
 
 To enable Roomer on your models, simply call the roomer method and specify the type in your Model Class definition:
 
@@ -76,6 +75,16 @@ Roomer also provides generators, if you have the Model defined already, it will 
 Optionally, you can specify --shared flag to generate a shared model
 
     rails generate roomer:model organizations name:string desc:string --shared
+
+== Routes
+
+To enable roomer scoped routes, surround your regular routes under roomer_on(tenants_model_name)
+
+    roomer_on(:tenants) do
+      resources :orders
+    end
+
+
 
 
 = Contributors
