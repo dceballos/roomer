@@ -19,7 +19,6 @@ module Roomer
           else
             raise "Invalid roomer model scope.  Choose :shared or :tenanted"
         end
-        roomer_set_table_name_prefix
       end
 
       # Confirms if model is shared

@@ -36,6 +36,7 @@ module Roomer
     def current_tenant=(val)
       key = :"roomer_current_tenant"
       Thread.current[key] = val
+      reset_tenanted_table_information
     end
    
     # Fetches the current tenant
@@ -50,6 +51,16 @@ module Roomer
     def reset_current_tenant
       key = :"roomer_current_tenant"
       Thread.current[key] = nil
-    end   
+    end
+
+    def reset_tenanted_table_information
+      ActiveRecord::Base.descendants.each do |klass|
+        if klass.tenanted?
+          klass.send(:roomer_set_table_name_prefix)
+          klass.reset_table_name 
+          klass.reset_column_information
+        end
+      end
+    end
   end
 end
