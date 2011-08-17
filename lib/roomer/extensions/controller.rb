@@ -14,7 +14,7 @@ module Roomer
 
     def ensure_current_tenant
       raise "No tenant found for '#{url_identifier}' url identifier" if current_tenant.blank?
-      ActiveRecord::Base.current_tenant = current_tenant
+      Roomer.current_tenant = current_tenant
     end
 
     def current_tenant

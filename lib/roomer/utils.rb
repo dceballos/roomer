@@ -27,7 +27,29 @@ module Roomer
     # Example: Tenant
     def tenant_model
       Roomer.tenants_table.to_s.classify.constantize
+    end
+
+    # Sets current tenant from ApplicationController into a Thread
+    # local variable.  Works only with thread-safe Rails as long as
+    # it gets set on every request
+    # @return [Symbol] the current tenant key in the thread
+    def current_tenant=(val)
+      key = :"roomer_current_tenant"
+      Thread.current[key] = val
+    end
+   
+    # Fetches the current tenant
+    # @return [Symbol] the current tenant key in the thread
+    def current_tenant
+      key = :"roomer_current_tenant"
+      Thread.current[key]
+    end
+
+    # Reset current tenant
+    # @return [Nil]
+    def reset_current_tenant
+      key = :"roomer_current_tenant"
+      Thread.current[key] = nil
     end   
-    
   end
 end

@@ -34,29 +34,6 @@ module Roomer
         @roomer_scope == :tenanted
       end
 
-      # Sets current tenant from ApplicationController into a Thread
-      # local variable.  Works only with thread-safe Rails as long as
-      # it gets set on every request
-      # @return [Symbol] the current tenant key in the thread
-      def current_tenant=(val)
-        key = :"current_tenant"
-        Thread.current[key] = val
-      end
-     
-      # Fetches the current tenant
-      # @return [Symbol] the current tenant key in the thread
-      def current_tenant
-        key = :"current_tenant"
-        Thread.current[key]
-      end
-
-      # Reset current tenant
-      # @return [Nil]
-      def reset_current_tenant
-        key = :"current_tenant"
-        Thread.current[key] = nil
-      end
-
       protected
       # Resolves the full table name prefix
       def roomer_full_table_name_prefix(schema_name)
@@ -72,7 +49,10 @@ module Roomer
             when :shared
               roomer_full_table_name_prefix(Roomer.shared_schema_name)
             when :tenanted
-              roomer_full_table_name_prefix(current_tenant.try(:schema_name) || "public")
+              unless Roomer.current_tenant
+                puts "[WARNING] Roomer.current_tenant is nil.  Set with Roomer.current_tenant="
+              end
+              roomer_full_table_name_prefix(Roomer.current_tenant.try(:schema_name) || "public")
             else
               ""
           end
