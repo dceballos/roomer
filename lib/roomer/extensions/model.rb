@@ -19,7 +19,7 @@ module Roomer
           else
             raise "Invalid roomer model scope.  Choose :shared or :tenanted"
         end
-        set_roomer_table_name_prefix
+        roomer_set_table_name_prefix
       end
 
       # Confirms if model is shared
@@ -65,7 +65,7 @@ module Roomer
       # Sets the model's table name prefix to the current tenant's schema name
       # It defaults to public if model is marked as tenanted but tenant table
       # hasn't been populated
-      def set_roomer_table_name_prefix
+      def roomer_set_table_name_prefix
         self.table_name_prefix = begin
           case @roomer_scope
             when :shared
