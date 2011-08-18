@@ -8,7 +8,8 @@ module Roomer
       source_root File.expand_path("../templates", __FILE__)
       desc "Generates the shared tables db migrations under #{Roomer.shared_migrations_directory} and generates the tenant model"
 
-      def create_model_file
+      # Creates the Tenants 
+      def create_tenant_model_file
         add_file File.join(Roomer.model_directory,"#{Roomer.tenants_table.to_s.singularize}.rb") do
 <<-CONTENT
 class #{Roomer.tenants_table.to_s.classify} < ActiveRecord::Base

@@ -1,4 +1,6 @@
-* Generate Roomer Tenant Model during setup
-* Generators for models
-* Multi Tenant Routes
+* Generate Roomer Tenant Model during setup - DONE
+* Generators for models - DONE
+* Multi Tenant Routes 
 * Ignore warning while adding Tenant
+* Option to disable Rails Migration rake db:migrate
+* Show warnings if unrun migrations exists under db/migrate/global while running rake roomer:shared:migrate
