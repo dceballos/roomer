@@ -5,11 +5,11 @@ Step 1: Initializer is under config/initializers/roomer.rb. This describes ALL
         configuration options and you MUST take a look at it.
 
 Step 2: Setup roomer, run:
-        
+
         rails generate roomer:setup
 
 Step 3: Run shared migrations, this will create the tenants table in the shared schema
-        
+
         rake roomer:shared:migrate
 
 ===============================================================================

@@ -2,7 +2,7 @@ require 'active_record/migration'
 
 module Roomer
   module Utils
-    
+
     # Rails DB Migrations Directory
     # @return [String] full path to the current migrations directory
     def migrations_directory
@@ -22,7 +22,7 @@ module Roomer
     def full_shared_schema_migration_path
       "#{Rails.root}/#{shared_migrations_directory}"
     end
-     
+
     # Returns tenant model as a constant
     # Example: Tenant
     def tenant_model
@@ -38,7 +38,7 @@ module Roomer
       Thread.current[key] = val
       ensure_tenant_model_reset
     end
-   
+
     # Fetches the current tenant
     # @return [Symbol] the current tenant key in the thread
     def current_tenant

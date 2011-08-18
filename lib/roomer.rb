@@ -5,15 +5,15 @@ require 'roomer/version'
 
 module Roomer
   autoload :Utils,              'roomer/utils'
-  
+
   module Helpers
     autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
     autoload :ModelHelper,      'roomer/helpers/model_helper'
     autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
   end
-  
+
   extend Utils
-  
+
   # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
   #  * :path    -  identifying the tenant by the path
@@ -28,17 +28,17 @@ module Roomer
   #  http://yourapp.com/tenant
   mattr_accessor :url_routing_strategy
   @@url_routing_strategy = :path
-  
+
   # name of the shared schema where all the shared tables are be present
   mattr_accessor :shared_schema_name
   @@shared_schema_name = :global
-  
+
   # The name of the table where the tenants are stored, this table must 
   # contain two required columns configured under tenant_url_identifier_column and
   # tenant_schema_name_column
   mattr_accessor :tenants_table
   @@tenants_table = :tenants
-  
+
   # The column name that stores the url identfier in the tenants tables.
   # A url idenfier is a unique value that identifies the tenant from the URL.
   # For e.g: if you use domains and the url is http://mytenant.myapp.com, 
@@ -55,21 +55,21 @@ module Roomer
   # Example: tenant's table by default will be global.tenants
   mattr_accessor :schema_seperator
   @@schema_seperator = '.'
-  
+
   # Use Tentant migrations directory?
   # Default is set to false 
   mattr_accessor :use_tenanted_migrations_directory
   alias_method   :use_tenanted_migrations_directory?, :use_tenanted_migrations_directory 
   @@use_tenanted_migrations_directory = false
-  
+
   # Directory where shared migrations are stored.
   mattr_accessor :shared_migrations_directory
   @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
-  
+
   # Directory where the tenanted migrations are stored.
   mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
-  
+
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 
   # use_tenanted_migrations_directory is set to false
@@ -78,7 +78,7 @@ module Roomer
     return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
     return migrations_directory
   end
-  
+
   # Default way to setup Roomer. Run rails generate roomer:install to create
   # a fresh initializer with all configuration values.
   # @example
@@ -88,7 +88,7 @@ module Roomer
   def self.setup
     yield self
   end
-  
+
 end
 
 require 'roomer/extensions/model'
