@@ -19,6 +19,7 @@ module Roomer
           else
             raise "Invalid roomer model scope.  Choose :shared or :tenanted"
         end
+        roomer_set_table_name_prefix
       end
 
       # Confirms if model is shared
@@ -31,6 +32,16 @@ module Roomer
       # @return [True,False]
       def tenanted?
         @roomer_scope == :tenanted
+      end
+
+      # Resets model's cached table_name and
+      # column information.
+      # This method needs to get called whenever
+      # the current tenant changes
+      def roomer_reset
+        roomer_set_table_name_prefix
+        reset_table_name 
+        reset_column_information
       end
 
       protected
