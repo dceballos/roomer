@@ -2,9 +2,11 @@
 class RoomerCreate<%= Roomer.tenants_table.to_s.camelize %> < ActiveRecord::Migration
   def self.up
     create_table(:<%= Roomer.tenants_table %>) do |t|
-      t.string :name
-      t.string :url_identifier
-      t.string :schema_name
+      t.string :<%= Roomer.tenant_url_identifier_column %>
+      t.string :<%= Roomer.tenant_schema_name_column %>
+
+      # Add additional columns here
+      # t.string :name
       t.timestamps
     end
   end
