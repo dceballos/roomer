@@ -53,13 +53,10 @@ module Roomer
       Thread.current[key] = nil
     end
 
-    # Ensure all tenanted model's cached data
-    # gets reset
+    # Reset cached data in tenanted models
     def ensure_tenant_model_reset
       ActiveRecord::Base.descendants.each do |model|
-        if model.tenanted?
-          model.roomer_reset
-        end
+        model.roomer_reset if model.tenanted?
       end
     end
   end
