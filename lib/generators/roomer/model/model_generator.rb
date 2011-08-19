@@ -20,12 +20,6 @@ module Roomer
         invoke "active_record:model", [name], :migration => false unless model_exists? && behavior == :invoke
       end
 
-
-      # Generates migration file
-      def copy_roomer_migration
-        migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
-      end
-
       # Injects the roomer method to the class
       # Example:
       #   rails generate roomer:model person --shared # will Generate
@@ -39,6 +33,11 @@ module Roomer
   roomer :#{shared? ? "shared" : "tenanted"}
 CONTENT
         end
+      end
+
+      # Generates migration file
+      def copy_roomer_migration
+        migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
       end
 
     end
