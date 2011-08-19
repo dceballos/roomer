@@ -15,19 +15,6 @@ module Roomer
         @model_path ||= File.join("app", "models", "#{file_path}.rb")
       end
 
-      # Checks if roomer is configured for the model
-      # @return [True,False]
-      def roomer_model?(model_name)
-        modelify(model_name.to_s).send(:shared?) || modelify(model_name.to_s).send(:tenanted?)
-      end
-
-      # Constantizes a String
-      # @param [String] model_name String representing the model name
-      # @return [Constant]
-      def modelify(model_name)
-        model_name.classify.constantize
-      end
-      alias_method :constantify, :modelify
       # Reads the --shared option specified when running "rails generate roomer:model"
       # @return [True,False]
       def shared?
