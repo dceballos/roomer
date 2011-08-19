@@ -6,14 +6,14 @@ class SetupGeneratorTest < Rails::Generators::TestCase
   destination File.expand_path("../../tmp", __FILE__)
   setup :prepare_destination
 
-  test "Assert roomer method exists in Tenant model" do
+  test "assert roomer method exists in tenant model" do
     run_generator
     assert_file "app/models/tenant.rb" do |model|
       assert_match /roomer :shared/, model
     end
   end
 
-  test "Assert migration file exist and contains need attributes" do
+  test "assert migration file exist and contains necessary attributes" do
     run_generator
     assert_migration "db/migrate/global/roomer_create_tenants.rb" do |migration|
       assert_match /t.string :url_identifier/, migration

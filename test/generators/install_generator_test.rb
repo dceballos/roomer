@@ -6,7 +6,7 @@ class InstallGeneratorTest < Rails::Generators::TestCase
   destination File.expand_path("../../tmp", __FILE__)
   setup :prepare_destination
 
-  test "Assert initilizer file created properly" do
+  test "assert initializer file created" do
     run_generator
     assert_file "config/initializers/roomer.rb"
   end
