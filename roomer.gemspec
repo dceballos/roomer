@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.homepage    = "https://github.com/gosuri/roomer"
   s.summary     = "Roomer is a multitenant framework for Rails using PostgreSQL"
-  s.description = Roomer::VERSION::SUMMARY  
-  s.rubyforge_project = s.name
+  s.description = Roomer::VERSION::SUMMARY
+
   s.authors     = ["Greg Osuri","Daniel Ceballos"]
   s.email       = ["gosuri@gmail.com","dceballos@gmail.com"]
 
@@ -18,13 +18,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.required_rubygems_version = ">= 1.3.4"
-  s.add_development_dependency 'rails', '~> 3.0.9'
-  s.add_development_dependency 'rr',    '~> 0.10.11'
-  s.add_development_dependency 'pg',    '~> 0.11.0'
-  s.add_development_dependency 'yard'
-  s.add_development_dependency 'rdiscount'
-  s.add_development_dependency 'ZenTest'
-  s.add_development_dependency 'ruby-prof'
-  s.add_development_dependency 'autotest-growl'
+  s.add_dependency  'rails','~> 3.0.9'
 end
