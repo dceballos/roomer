@@ -1,4 +1,3 @@
-[![Build Status](http://travis-ci.org/gosuri/roomer.png)](http://travis-ci.org/gosuri/roomer)
 
 
 Roomer
@@ -92,9 +91,14 @@ To enable roomer scoped routes, surround your regular routes under roomer_on(ten
     end
 
 
-
-
 Contributors
 ============
 
 https://github.com/gosuri/roomer/contributors
+
+Build Status
+============
+*STABLE*   - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=master)](http://travis-ci.org/gosuri/roomer?branch=master)
+*UNSTABLE* - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=develop)](http://travis-ci.org/gosuri/roomer?branch=develop)
+
+
