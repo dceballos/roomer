@@ -1,8 +1,8 @@
 require "test_helper"
-require "generators/active_record/roomer_generator"
+require "generators/roomer/model/model_generator"
 
-class ActiveRecordGeneratorTest < Rails::Generators::TestCase
-  tests ActiveRecord::Generators::RoomerGenerator
+class ModelGeneratorTest < Rails::Generators::TestCase
+  tests Roomer::Generators::ModelGenerator 
   destination File.expand_path("../../tmp", __FILE__)
   setup :prepare_destination
 

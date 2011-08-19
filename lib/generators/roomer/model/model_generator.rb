@@ -1,7 +1,9 @@
 require 'rails/generators/active_record'
-module ActiveRecord
+module Roomer
   module Generators
-    class RoomerGenerator < ActiveRecord::Generators::Base
+    class ModelGenerator < Rails::Generators::NamedBase
+      include Rails::Generators::Migration
+      extend  ActiveRecord::Generators::Migration
       include Roomer::Helpers::ModelHelper
 
       source_root File.expand_path("../templates", __FILE__)
