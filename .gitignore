@@ -6,3 +6,4 @@ Gemfile.lock
 pkg/*
 test/tmp*
 tmp*
+test/rails_app/log*
