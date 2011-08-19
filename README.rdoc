@@ -1,4 +1,5 @@
-NOTE: We started writing this few days and haven't released yet, please don't use. If you are interested in contributing, drop me a note at gosuri@gmail.com
+[![Build Status](http://travis-ci.org/gosuri/roomer.png)](http://travis-ci.org/gosuri/roomer)
+
 
 = Roomer
 
