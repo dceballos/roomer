@@ -28,7 +28,7 @@ module Roomer
   #  ----
   #  http://yourapp.com/tenant
   mattr_accessor :url_routing_strategy
-  @@url_routing_strategy = :path
+  @@url_routing_strategy = :domain
 
   # name of the shared schema where all the shared tables are be present
   mattr_accessor :shared_schema_name
