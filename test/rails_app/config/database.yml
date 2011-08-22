@@ -1,7 +1,7 @@
 development:
   adapter:  postgresql
   encoding: unicode
-  database: roomer_dev 
+  database: roomer_dev
   username: postgres
   password:
 
