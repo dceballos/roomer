@@ -13,7 +13,7 @@ Roomer.setup do |config|
   # :path     : Identifying the tenant by the path
   #             e.g. http://yourapp.com/tenant
   # Default is :domain
-  # config.url_routing_strategy = :subdomain
+  # config.url_routing_strategy = :domain
 
   # ==> Data Settings (Advanced)
   # IMPORTANT: Modifying these settings after you ran "rails generate roomer:setup" 
