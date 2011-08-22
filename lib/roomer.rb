@@ -10,6 +10,7 @@ module Roomer
     autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
     autoload :ModelHelper,      'roomer/helpers/model_helper'
     autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
+    autoload :MigrationHelper,  'roomer/helpers/migration_helper'
   end
 
   extend Utils
@@ -69,6 +70,7 @@ module Roomer
   # Directory where the tenanted migrations are stored.
   mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
+
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 

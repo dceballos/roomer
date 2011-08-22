@@ -98,7 +98,7 @@ https://github.com/gosuri/roomer/contributors
 
 Build Status
 ============
-*STABLE*   - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=master)](http://travis-ci.org/gosuri/roomer?branch=master)
-*UNSTABLE* - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=develop)](http://travis-ci.org/gosuri/roomer?branch=develop)
+* STABLE    - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=master)](http://travis-ci.org/gosuri/roomer?branch=master)
+* UNSTABLE  - [![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=develop)](http://travis-ci.org/gosuri/roomer?branch=develop)
 
 

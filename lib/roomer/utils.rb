@@ -12,7 +12,7 @@ module Roomer
     def model_directory
       File.join("app","models")
     end
-    
+
     # Consutructs the full name for the tenants table with schema 
     # Example: 'global.tenant'
     # @return [String] full name of the tenant table

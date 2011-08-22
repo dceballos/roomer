@@ -35,7 +35,7 @@ CONTENT
         end
       end
 
-      # Generates migration file
+      # Generates migration file of the model
       def copy_roomer_migration
         migration_template "migration.rb", "#{migration_dir}/roomer_create_#{table_name}"
       end
