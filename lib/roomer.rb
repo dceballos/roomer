@@ -74,7 +74,7 @@ module Roomer
 
   # Directory where schema files will be stored.
   mattr_writer :schemas_directory
-  @@schemas_directory = File.expand_path(File.join(Rails.root, "db", "schemas"))
+  @@schemas_directory = File.expand_path(File.join("db", "schemas"))
 
   # Tenanted schema filename.
   mattr_writer :tenanted_schema_filename
