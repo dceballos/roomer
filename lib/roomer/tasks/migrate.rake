@@ -9,6 +9,7 @@ namespace :roomer do
       ensuring_schema(Roomer.shared_schema_name) do
         ActiveRecord::Migrator.migrate(Roomer.shared_migrations_directory, version)
       end
+      Roomer::Schema.dump(:shared)
     end
 
     desc "Rolls back shared tables. Target specific version with STEP=x"
@@ -16,6 +17,19 @@ namespace :roomer do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       ensuring_schema(Roomer.shared_schema_name) do
         ActiveRecord::Migrator.rollback(Roomer.shared_migrations_directory, step)
+      end
+      Roomer::Schema.dump(:shared)
+    end
+
+    namespace :schema do
+      desc "Load shared schema into database"
+      task :load => :environment do
+        Roomer::Schema.load(Roomer.shared_schema_name, :shared)
+      end
+
+      desc "Dumps the shared schema to shared/schema.rb.  This file can be portably used against any DB supported by AR"
+      task :dump => :environment do
+        Roomer::Schema.dump(:shared)
       end
     end
   end
@@ -29,6 +43,7 @@ namespace :roomer do
           ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
+      Roomer::Schema.dump(:tenanted)
     end
 
     desc "Rolls back tenanted tables. Target specific version with STEP=x"
@@ -39,7 +54,21 @@ namespace :roomer do
           ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
         end
       end
+      Roomer::Schema.dump(:tenanted)
+    end
+
+    namespace :schema do
+      desc "Load tenanted schema into database"
+      task :load => :environment do
+        schema_name = ENV['SCHEMA_NAME']
+        raise "No schema name provided.  Try: env ENV['SCHEMA_NAME']=" if schema_name.blank?
+        Roomer::Schema.load(schema_name)
+      end
+
+      desc "Dumps tenanted schema file to migrate/schema.rb.  This file can be portably used against any DB supported by AR"
+      task :dump => :environment do
+        Roomer::Schema.dump
+      end
     end
   end
-
 end
