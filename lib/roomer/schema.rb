@@ -1,4 +1,5 @@
 require 'active_support/core_ext/object/blank'
+require 'ftools'
 
 module Roomer
   # Roomer::Schema extends ActiveRecord::Schema
@@ -23,14 +24,18 @@ module Roomer
         when :shared
           schema_name = Roomer.shared_schema_name.to_s
           dir = Roomer.shared_migrations_directory
+          filename = Roomer.shared_schema_filename
         when :tenanted
           tenant = Tenant.first
           return if tenant.blank?
 
           schema_name = Tenant.first.schema_name.to_s
           dir = Roomer.tenanted_migrations_directory
+          filename = Roomer.tenanted_schema_filename
       end
-      filepath = File.expand_path(File.join("tmp", filename))
+      $stderr.puts dir
+      File.mkpath(dir)
+      filepath = File.expand_path(File.join(dir, filename))
       ActiveRecord::Base.connection.schema_search_path = schema_name
       ActiveRecord::Base.table_name_prefix = "#{schema_name}."
       Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
@@ -40,11 +45,13 @@ module Roomer
       dir = begin
         if scope == :shared
           Roomer.shared_migrations_directory
+          filename = Roomer.shared_schema_filename
         elsif scope == :tenanted
           Roomer.tenanted_migrations_directory
+          filename = Roomer.tenanted_schema_filename
         end
       end
-      filepath = File.expand_path(File.join("tmp", filename))
+      filepath = File.expand_path(File.join(dir, filename))
       return unless File.exists?(filepath)
 
       ensuring_schema(schema_name) do

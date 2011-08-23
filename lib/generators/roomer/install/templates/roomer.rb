@@ -57,4 +57,12 @@ Roomer.setup do |config|
   # sure your migrations are present in this directory.
   config.tenanted_migrations_directory = "#{Roomer.tenanted_migrations_directory}"
 
+  # Directory where schema files will be stored.
+  # config.schemas_directory = Roomer.schemas_directory
+
+  # Filename to use for tenanted schema
+  # config.tenanted_schema_filename = "tenanted_schema.rb"
+
+  # Filename to use for shared schema
+  # config.shared_schema_filename = "shared_schema.rb"
 end
