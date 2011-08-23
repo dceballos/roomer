@@ -18,33 +18,34 @@ module Roomer
       end
     end
 
-    def self.dump(scope=:tenanted, filename="schema.rb")
+    def self.dump(scope=:tenanted)
       case scope
         when :shared
           schema_name = Roomer.shared_schema_name.to_s
-          dir = Roomer.shared_migrations_directory
+          filename = Roomer.shared_schema_filename
         when :tenanted
           tenant = Tenant.first
           return if tenant.blank?
 
           schema_name = Tenant.first.schema_name.to_s
-          dir = Roomer.tenanted_migrations_directory
+          filename = Roomer.tenanted_schema_filename
       end
-      filepath = File.expand_path(File.join(dir, filename))
+      FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
+      filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
       ActiveRecord::Base.connection.schema_search_path = schema_name
       ActiveRecord::Base.table_name_prefix = "#{schema_name}."
       Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
     end
 
-    def self.load(schema_name, scope=:tenanted, filename="schema.rb")
-      dir = begin
+    def self.load(schema_name, scope=:tenanted)
+      filename = begin
         if scope == :shared
-          Roomer.shared_migrations_directory
+          Roomer.shared_schema_filename
         elsif scope == :tenanted
-          Roomer.tenanted_migrations_directory
+          Roomer.tenanted_schema_filename
         end
       end
-      filepath = File.expand_path(File.join(dir, filename))
+      filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
       return unless File.exists?(filepath)
 
       ensuring_schema(schema_name) do
