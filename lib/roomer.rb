@@ -60,7 +60,8 @@ module Roomer
   # Use Tentant migrations directory?
   # Default is set to false 
   mattr_accessor :use_tenanted_migrations_directory
-  alias_method   :use_tenanted_migrations_directory?, :use_tenanted_migrations_directory 
+  alias_method   :use_tenanted_migrations_directory?,
+                 :use_tenanted_migrations_directory 
   @@use_tenanted_migrations_directory = false
 
   # Directory where shared migrations are stored.
@@ -77,7 +78,9 @@ module Roomer
   # use_tenanted_migrations_directory is set to false
   # @return [String] String representing the tenanted migrations
   def self.tenanted_migrations_directory
-    return @@tenanted_migrations_directory if self.use_tenanted_migrations_directory
+    if self.use_tenanted_migrations_directory
+      return @@tenanted_migrations_directory
+    end
     return migrations_directory
   end
 
