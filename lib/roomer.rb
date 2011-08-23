@@ -93,4 +93,6 @@ end
 
 require 'roomer/extensions/model'
 require 'roomer/extensions/controller'
+require 'roomer/extensions/schema_dumper'
+require 'roomer/extensions/schema'
 require 'roomer/rails'
