@@ -30,7 +30,7 @@ module Roomer
           schema_name = Tenant.first.schema_name.to_s
           dir = Roomer.tenanted_migrations_directory
       end
-      filepath = File.expand_path(File.join(dir, filename))
+      filepath = File.expand_path(File.join("tmp", filename))
       ActiveRecord::Base.connection.schema_search_path = schema_name
       ActiveRecord::Base.table_name_prefix = "#{schema_name}."
       Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
@@ -44,7 +44,7 @@ module Roomer
           Roomer.tenanted_migrations_directory
         end
       end
-      filepath = File.expand_path(File.join(dir, filename))
+      filepath = File.expand_path(File.join("tmp", filename))
       return unless File.exists?(filepath)
 
       ensuring_schema(schema_name) do
