@@ -1,6 +1,7 @@
 module Roomer
   class SchemaDumper < ActiveRecord::SchemaDumper
 
+    protected
     def header(stream)
       define_params = @version ? ":version => #{@version}" : ""
       stream.puts <<HEADER
@@ -10,7 +11,6 @@ Roomer::Schema.define(#{define_params}) do
 HEADER
     end
 
-    protected
     def indexes(table, stream)
       if (indexes = @connection.indexes(table)).any?
         add_index_statements = indexes.map do |index|
