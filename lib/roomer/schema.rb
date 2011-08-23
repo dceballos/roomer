@@ -24,6 +24,9 @@ module Roomer
           schema_name = Roomer.shared_schema_name.to_s
           dir = Roomer.shared_migrations_directory
         when :tenanted
+          tenant = Tenant.first
+          return if tenant.blank?
+
           schema_name = Tenant.first.schema_name.to_s
           dir = Roomer.tenanted_migrations_directory
       end
@@ -42,9 +45,10 @@ module Roomer
         end
       end
       filepath = File.expand_path(File.join(dir, filename))
-      raise "No #{scope} schema.rb file found" unless File.exists?(filepath)
+      return unless File.exists?(filepath)
+
       ensuring_schema(schema_name) do
-        require(filepath) 
+        Object.load(filepath) 
       end
     end
 
