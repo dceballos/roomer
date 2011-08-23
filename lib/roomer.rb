@@ -57,6 +57,18 @@ module Roomer
   mattr_accessor :schema_seperator
   @@schema_seperator = '.'
 
+  # Directory where schema files will be stored.
+  mattr_accessor :schemas_directory
+  @@schemas_directory = File.expand_path(File.join("db", "schemas"))
+
+  # Tenanted schema filename.
+  mattr_accessor :tenanted_schema_filename
+  @@tenanted_schema_filename = "tenanted_schema.rb"
+
+  # Shared schema filename.
+  mattr_accessor :shared_schema_filename
+  @@shared_schema_filename = "shared_schema.rb"
+
   # Use Tentant migrations directory?
   # Default is set to false 
   mattr_accessor :use_tenanted_migrations_directory
@@ -71,7 +83,6 @@ module Roomer
   # Directory where the tenanted migrations are stored.
   mattr_writer :tenanted_migrations_directory
   @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
-
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 
