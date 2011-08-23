@@ -4,12 +4,12 @@ module Roomer
     initializer 'roomer.extensions' do |app|
       # load model extensions
       ActiveSupport.on_load(:active_record) do
-        include Roomer::Model
+        include Roomer::Extensions::Model
       end
 
       # load controller extensions
       ActiveSupport.on_load(:action_controller) do
-        include Roomer::Controller
+        include Roomer::Extensions::Controller
       end
     end
 
