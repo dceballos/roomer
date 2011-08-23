@@ -9,9 +9,14 @@ class RoomerCreate<%= Roomer.tenants_table.to_s.camelize %> < ActiveRecord::Migr
       # t.string :name
       t.timestamps
     end
+
+    add_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_url_identifier_column %>, :unique => true
+    add_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_schema_name_column %>, :unique => true
   end
 
   def self.down
+    remove_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_url_identifier_column %>
+    remove_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_schema_name_column %>
     drop_table :<%= Roomer.tenants_table %>
   end
 end
