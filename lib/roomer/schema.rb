@@ -32,7 +32,6 @@ module Roomer
       end
       FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
       filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
-
       ActiveRecord::Base.connection.schema_search_path = schema_name
       ActiveRecord::Base.table_name_prefix = "#{schema_name}."
       Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
