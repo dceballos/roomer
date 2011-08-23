@@ -1,5 +1,4 @@
 require 'active_support/core_ext/object/blank'
-require 'ftools'
 
 module Roomer
   # Roomer::Schema extends ActiveRecord::Schema
@@ -31,7 +30,7 @@ module Roomer
           schema_name = Tenant.first.schema_name.to_s
           filename = Roomer.tenanted_schema_filename
       end
-      File.mkpath(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
+      FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
       filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
 
       ActiveRecord::Base.connection.schema_search_path = schema_name
