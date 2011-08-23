@@ -58,7 +58,6 @@ Roomer.setup do |config|
   config.tenanted_migrations_directory = "#{Roomer.tenanted_migrations_directory}"
 
   # Directory where schema files will be stored.
-  # This may be useful for deploying on heroku (ie: File.join(Rails.root, "tmp", "schemas"))
   # config.schemas_directory = File.join(Rails.root, "db", "schemas")
 
   # Filename to use for tenanted schema
