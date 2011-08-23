@@ -31,8 +31,7 @@ module Roomer
           schema_name = Tenant.first.schema_name.to_s
           filename = Roomer.tenanted_schema_filename
       end
-      $stderr.puts Roomer.schemas_directory
-      File.mkpath(Roomer.schemas_directory)
+      File.mkpath(Roomer.schemas_directory) unless Dir.exists?(Roomer.schemas_directory)
       filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
       ActiveRecord::Base.connection.schema_search_path = schema_name
       ActiveRecord::Base.table_name_prefix = "#{schema_name}."
