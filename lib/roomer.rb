@@ -82,7 +82,7 @@ module Roomer
 
   # Shared schema filename.
   mattr_writer :shared_schema_filename
-  @@tenanted_schema_filename = "shared_schema.rb"
+  @@shared_schema_filename = "shared_schema.rb"
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 
