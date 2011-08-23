@@ -15,8 +15,6 @@ class RoomerCreate<%= Roomer.tenants_table.to_s.camelize %> < ActiveRecord::Migr
   end
 
   def self.down
-    remove_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_url_identifier_column %>
-    remove_index :<%= Roomer.tenants_table %>, :<%= Roomer.tenant_schema_name_column %>
     drop_table :<%= Roomer.tenants_table %>
   end
 end
