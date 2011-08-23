@@ -28,6 +28,7 @@ module Roomer
       #       ActiveRecord::Migrator.migrate('/db/migrate', '20110812012536')
       #    end
       def ensuring_schema(schema_name, &block)
+        $stderr.puts "ensuring schema got called with #{schema_name}"
         raise ArgumentError.new("schema_name not present") unless schema_name
         ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
         create_schema(schema_name) unless schemas.include?(schema_name.to_s)
@@ -48,6 +49,7 @@ module Roomer
       #      Person.find(1)  # => will execute "SELECT id FROM 'global.person'"
       #   end
       def ensure_prefix(prefix, &block)
+        $stderr.puts "ensuring prefix got called with #{prefix}"
         ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator}"
         yield
         ActiveRecord::Base.table_name_prefix = nil
