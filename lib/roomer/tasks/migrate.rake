@@ -71,4 +71,15 @@ namespace :roomer do
       end
     end
   end
+
+  desc "Runs shared and tenanted migrations"
+  task :migrate do
+    if ENV["VERSION"].blank?
+      Rake::Task["roomer:shared:migrate"].invoke
+      Rake::Task["roomer:tenanted:migrate"].invoke
+    else
+      Rake::Task["roomer:tenanted:migrate"].invoke
+      Rake::Task["roomer:shared:migrate"].invoke
+    end
+  end
 end
