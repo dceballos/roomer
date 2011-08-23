@@ -61,7 +61,7 @@ namespace :roomer do
       desc "Load tenanted schema into database"
       task :load => :environment do
         schema_name = ENV['SCHEMA_NAME']
-        raise "No schema name provided.  Try: env ENV['SCHEMA_NAME']=" if schema_name.blank?
+        raise "No schema name provided.  Try: env SCHEMA_NAME=" if schema_name.blank?
         Roomer::Schema.load(schema_name)
       end
 
