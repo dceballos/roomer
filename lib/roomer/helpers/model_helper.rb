@@ -1,7 +1,6 @@
 module Roomer
   module Helpers
     module ModelHelper
-      include GeneratorHelper
 
       # Check to see if the model file exists, should be used in a Generator
       # @return [True,False] 
