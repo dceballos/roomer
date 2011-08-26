@@ -1,7 +1,8 @@
 ENV["RAILS_ENV"] = "test"
+
+require "roomer"
 require "rails_app/config/environment"
 require "rails/test_help"
-require "roomer"
 
 #require 'mocha'
 #require 'webrat'

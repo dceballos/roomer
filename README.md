@@ -71,8 +71,8 @@ end
 
 Roomer supports types of scoped models
 
-* shared   - Shared by all tenants
-* tenanted - Scoped to a tenant
+* shared: shared by all tenants
+* tenanted: scoped to a tenant
 
 Roomer also provides generators, if you have the Model defined already, it will append to it. For Example:
 
