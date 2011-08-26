@@ -12,7 +12,7 @@ module Roomer
   autoload :Utils,              'roomer/utils'
 
   module Helpers
-    autoload :ModelHelper,      'roomer/helpers/model_helper'
+    autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
     autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
     autoload :MigrationHelper,  'roomer/helpers/migration_helper'
   end
