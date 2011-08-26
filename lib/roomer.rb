@@ -18,7 +18,7 @@ module Roomer
     autoload :MigrationHelper,  'roomer/helpers/migration_helper'
   end
 
-  module Extentions
+  module Extensions
     autoload :Model,            'roomer/extensions/model'
     autoload :Controller,       'roomer/extensions/controller'
   end
@@ -120,8 +120,4 @@ module Roomer
 
 end
 
-require 'roomer/extensions/model'
-require 'roomer/extensions/controller'
-require 'roomer/schema_dumper'
-require 'roomer/schema'
 require 'roomer/rails'
