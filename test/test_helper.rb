@@ -1,3 +1,6 @@
+
+# FIXME Remove Postgres Server Hard dependency
+
 ENV["RAILS_ENV"] = "test"
 
 require "roomer"
@@ -17,3 +20,4 @@ require 'mocha'
 
 # For generators
 require "rails/generators/test_case"
+
