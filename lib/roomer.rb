@@ -22,8 +22,8 @@ module Roomer
     autoload :Controller,       'roomer/extensions/controller'
   end
 
-  autoload :SchemaDumper,     'roomer/schema_dumper'
-  autoload :Schema,           'roomer/schema'
+  autoload :SchemaDumper,       'roomer/schema_dumper'
+  autoload :Schema,             'roomer/schema'
 
   extend Utils
 
