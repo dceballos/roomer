@@ -1,6 +1,11 @@
-test:
-  adapter:  postgresql
-  encoding: unicode
-  database: roomer_test
-  username: postgres
-  password:
+
+
+
+<%
+  def read_file(filename)
+    IO.read(filename) if File.file?(filename)
+  end
+%>
+<%= read_file '/Users/gosuri/Projects/roomer/test/config.yml' %>
+
+test: *postgresql
