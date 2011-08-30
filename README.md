@@ -58,6 +58,13 @@ This will run migrations under db/migrate. If you set the "config.use_tenanted_m
 ```bash
 rake roomer:tenanted:migrate
 ```
+#### Both
+
+To run both shared and tenanted use:
+
+```bash
+rake roomer:migrate
+```
 
 ## Models
 
