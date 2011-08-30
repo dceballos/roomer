@@ -5,7 +5,7 @@ module Roomer
       # Creates a schema in PostgreSQL
       # @param [#to_s] schema_name declaring the name of the schema
       def create_schema(schema_name)
-        ActiveRecord::Base.connection.execute "CREATE SCHEMA #{schema_name.to_s}"
+        ActiveRecord::Base.connection.execute "CREATE SCHEMA \"#{schema_name.to_s}\""
       end
 
       # Drops a schema and all it's objects (Cascades)

@@ -1,11 +1,2 @@
-
-
-
-<%
-  def read_file(filename)
-    IO.read(filename) if File.file?(filename)
-  end
-%>
-<%= read_file '/Users/gosuri/Projects/roomer/test/config.yml' %>
-
+<%= IO.read(File.expand_path("test/config.yml")) %>
 test: *postgresql
