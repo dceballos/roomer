@@ -2,28 +2,29 @@ module Roomer
   module Helpers
     module GeneratorHelper
 
-      # Prints an error message and exits
-      # TODO: Implement colors
-      # @example exit_out_and_exit("Error message")
-      # @param [String] message string declaring the message
-      def error_out_and_exit(message)
-        # color = Thor::Shell::Color.new
-        # color.set_color(message,Thor::Shell::Color::RED,true)
-        puts message
-        exit
+      # Check to see if the model file exists, should be used in a Generator
+      # @return [True,False] 
+      def model_exists?
+        File.exists?(File.join(destination_root, model_path))
       end
 
-      # Prints an info message
-      # TODO: Implement colors
-      # @example info_message("Success")
-      # @param [String] message string declaring the message
-      def info_message(message)
-        # color = Thor::Shell::Color.new
-        # color.set_color(message,Thor::Shell::Color::BLUE,true)
-        puts message
+      # Returns the path of the model
+      # @return [String] model_path string representing the model location
+      def model_path
+        @model_path ||= File.join("app", "models", "#{file_path}.rb")
+      end
+
+      # Reads the --shared option specified when running "rails generate roomer:model"
+      # @return [True,False]
+      def shared?
+        @shared ||= options[:shared]
+      end
+
+      # Fetchs the migration directory for the migrations
+      def migration_dir
+        return Roomer.shared_migrations_directory if shared?
+        return Roomer.tenanted_migrations_directory
       end
     end
   end
 end
-
-

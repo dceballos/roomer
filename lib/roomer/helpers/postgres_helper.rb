@@ -1,6 +1,7 @@
 module Roomer
   module Helpers
     module PostgresHelper
+
       # Creates a schema in PostgreSQL
       # @param [#to_s] schema_name declaring the name of the schema
       def create_schema(schema_name)
@@ -10,13 +11,13 @@ module Roomer
       # Drops a schema and all it's objects (Cascades)
       # @param [#to_s] schema_name declaring the name of the schema to drop
       def drop_schema(schema_name)
-        ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{name.to_s} CASCADE")
+        ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS \"#{schema_name.to_s}\" CASCADE")
       end
 
       # lists the schemas available
       # @return [Array] list of schemas
       def schemas
-        ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten
+        ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten.map(&:to_s)
       end
 
       # Ensures the schema and schema_migrations exist(creates them otherwise) 
@@ -31,7 +32,6 @@ module Roomer
         raise ArgumentError.new("schema_name not present") unless schema_name
         ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
         create_schema(schema_name) unless schemas.include?(schema_name.to_s)
-        ActiveRecord::Base.table_name_prefix = "#{schema_name.to_s}#{Roomer.schema_seperator.to_s}"
         ensure_prefix(schema_name) do
           ensure_schema_migrations
           yield
@@ -45,12 +45,13 @@ module Roomer
       # @note All the Models will have the same prefix, caution is advised
       # @example
       #   ensure_prefix(:global) do
-      #      Person.find(1)  # => will execute "SELECT id FROM 'global.person'"
+      #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
       #   end
       def ensure_prefix(prefix, &block)
-        ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator}"
+        @old_prefix = ActiveRecord::Base.table_name_prefix
+        ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator.to_s}"
         yield
-        ActiveRecord::Base.table_name_prefix = nil
+        ActiveRecord::Base.table_name_prefix = @old_prefix
       end
 
       # Ensures schema_migrations table exists and creates otherwise

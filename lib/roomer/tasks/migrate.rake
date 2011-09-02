@@ -1,5 +1,5 @@
 include Roomer::Helpers::PostgresHelper
-include Roomer::Helpers::ModelHelper
+include Roomer::Helpers::GeneratorHelper
 
 namespace :roomer do
   namespace :shared do

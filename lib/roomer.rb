@@ -1,17 +1,29 @@
 require 'rails'
 require 'active_support'
 require 'active_support/dependencies'
+require 'active_record'
 require 'roomer/version'
+
+module ActiveRecord
+  autoload :Migration,          'active_record/migration'
+end
 
 module Roomer
   autoload :Utils,              'roomer/utils'
 
   module Helpers
     autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
-    autoload :ModelHelper,      'roomer/helpers/model_helper'
     autoload :PostgresHelper,   'roomer/helpers/postgres_helper'
     autoload :MigrationHelper,  'roomer/helpers/migration_helper'
   end
+
+  module Extensions
+    autoload :Model,            'roomer/extensions/model'
+    autoload :Controller,       'roomer/extensions/controller'
+  end
+
+  autoload :SchemaDumper,       'roomer/schema_dumper'
+  autoload :Schema,             'roomer/schema'
 
   extend Utils
 
@@ -107,8 +119,4 @@ module Roomer
 
 end
 
-require 'roomer/extensions/model'
-require 'roomer/extensions/controller'
-require 'roomer/schema_dumper'
-require 'roomer/schema'
 require 'roomer/rails'

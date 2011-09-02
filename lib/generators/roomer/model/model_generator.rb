@@ -4,7 +4,7 @@ module Roomer
     class ModelGenerator < Rails::Generators::NamedBase
       include Rails::Generators::Migration
       extend  ActiveRecord::Generators::Migration
-      include Roomer::Helpers::ModelHelper
+      include Roomer::Helpers::GeneratorHelper
 
       source_root File.expand_path("../templates", __FILE__)
 

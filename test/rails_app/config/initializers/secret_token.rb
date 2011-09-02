@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-RoomerTest::Application.config.secret_token = 'ba49f5cdb993eb0a29236a7e6e5eee67de9697f6267fc4406c76beb566bf20094d01e6aa23a991bef30ffc43c050ced9a2132f57785fc957356049c8c8a774d7'
+RailsApp::Application.config.secret_token = '87dc2b7d3636ab42097695f3bf363eb2b8ba289499e321327cfc0aeccd5f00138d5dc4d73e6968df91baa29327c71af6570e585af98fc0ee65254babeb68477c'

@@ -11,11 +11,7 @@ module Roomer
       def url_identifier
         case Roomer.url_routing_strategy
           when :domain
-            if request.subdomain.blank?
-              return request.domain
-            else
-              return [request.subdomain, request.domain].join('.')
-            end
+            return request.host
           when :path
             return params[:tenant_identifier]
         end
