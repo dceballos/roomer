@@ -1,6 +1,2 @@
-test:
-  adapter:  postgresql
-  encoding: unicode
-  database: roomer_test
-  username: postgres
-  password:
+<%= IO.read(File.expand_path("test/config.yml")) %>
+test: *postgresql
