@@ -24,7 +24,9 @@ module Roomer
       # and executes the code block
       # @param [#to_s] schema_name declaring name to ensure
       # @param [#call] &block code to execute
-      # @example
+      #
+      # Example:
+      #
       #    ensuring_schema(:global) do
       #       ActiveRecord::Migrator.migrate('/db/migrate', '20110812012536')
       #    end
@@ -43,7 +45,9 @@ module Roomer
       # @param [#to_s] A Symbol declaring the table name prefix
       # @param [#call] code to execute
       # @note All the Models will have the same prefix, caution is advised
-      # @example
+      #
+      # Example:
+      #
       #   ensure_prefix(:global) do
       #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
       #   end
@@ -60,6 +64,8 @@ module Roomer
         ActiveRecord::Base.connection.initialize_schema_migrations_table
       end
 
+      # Determine if there are any pending migrations in the shared migrations directory
+      # @returns true if migrations are pending
       def shared_migrations_pending?
         ActiveRecord::Migrator.new(:up,Roomer.shared_migrations_directory)
       end

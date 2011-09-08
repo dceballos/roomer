@@ -1,4 +1,3 @@
-
 module Roomer
   module Utils
 
@@ -8,6 +7,8 @@ module Roomer
       ActiveRecord::Migrator.migrations_path
     end
 
+    # Directory where the models are stored
+    # @return [String] path of the directory where the models are stored
     def model_directory
       File.join("app","models")
     end
@@ -28,6 +29,7 @@ module Roomer
 
     # Returns tenant model as a constant
     # Example: Tenant
+    # @return Object
     def tenant_model
       Roomer.tenants_table.to_s.classify.constantize
     end
