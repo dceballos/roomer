@@ -2,6 +2,6 @@ postgresql: &postgresql
   adapter:  postgresql
   encoding: unicode
   database: roomer_test
-  username: gosuri
+  username: <%= ENV['user'] || 'postgres' %>
 
 
