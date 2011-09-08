@@ -88,13 +88,16 @@ module Roomer
                  :use_tenanted_migrations_directory 
   @@use_tenanted_migrations_directory = false
 
+  # Directory where the tenanted migrations are stored.
+  # This will be used only if use_tenanted_migration_directory is set to
+  # true if not usual rails migraiton directory db/migrate will be used
+  mattr_writer :tenanted_migrations_directory
+  @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
+
+
   # Directory where shared migrations are stored.
   mattr_accessor :shared_migrations_directory
   @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
-
-  # Directory where the tenanted migrations are stored.
-  mattr_writer :tenanted_migrations_directory
-  @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 
