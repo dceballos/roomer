@@ -104,17 +104,6 @@ rails generate roomer:migration AddPhoneToPerson phone:string
 rails generate roomer:migration AddPhoneToPerson phone:string --shared
 ```
 
-
-## Routes
-
-To enable roomer scoped routes, surround your regular routes under roomer_on(tenants_model_name)
-
-```ruby
-roomer_on(:tenants) do
-  resources :orders
-end
-```
-
 ## Contributors
 
 https://github.com/gosuri/roomer/contributors
