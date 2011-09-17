@@ -81,7 +81,7 @@ Roomer supports types of scoped models
 * shared: shared by all tenants
 * tenanted: scoped to a tenant
 
-Roomer also provides generators, if you have the Model defined already, it will append to it. For Example:
+Roomer also provides generators
 
 ```bash
 rails generate roomer:model user name:string email:string
@@ -92,6 +92,18 @@ Optionally, you can specify --shared flag to generate a shared model
 ```bash
 rails generate roomer:model organizations name:string desc:string --shared
 ```
+
+Migrations are similar, defaulting to the global schema, 
+or optionally --shared for tenanted migration
+
+```bash
+rails generate roomer:migration AddPhoneToPerson phone:string
+```
+
+```bash
+rails generate roomer:migration AddPhoneToPerson phone:string --shared
+```
+
 
 ## Routes
 

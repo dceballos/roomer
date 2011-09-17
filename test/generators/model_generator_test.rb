@@ -19,6 +19,7 @@ class ModelGeneratorTest < Rails::Generators::TestCase
     assert_file "app/models/foo.rb" do |model|
       assert_match /roomer :shared/, model
     end
+    assert_migration "db/migrate/global/roomer_create_foos.rb"
   end
 
 end
