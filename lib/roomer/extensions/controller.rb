@@ -2,7 +2,7 @@ module Roomer
   module Extensions
     module Controller
       def self.included(base)
-        base.before_filter :ensure_current_tenant
+        base.before_filter :set_current_tenant!
       end
 
       protected
@@ -17,11 +17,17 @@ module Roomer
         end
       end
 
-      def ensure_current_tenant
+      # Sets the current tenant, this method is set in the before_filter
+      # @throws if tenant is not found
+      def set_current_tenant!
+        # Raise an exception if the current tenant is blank
         raise "No tenant found for '#{url_identifier}' url identifier" if current_tenant.blank?
         Roomer.current_tenant = current_tenant
       end
 
+      # Returns the current tenant
+      # @returns Roomer.tenant_model
+      # @see Roomer.model
       def current_tenant
         @current_tenant ||= Roomer.tenant_model.find_by_url_identifier(url_identifier)
       end

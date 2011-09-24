@@ -49,4 +49,14 @@ class PostgresHelperTest < ActiveSupport::TestCase
     end
   end
 
+  test 'ensure schema with capital letters in the name' do
+    assert_nothing_raised do
+      create_schema("Testschema")
+      ensuring_schema("Testschema") do
+        assert schemas.include? "Testschema"
+        assert_equal ActiveRecord::Base.table_name_prefix, "Testschema."
+      end
+    end
+  end
+
 end
