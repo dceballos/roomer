@@ -38,17 +38,16 @@ module Roomer
     end
 
     def self.load(schema_name, scope=:tenanted)
-      filename = begin
-        if scope == :shared
-          Roomer.shared_schema_filename
-        elsif scope == :tenanted
-          Roomer.tenanted_schema_filename
-        end
-      end
-      filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
-      return unless File.exists?(filepath)
-
       ensuring_schema(schema_name) do
+        filename = begin
+          if scope == :shared
+            Roomer.shared_schema_filename
+          elsif scope == :tenanted
+            Roomer.tenanted_schema_filename
+          end
+        end
+        filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
+        return unless File.exists?(filepath)
         Object.load(filepath) 
       end
     end
