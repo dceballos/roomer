@@ -7,4 +7,4 @@
 
 # Enhancements
 + Show warnings if unrun migrations exists under db/migrate/global while running rake roomer:shared:migrate
-
++ Autogenerate Test File during setup
