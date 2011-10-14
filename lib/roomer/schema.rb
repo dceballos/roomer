@@ -58,5 +58,14 @@ module Roomer
         ActiveRecord::Base.connection.assume_migrated_upto_version(info[:version], migrations_path)
       end
     end
+
+    def self.current_schema
+      ActiveRecord::Base.table_name_prefix.split('.').first
+    end 
+
+    def self.current_tenant
+      return nil if current_schema == Roomer.shared_schema_name.to_s
+      Tenant.find_by_schema_name(current_schema)
+    end 
   end
 end
