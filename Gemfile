@@ -1,8 +1,6 @@
 source "http://rubygems.org"
 gemspec
 
-gem "rails", "3.0.9"
-
 group :doc do
   gem "yard"
 end
