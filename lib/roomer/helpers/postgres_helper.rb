@@ -17,7 +17,21 @@ module Roomer
       # lists the schemas available
       # @return [Array] list of schemas
       def schemas
-        ActiveRecord::Base.connection.query("SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'").flatten.map(&:to_s)
+        ActiveRecord::Base.connection.query(%{
+          SELECT nspname FROM pg_namespace WHERE nspname !~ '^pg_.*'
+        }).flatten.map(&:to_s)
+      end
+
+      # lists all stored procedures for given schema
+      # @return [Array] list of stored procedures
+      def stored_procedures(schema_name)
+        ActiveRecord::Base.connection.select_values(%{
+          SELECT  proname
+          FROM    pg_catalog.pg_namespace n
+          JOIN    pg_catalog.pg_proc p
+            ON    pronamespace = n.oid
+          WHERE   nspname = '#{schema_name.to_s}'
+        })
       end
 
       # Ensures the schema and schema_migrations exist(creates them otherwise) 
@@ -38,6 +52,15 @@ module Roomer
           ensure_schema_migrations
           yield
         end
+      end
+
+      # Creates sequence for given table name
+      # @param [table_name] table for which sequence will be created
+      # @param [pk] primary key for table.  Defaults to id
+      def create_sequence(table_name, pk="id")
+        ActiveRecord::Base.connection.execute(%{
+          CREATE SEQUENCE #{table_name}_#{pk}_seq OWNED BY #{table_name}.#{pk}
+        })
       end
 
       # Ensures the same ActiveRecord::Base#table_name_prefix for all the 
