@@ -65,4 +65,7 @@ Roomer.setup do |config|
 
   # Filename to use for shared schema
   # config.shared_schema_filename = "shared_schema.rb"
+
+  # Safe to run on Heroku
+  # Roomer.heroku_safe = true
 end

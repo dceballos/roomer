@@ -19,22 +19,24 @@ module Roomer
     end
 
     def self.dump(scope=:tenanted)
-      case scope
-        when :shared
-          schema_name = Roomer.shared_schema_name.to_s
-          filename = Roomer.shared_schema_filename
-        when :tenanted
-          tenant = Tenant.first
-          return if tenant.blank?
+      unless Roomer.heroku_safe && ENV['HEROKU_UPID']
+        case scope
+          when :shared
+            schema_name = Roomer.shared_schema_name.to_s
+            filename = Roomer.shared_schema_filename
+          when :tenanted
+            tenant = Tenant.first
+            return if tenant.blank?
 
-          schema_name = Tenant.first.schema_name.to_s
-          filename = Roomer.tenanted_schema_filename
+            schema_name = Tenant.first.schema_name.to_s
+            filename = Roomer.tenanted_schema_filename
+        end
+        FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
+        filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
+        ActiveRecord::Base.connection.schema_search_path = schema_name
+        ActiveRecord::Base.table_name_prefix = "#{schema_name}."
+        Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
       end
-      FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
-      filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
-      ActiveRecord::Base.connection.schema_search_path = schema_name
-      ActiveRecord::Base.table_name_prefix = "#{schema_name}."
-      Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
     end
 
     def self.load(schema_name, scope=:tenanted)
