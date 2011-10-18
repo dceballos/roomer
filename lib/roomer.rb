@@ -100,7 +100,7 @@ module Roomer
   @@shared_migrations_directory = File.join(migrations_directory,shared_schema_name.to_s)
 
   # When set to true will not dump schema files
-  mattr_accesor :heroku_safe
+  mattr_accessor :heroku_safe
   @@heroku_safe = true
 
   # Fetches the migrations directory for Tenanted migrations. 
