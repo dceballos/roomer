@@ -5,6 +5,7 @@ module Roomer
       # load model extensions
       ActiveSupport.on_load(:active_record) do
         include Roomer::Extensions::Model
+        ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.send(:include, Roomer::Helpers::PostgresHelper)
       end
 
       # load controller extensions
