@@ -63,7 +63,10 @@ module Roomer
       ActiveRecord::Base.descendants.each do |model|
         model.roomer_reset if model.tenanted?
       end
-      Dir["#{Rails.root.to_s}/app/models/**/*.*"].sort.each {|path| load "#{path}"}
+      Dir["#{Rails.root.to_s}/app/models/**/*.*"].sort.each do |path| 
+        load "#{path}"
+        puts "loaded #{path}"
+      end
     end
   end
 end
