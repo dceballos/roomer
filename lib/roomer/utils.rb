@@ -64,7 +64,8 @@ module Roomer
     # Reset cached data in tenanted models
     def ensure_tenant_model_reset
       reset_models
-      reload_models
+      ActiveRecord::Base.connection.instance_variable_set("@visitor", nil)
+      #reload_models
     end
 
     protected
