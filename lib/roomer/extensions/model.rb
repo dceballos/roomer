@@ -48,6 +48,7 @@ module Roomer
 
         def clean_environment
           ActionDispatch::Reloader.cleanup!
+          Dir["#{Rails.root.to_s}/app/models/**/*.*"].sort.each {|path| load "#{path}"}
         end
 
         protected
