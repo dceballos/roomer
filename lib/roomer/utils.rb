@@ -40,8 +40,10 @@ module Roomer
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
       key = :"roomer_current_tenant"
-      Thread.current[key] = val
-      ensure_tenant_model_reset
+      unless  Thread.current[key].try(:name) == val.name
+        Thread.current[key] = val
+        ensure_tenant_model_reset
+      end
     end
 
     # Fetches the current tenant
