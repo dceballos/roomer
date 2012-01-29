@@ -64,7 +64,7 @@ module Roomer
         model.roomer_reset if model.tenanted?
       end
       Dir["#{Rails.root.to_s}/app/models/**/*.*"].sort.each do |path| 
-        load "#{path}"
+        Rails.load "#{path}"
         puts "loaded #{path}"
       end
     end
