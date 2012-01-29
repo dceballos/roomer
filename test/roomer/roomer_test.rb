@@ -16,22 +16,5 @@ class RoomerTest < ActiveSupport::TestCase
 
 
   test 'set the current tenant' do
-    tenant1 = mock()
-    tenant2 = mock()
-
-    assert_not_equal(tenant1,tenant2)
-
-    thread1 = Thread.new do
-      Roomer.current_tenant = tenant1
-      sleep 1
-      assert_equal(Roomer.current_tenant,tenant1)
-    end
-
-    thread2 = Thread.new do
-      Roomer.current_tenant = tenant2
-      assert_equal(Roomer.current_tenant,tenant2)
-    end
-
-    thread2.join
   end
 end
