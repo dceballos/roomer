@@ -44,7 +44,7 @@ module Roomer
         Thread.current[key] = val
         ensure_tenant_model_reset
       end
-      nil
+      key
     end
 
     # Fetches the current tenant
