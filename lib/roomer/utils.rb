@@ -63,8 +63,8 @@ module Roomer
       ActiveRecord::Base.descendants.each do |model|
         model.roomer_reset if model.tenanted?
       end
-      clean_environment
       reload_models
+      clean_environment
     end
 
     protected
