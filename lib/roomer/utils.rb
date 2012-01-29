@@ -44,7 +44,7 @@ module Roomer
         Thread.current[key] = val
         ensure_tenant_model_reset
       end
-      key
+      Thread.current[key]
     end
 
     # Fetches the current tenant
@@ -63,6 +63,7 @@ module Roomer
 
     # Reset cached data in tenanted models
     def ensure_tenant_model_reset
+      reset_models
       reload_models
     end
 
