@@ -64,7 +64,6 @@ module Roomer
         model.roomer_reset if model.tenanted?
       end
       reload_models
-      clean_environment
     end
 
     protected
