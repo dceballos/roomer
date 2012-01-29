@@ -63,12 +63,23 @@ module Roomer
       ActiveRecord::Base.descendants.each do |model|
         model.roomer_reset if model.tenanted?
       end
-      Dir["#{Rails.root.to_s}/app/models/**/*.*"].sort.each do |path|
+      clean_environment
+      reload_models
+    end
+
+    protected
+
+    def reload_models
+      Dir["#{Rails.root.to_s}/app/models/**/*.*"].each do |path|
         begin
           Rails.load "#{path}"
         rescue
         end
       end
+    end
+
+    def clean_environment
+      ActionDispatch::Reloader.cleanup!
     end
   end
 end

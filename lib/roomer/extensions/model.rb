@@ -43,11 +43,6 @@ module Roomer
           roomer_set_table_name_prefix
           reset_table_name 
           reset_column_information
-          clean_environment
-        end
-
-        def clean_environment
-          ActionDispatch::Reloader.cleanup!
         end
 
         protected
