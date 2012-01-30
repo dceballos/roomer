@@ -20,6 +20,8 @@ module Roomer
       # Sets the current tenant, this method is set in the before_filter
       # @throws if tenant is not found
       def set_current_tenant!
+        return if Roomer.current_tenant.try(:url_identifier) == url_identifier
+
         # Raise an exception if the current tenant is blank
         raise "No tenant found for '#{url_identifier}' url identifier" if current_tenant.blank?
         Roomer.current_tenant = current_tenant
