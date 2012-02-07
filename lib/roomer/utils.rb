@@ -64,9 +64,6 @@ module Roomer
     # Reset cached data in tenanted models
     def ensure_tenant_model_reset
       reset_models
-      if (Rails && Rails.env == 'production')
-        reload_models
-      end
     end
 
     protected
@@ -74,15 +71,6 @@ module Roomer
     def reset_models
       ActiveRecord::Base.descendants.each do |model|
         model.roomer_reset if model.tenanted?
-      end
-    end
-
-    def reload_models
-      Dir["#{Rails.root.to_s}/app/models/**/*.*"].each do |path|
-        begin
-          Rails.load "#{path}"
-        rescue
-        end
       end
     end
 

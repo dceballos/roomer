@@ -43,9 +43,25 @@ module Roomer
           roomer_set_table_name_prefix
           reset_table_name 
           reset_column_information
+          reset_associations
         end
 
         protected
+
+        # Resets cached data in associations
+        # Fixes bug that mixed table_name_prefix
+        # between tenants
+        def reset_associations
+          reflections.each_value do |r|
+            table_name = r.instance_variable_get(:@table_name)
+            if (table_name)
+              table_name = table_name.split(".").last
+              table_name = "#{Roomer.current_tenant.schema_name.to_s}#{Roomer.schema_seperator}#{table_name}"
+              r.instance_variable_set(:@table_name, table_name)
+            end
+          end
+        end
+
         # Resolves the full table name prefix
         def roomer_full_table_name_prefix(schema_name)
           "#{schema_name.to_s}#{Roomer.schema_seperator}"
@@ -55,7 +71,7 @@ module Roomer
         # Defaults to public if model is marked as tenanted but tenant table
         # hasn't been populated
         def roomer_set_table_name_prefix
-          self.table_name_prefix = begin
+          ActiveRecord::Base.table_name_prefix = begin
             case @roomer_scope
               when :shared
                 roomer_full_table_name_prefix(Roomer.shared_schema_name)
