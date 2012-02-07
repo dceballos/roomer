@@ -73,7 +73,7 @@ module Roomer
         # Defaults to public if model is marked as tenanted but tenant table
         # hasn't been populated
         def roomer_set_table_name_prefix
-          ActiveRecord::Base.table_name_prefix = begin
+          self.table_name_prefix = begin
             case @roomer_scope
               when :shared
                 roomer_full_table_name_prefix(Roomer.shared_schema_name)
