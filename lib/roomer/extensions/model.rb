@@ -40,11 +40,9 @@ module Roomer
         # This method needs to get called whenever
         # the current tenant changes
         def roomer_reset
-          if tenanted?
-            roomer_set_table_name_prefix
-            reset_table_name 
-            reset_column_information
-          end
+          roomer_set_table_name_prefix
+          reset_table_name 
+          reset_column_information
           reset_associations
         end
 
