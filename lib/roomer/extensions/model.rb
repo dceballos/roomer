@@ -40,9 +40,11 @@ module Roomer
         # This method needs to get called whenever
         # the current tenant changes
         def roomer_reset
-          roomer_set_table_name_prefix
-          reset_table_name 
-          reset_column_information
+          if tenanted?
+            roomer_set_table_name_prefix
+            reset_table_name 
+            reset_column_information
+          end
           reset_associations
         end
 
@@ -56,7 +58,9 @@ module Roomer
             table_name = r.instance_variable_get(:@table_name)
             if (table_name)
               table_name = table_name.split(".").last
-              table_name = "#{Roomer.current_tenant.schema_name.to_s}#{Roomer.schema_seperator}#{table_name}"
+              klass = r.class_name.constantize
+              schema_name = klass.tenanted? ? Roomer.current_tenant.schema_name.to_s : Roomer.shared_schema_name.to_s
+              table_name = "#{schema_name}#{Roomer.schema_seperator}#{table_name}"
               r.instance_variable_set(:@table_name, table_name)
             end
           end

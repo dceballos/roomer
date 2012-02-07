@@ -70,7 +70,7 @@ module Roomer
 
     def reset_models
       ActiveRecord::Base.descendants.each do |model|
-        model.roomer_reset if model.tenanted?
+        model.roomer_reset
       end
     end
 
