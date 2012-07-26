@@ -47,7 +47,7 @@ Roomer.setup do |config|
 
   # Use Tentant migrations directory?
   # Default is set to false
-  # config.use_tenanted_migrations_directory = false
+  config.use_tenanted_migrations_directory = true
 
   # Directory where shared migrations are stored. Please make
   # sure your migrations are present in this directory.
