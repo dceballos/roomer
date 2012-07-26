@@ -92,7 +92,7 @@ module Roomer
   # This will be used only if use_tenanted_migration_directory is set to
   # true if not usual rails migraiton directory db/migrate will be used
   mattr_writer :tenanted_migrations_directory
-  @@tenanted_migrations_directory = File.join(migrations_directory,tenants_table.to_s)
+  @@tenanted_migrations_directory = File.join(migrations_directory, "tenanted")
 
 
   # Directory where shared migrations are stored.
