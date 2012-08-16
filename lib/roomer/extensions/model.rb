@@ -53,6 +53,7 @@ module Roomer
         # between tenants
         def reset_associations
           reflections.each_value do |r|
+            r.instance_variable_set(:@quoted_table_name, nil)
             table_name = r.instance_variable_get(:@table_name)
             if (table_name)
               table_name = table_name.split(".").last
