@@ -11,7 +11,7 @@ class RoomerTest < ActiveSupport::TestCase
   test 'return migrations directory' do
     assert_equal Roomer.tenanted_migrations_directory, "db/migrate"
     Roomer.use_tenanted_migrations_directory = true
-    assert_equal Roomer.tenanted_migrations_directory, "db/migrate/tenants"
+    assert_equal Roomer.tenanted_migrations_directory, "db/migrate/tenanted"
   end
 
 

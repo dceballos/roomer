@@ -23,7 +23,7 @@ class MigrationGeneratorTest < Rails::Generators::TestCase
   test "create migration for a tenanted model in tenant dir" do
     Roomer.use_tenanted_migrations_directory = true
     run_generator %w(add_tenant_bar_to_foos bar:string)
-    assert_migration "db/migrate/tenants/roomer_add_tenant_bar_to_foos.rb"
+    assert_migration "db/migrate/tenanted/roomer_add_tenant_bar_to_foos.rb"
   end
 
   test "create migration for shared model" do
