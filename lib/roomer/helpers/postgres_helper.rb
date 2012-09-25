@@ -93,6 +93,15 @@ module Roomer
         ActiveRecord::Migrator.new(:up,Roomer.shared_migrations_directory)
       end
 
+      # Get view definitions for given schema
+      # @returns [Array] with all definitions for a given schema
+      def view_definitions(schema_name)
+        ActiveRecord::Base.connection.select_all(%{
+          SELECT definition 
+          FROM   pg_views
+          WHERE  schemaname = '#{schema_name}';
+        })
+      end
     end
   end
 end
