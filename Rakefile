@@ -1,8 +1,11 @@
 # encoding: UTF-8
-
+require 'rubygems'
+require 'bundler/setup'
 require "bundler/gem_tasks"
 require 'rake/testtask'
 require 'rdoc/task'
+
+require 'appraisal'
 
 desc 'Run Roomer unit tests'
 Rake::TestTask.new(:test) do |t|

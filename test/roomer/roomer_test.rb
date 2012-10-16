@@ -14,7 +14,6 @@ class RoomerTest < ActiveSupport::TestCase
     assert_equal Roomer.tenanted_migrations_directory, "db/migrate/tenanted"
   end
 
-
   test 'set the current tenant' do
   end
 end

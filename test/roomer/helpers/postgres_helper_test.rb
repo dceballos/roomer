@@ -16,7 +16,7 @@ class PostgresHelperTest < ActiveSupport::TestCase
     assert_nothing_raised { create_schema("old_test_schema") }
     assert schemas.include? "old_test_schema"
     assert_nothing_raised { drop_schema("old_test_schema") }
-    assert (! schemas.include?("old_test_schema"))
+    assert !(schemas.include?("old_test_schema"))
   end
 
   test 'ensure prefix' do
@@ -27,7 +27,7 @@ class PostgresHelperTest < ActiveSupport::TestCase
     assert_equal ActiveRecord::Base.table_name_prefix, "old_prefix_"
   end
 
-  test'ensure schema migrations' do
+  test 'ensure schema migrations' do
     create_schema("test_schema")
     ensure_prefix(:test_schema) do
       ensure_schema_migrations
@@ -41,7 +41,7 @@ class PostgresHelperTest < ActiveSupport::TestCase
     end
 
     assert_nothing_raised do
-      assert (! schemas.include?("new_tenant"))
+      assert !(schemas.include?("new_tenant"))
       ensuring_schema(:new_tenant) do
         assert schemas.include? "new_tenant"
         assert_equal ActiveRecord::Base.table_name_prefix, "new_tenant."
