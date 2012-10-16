@@ -10,13 +10,6 @@ module Roomer
     end 
 
     protected
-    def initialize(connection, schema_name=nil)
-      @connection = connection
-      @current_schema = connection.schema_search_path
-      @types = @connection.native_database_types
-      @version = Migrator::current_version rescue nil
-    end
-
     def header(stream)
       define_params = @version ? ":version => #{@version}" : ""
       stream.puts <<HEADER
@@ -35,18 +28,19 @@ HEADER
 VIEWS
       # Make sure search_path is public so schema name gets dumped 
       # along with table names.
+      current_schema = @connection.schema_search_path
       @connection.schema_search_path = "public"
       views = @connection.select_all(%{
         SELECT *
         FROM   pg_views
-        WHERE  schemaname = '#{@current_schema}';
+        WHERE  schemaname = '#{current_schema}';
       })
       # Reinstating previous search path to make sure nothing breaks
-      @connection.schema_search_path = @current_schema
+      @connection.schema_search_path = current_schema
       unless views.empty?
         views.each do |view|
           stream.puts <<VIEWS
-  execute("CREATE OR REPLACE VIEW \#{ActiveRecord::Base.table_name_prefix}#{view['viewname']} AS #{view['definition'].gsub(/#{@current_schema}\./, '#{ActiveRecord::Base.table_name_prefix}')}")
+  execute("CREATE OR REPLACE VIEW \#{ActiveRecord::Base.table_name_prefix}#{view['viewname']} AS #{view['definition'].gsub(/#{current_schema}\./, '#{ActiveRecord::Base.table_name_prefix}')}")
 VIEWS
         end
       end 
