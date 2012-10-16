@@ -21,7 +21,7 @@ Roomer.setup do |config|
 
   # Configure the name of the shared schema, this is where all the shared 
   # tables are be present. The default is :global
-  # config.shared_schema_name = :shared_schema_name
+  # config.shared_schema_name = :global
 
   # Configure the name of the table where the tenants are stored, this table must 
   # contain two required columns configured under:
@@ -51,11 +51,11 @@ Roomer.setup do |config|
 
   # Directory where shared migrations are stored. Please make
   # sure your migrations are present in this directory.
-  config.shared_migrations_directory = "#{Roomer.shared_migrations_directory}"
+  config.shared_migrations_directory = File.join(Rails.root,"db","migrate", "global")
 
   # Directory where tenanted migrations are stored. Please make
   # sure your migrations are present in this directory.
-  config.tenanted_migrations_directory = "#{Roomer.tenanted_migrations_directory}"
+  config.tenanted_migrations_directory = File.join(Rails.root,"db","migrate", "tenanted")
 
   # Directory where schema files will be stored.
   # config.schemas_directory = File.join(Rails.root, "db", "schemas")
