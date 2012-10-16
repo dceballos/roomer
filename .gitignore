@@ -7,3 +7,4 @@ pkg/*
 test/tmp*
 tmp*
 test/rails_app/log*
+.rvmrc
