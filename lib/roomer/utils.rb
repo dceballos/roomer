@@ -61,6 +61,18 @@ module Roomer
       Thread.current[key] = nil
     end
 
+    # Replace current_tenant with @tenant
+    # during the execution of @blk
+    def with_tenant(tenant,&blk)
+      orig = self.current_tenant
+      begin
+        self.current_tenant = tenant
+        return blk.call(orig)
+      ensure
+        self.current_tenant = orig
+      end
+    end
+
     # Reset cached data in tenanted models
     def ensure_tenant_model_reset
       reset_models
