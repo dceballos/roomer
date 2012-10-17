@@ -40,7 +40,7 @@ module Roomer
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
       key = :"roomer_current_tenant"
-      unless  Thread.current[key].try(:url_identifier) == val.url_identifier
+      unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
         ensure_tenant_model_reset
       end
