@@ -12,6 +12,20 @@ namespace :roomer do
       Roomer::Schema.dump(:shared)
     end
 
+    # copied from https://github.com/rails/rails/blob/master/activerecord/lib/active_record/railties/databases.rake
+    task :abort_if_pending_migrations => :environment do
+      ensuring_schema(Roomer.shared_schema_name) do
+        pending_migrations = ActiveRecord::Migrator.new(:up, Roomer.shared_migrations_directory).pending_migrations
+        if pending_migrations.any?
+          puts "You have #{pending_migrations.size} pending migrations:"
+          pending_migrations.each do |pending_migration|
+            puts '  %4d %s' % [pending_migration.version, pending_migration.name]
+          end
+          abort %{Run "rake roomer:migrate" to update your shared schema, then try again.}
+        end
+      end
+    end
+
     desc "Rolls back shared tables. Target specific version with STEP=x"
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1

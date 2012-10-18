@@ -40,7 +40,7 @@ module Roomer
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
       key = :"roomer_current_tenant"
-      unless  Thread.current[key].try(:url_identifier) == val.url_identifier
+      unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
         ensure_tenant_model_reset
       end
@@ -59,6 +59,18 @@ module Roomer
     def reset_current_tenant
       key = :"roomer_current_tenant"
       Thread.current[key] = nil
+    end
+
+    # Replace current_tenant with @tenant
+    # during the execution of @blk
+    def with_tenant(tenant,&blk)
+      orig = self.current_tenant
+      begin
+        self.current_tenant = tenant
+        return blk.call(orig)
+      ensure
+        self.current_tenant = orig
+      end
     end
 
     # Reset cached data in tenanted models
