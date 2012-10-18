@@ -110,7 +110,10 @@ https://github.com/gosuri/roomer/contributors
 
 ## Build Status
 
-* stable ([![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=master)](http://travis-ci.org/gosuri/roomer?branch=master))
-* unstable ([![Build Status](http://travis-ci.org/gosuri/roomer.png?branch=develop)](http://travis-ci.org/gosuri/roomer?branch=develop))
+* stable ([![Build Status](https://travis-ci.org/gosuri/roomer.png?branch=master)](http://travis-ci.org/gosuri/roomer?branch=master))
+* unstable ([![Build Status](https://travis-ci.org/gosuri/roomer.png?branch=develop)](http://travis-ci.org/gosuri/roomer?branch=develop))
+
+## Code Climate
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/gosuri/roomer)
 
 
