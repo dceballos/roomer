@@ -20,7 +20,7 @@ module Roomer
             else
               raise "Invalid roomer model scope.  Choose :shared or :tenanted"
           end
-          roomer_set_table_name_prefix
+          roomer_initialize_model!
         end
 
         # Confirms if model is shared
@@ -41,12 +41,31 @@ module Roomer
         # the current tenant changes
         def roomer_reset
           roomer_set_table_name_prefix
-          reset_table_name 
+          roomer_reset_table_name
           reset_column_information
           reset_associations
         end
 
         protected
+
+        # Save the table name declared by `set_table_name`.
+        def roomer_initialize_model!
+          @roomer_original_table_name = @table_name
+          roomer_set_table_name_prefix
+        end
+
+        # Reset original table name.
+        #
+        # reset_table_name will not acknowledge the newly-changed
+        # table_name_prefix if set_table_name was used.
+        #
+        def roomer_reset_table_name
+          if @roomer_original_table_name
+            self.table_name = "#{table_name_prefix}#{@roomer_original_table_name}"
+          else
+            reset_table_name
+          end
+        end
 
         # Resets cached data in associations
         # Fixes bug that mixed table_name_prefix
