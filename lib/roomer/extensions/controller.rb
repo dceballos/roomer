@@ -12,8 +12,6 @@ module Roomer
         case Roomer.url_routing_strategy
           when :domain
             return request.host
-          when :path
-            return params[:tenant_identifier]
         end
       end
 

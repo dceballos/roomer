@@ -25,22 +25,24 @@ module Roomer
   autoload :SchemaDumper,       'roomer/schema_dumper'
   autoload :Schema,             'roomer/schema'
 
+  class Error < StandardError
+  end
+
   extend Utils
 
-  # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
+  # The URL routing strategy. Roomer currently supports one routing strategy (:domain)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
-  #  * :path    -  identifying the tenant by the path
   #  Example:
   #  Domain
   #  ------
   #  http://mytenant.myapp.com - If you tenant has a subdomain under your domain
   #  http://mytenant.com - If the tenant choose to use their own top level domain name
   #  http://myapp.mytenant.com If the tenant chooses to use their own subdomain under thier TLD
-  #  Path
-  #  ----
-  #  http://yourapp.com/tenant
-  mattr_accessor :url_routing_strategy
+  mattr_reader :url_routing_strategy
   @@url_routing_strategy = :domain
+  def self.url_routing_strategy= strategy
+    raise Roomer::Error, "Only domain routing strategy supported"
+  end
 
   # name of the shared schema where all the shared tables are be present
   mattr_accessor :shared_schema_name

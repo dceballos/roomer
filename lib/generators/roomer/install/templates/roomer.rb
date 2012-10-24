@@ -1,20 +1,6 @@
 # Be sure to restart your server when you modify this file.
 Roomer.setup do |config|
 
-  # ==> URL Routing Strategy
-  # Configure the URL routing strategy. Roomer currently supports two routing strategies
-  # :domain   : Using domain name to identify the tenant. This could include a subdomain
-  #             e.g. http://mytenant.myapp.com - If you tenant has a subdomain 
-  #             under your domain
-  #             http://mytenant.com - If the tenant choose to use their 
-  #             own top level domain name
-  #             http://myapp.mytenant.com - If the tenant chooses to use their 
-  #             own subdomain under thier TLD
-  # :path     : Identifying the tenant by the path
-  #             e.g. http://yourapp.com/tenant
-  # Default is :domain
-  # config.url_routing_strategy = :domain
-
   # ==> Data Settings (Advanced)
   # IMPORTANT: Modifying these settings after you ran "rails generate roomer:setup" 
   # will require you to make manual changes in the database. Proceed with caution.
