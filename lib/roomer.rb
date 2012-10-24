@@ -10,6 +10,7 @@ end
 
 module Roomer
   autoload :Utils,              'roomer/utils'
+  autoload :Middleware,         'roomer/middleware'
 
   module Helpers
     autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
@@ -104,6 +105,18 @@ module Roomer
   # When set to true will not dump schema files
   mattr_accessor :heroku_safe
   @@heroku_safe = true
+
+  # Set to true for automatic inclusion
+  # of Roomer::Middleware in the app's middleware
+  # stack
+  mattr_accessor :install_middleware
+  @@install_middleware = true
+
+  # Set to true for automatic inclusion
+  # of Roomer::Extensions::Controller in
+  # Application::Controller
+  mattr_accessor :install_controller_extensions
+  @@install_controller_extensions = false
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 

@@ -10,7 +10,22 @@ module Roomer
 
       # load controller extensions
       ActiveSupport.on_load(:action_controller) do
-        include Roomer::Extensions::Controller
+
+        # XXX: only here for backwards-compatibility.
+        #      users should just do this by hand.
+
+        if Roomer.install_middleware
+          if defined?(ActionDispatch::BestStandardsSupport)
+            app.middleware.insert_after(ActionDispatch::BestStandardsSupport, Roomer::Middleware)
+          else
+            app.middleware.use(Roomer::Middleware)
+          end
+        end
+
+        if Roomer.install_controller_extensions
+          include Roomer::Extensions::Controller
+        end
+
       end
     end
 

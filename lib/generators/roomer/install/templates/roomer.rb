@@ -52,6 +52,16 @@ Roomer.setup do |config|
   # Filename to use for shared schema
   # config.shared_schema_filename = "shared_schema.rb"
 
+  # Set to true for automatic inclusion
+  # of Roomer::Middleware in the app's middleware
+  # stack
+  # config.install_middleware = true
+
+  # Set to true for automatic inclusion
+  # of Roomer::Extensions::Controller in
+  # Application::Controller
+  # config.install_controller_extensions = false
+
   # Safe to run on Heroku
   # Roomer.heroku_safe = true
 end
