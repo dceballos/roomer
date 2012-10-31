@@ -77,7 +77,9 @@ module Roomer
             if (table_name)
               table_name = table_name.split(".").last
               klass = r.class_name.constantize
-              schema_name = klass.tenanted? ? Roomer.current_tenant.schema_name.to_s : Roomer.shared_schema_name.to_s
+              schema_name   = klass.tenanted? ? Roomer.current_tenant.try(:schema_name) : Roomer.shared_schema_name
+              schema_name &&= schema_name.to_s
+              schema_name ||= "__no_tenant__"
               table_name = "#{schema_name}#{Roomer.schema_seperator}#{table_name}"
               r.instance_variable_set(:@table_name, table_name)
               r.instance_variable_set(:@quoted_table_name, connection.quote_table_name(table_name))
