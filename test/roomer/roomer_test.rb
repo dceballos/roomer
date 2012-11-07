@@ -14,6 +14,8 @@ class RoomerTest < ActiveSupport::TestCase
     assert_equal Roomer.tenanted_migrations_directory, "db/migrate/tenanted"
   end
 
-  test 'set the current tenant' do
+  test 'does not allow url_routing_strategy configuration' do
+    assert_raise(Roomer::Error) { Roomer.url_routing_strategy = :path   }
+    assert_raise(Roomer::Error) { Roomer.url_routing_strategy = :domain }
   end
 end

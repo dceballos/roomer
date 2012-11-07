@@ -3,4 +3,3 @@ postgresql: &postgresql
   adapter:  postgresql
   encoding: unicode
   database: roomer_test
-  username: postgres

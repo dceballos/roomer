@@ -50,8 +50,10 @@ module Roomer
 
         # Save the table name declared by `set_table_name`.
         def roomer_initialize_model!
+          Roomer.register_model(self)
           @roomer_original_table_name = @table_name
           roomer_set_table_name_prefix
+          roomer_ensure_table_name_prefix
         end
 
         # Reset original table name.
@@ -65,6 +67,14 @@ module Roomer
           else
             reset_table_name
           end
+          roomer_ensure_table_name_prefix
+        end
+
+        def roomer_ensure_table_name_prefix
+          unless table_name.start_with?(table_name_prefix)
+            self.table_name = "#{table_name_prefix}#{table_name}"
+          end
+          table_name
         end
 
         # Resets cached data in associations
@@ -77,7 +87,9 @@ module Roomer
             if (table_name)
               table_name = table_name.split(".").last
               klass = r.class_name.constantize
-              schema_name = klass.tenanted? ? Roomer.current_tenant.schema_name.to_s : Roomer.shared_schema_name.to_s
+              schema_name   = klass.tenanted? ? Roomer.current_tenant.try(:schema_name) : Roomer.shared_schema_name
+              schema_name &&= schema_name.to_s
+              schema_name ||= "__no_tenant__"
               table_name = "#{schema_name}#{Roomer.schema_seperator}#{table_name}"
               r.instance_variable_set(:@table_name, table_name)
               r.instance_variable_set(:@quoted_table_name, connection.quote_table_name(table_name))
