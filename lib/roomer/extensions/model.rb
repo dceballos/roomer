@@ -50,8 +50,10 @@ module Roomer
 
         # Save the table name declared by `set_table_name`.
         def roomer_initialize_model!
+          Roomer.register_model(self)
           @roomer_original_table_name = @table_name
           roomer_set_table_name_prefix
+          roomer_ensure_table_name_prefix
         end
 
         # Reset original table name.
@@ -65,6 +67,14 @@ module Roomer
           else
             reset_table_name
           end
+          roomer_ensure_table_name_prefix
+        end
+
+        def roomer_ensure_table_name_prefix
+          unless table_name.start_with?(table_name_prefix)
+            self.table_name = "#{table_name_prefix}#{table_name}"
+          end
+          table_name
         end
 
         # Resets cached data in associations

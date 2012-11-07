@@ -101,12 +101,22 @@ module Roomer
       end
       return request.host
     end
-    protected
 
+    def register_model(model)
+      unless roomered_models.include?(model)
+        roomered_models.push(model)
+      end
+    end
+
+    protected
     def reset_models
-      ActiveRecord::Base.descendants.each do |model|
+      roomered_models.each do |model|
         model.roomer_reset
       end
+    end
+
+    def roomered_models
+      @roomered_models ||= []
     end
 
     def clean_environment
