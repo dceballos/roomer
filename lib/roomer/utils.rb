@@ -67,7 +67,7 @@ module Roomer
       orig = self.current_tenant
       begin
         self.current_tenant = tenant
-        return blk.call(orig)
+        return blk.call(tenant)
       ensure
         self.current_tenant = orig
       end
@@ -78,12 +78,45 @@ module Roomer
       reset_models
     end
 
-    protected
+    def with_tenant_from_request(request,&blk)
+      with_tenant(tenant_from_request(request),&blk)
+    end
 
+    def tenant_from_request(request)
+      identifier = identifier_from_request(request)
+      tenant     = tenant_from_identifier(identifier)
+      if !tenant
+        raise Roomer::Error, "No tenant found for '#{identifier}' url identifier"
+      end
+      return tenant
+    end
+
+    def tenant_from_identifier(identifier)
+      tenant_model.find_by_url_identifier(identifier)
+    end
+
+    def identifier_from_request(request)
+      unless Roomer.url_routing_strategy == :domain
+        raise Roomer::Error.new("Unsupported routing strategy")
+      end
+      return request.host
+    end
+
+    def register_model(model)
+      unless roomered_models.include?(model)
+        roomered_models.push(model)
+      end
+    end
+
+    protected
     def reset_models
-      ActiveRecord::Base.descendants.each do |model|
+      roomered_models.each do |model|
         model.roomer_reset
       end
+    end
+
+    def roomered_models
+      @roomered_models ||= []
     end
 
     def clean_environment

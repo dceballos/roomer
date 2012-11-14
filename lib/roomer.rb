@@ -10,6 +10,7 @@ end
 
 module Roomer
   autoload :Utils,              'roomer/utils'
+  autoload :Middleware,         'roomer/middleware'
 
   module Helpers
     autoload :GeneratorHelper,  'roomer/helpers/generator_helper'
@@ -25,22 +26,24 @@ module Roomer
   autoload :SchemaDumper,       'roomer/schema_dumper'
   autoload :Schema,             'roomer/schema'
 
+  class Error < StandardError
+  end
+
   extend Utils
 
-  # The URL routing strategy. Roomer currently supports two routing strategies (:domain and :path)
+  # The URL routing strategy. Roomer currently supports one routing strategy (:domain)
   #  * :domain  -  Using domain name to identify the tenant. This could include a subdomain
-  #  * :path    -  identifying the tenant by the path
   #  Example:
   #  Domain
   #  ------
   #  http://mytenant.myapp.com - If you tenant has a subdomain under your domain
   #  http://mytenant.com - If the tenant choose to use their own top level domain name
   #  http://myapp.mytenant.com If the tenant chooses to use their own subdomain under thier TLD
-  #  Path
-  #  ----
-  #  http://yourapp.com/tenant
-  mattr_accessor :url_routing_strategy
+  mattr_reader :url_routing_strategy
   @@url_routing_strategy = :domain
+  def self.url_routing_strategy= strategy
+    raise Roomer::Error, "Only domain routing strategy supported"
+  end
 
   # name of the shared schema where all the shared tables are be present
   mattr_accessor :shared_schema_name
@@ -102,6 +105,18 @@ module Roomer
   # When set to true will not dump schema files
   mattr_accessor :heroku_safe
   @@heroku_safe = true
+
+  # Set to true for automatic inclusion
+  # of Roomer::Middleware in the app's middleware
+  # stack
+  mattr_accessor :install_middleware
+  @@install_middleware = true
+
+  # Set to true for automatic inclusion
+  # of Roomer::Extensions::Controller in
+  # Application::Controller
+  mattr_accessor :install_controller_extensions
+  @@install_controller_extensions = false
 
   # Fetches the migrations directory for Tenanted migrations. 
   # returns the standard rails migration directory "db/migrate" is the 
