@@ -1,6 +1,6 @@
 require "test_helper"
 
-class PostgresHelperTest < ActiveSupport::TestCase
+class PostgresHelperTest < RoomerTestCase
   include Roomer::Helpers::PostgresHelper
 
   setup do
@@ -59,4 +59,13 @@ class PostgresHelperTest < ActiveSupport::TestCase
     end
   end
 
+  test "ensure_tenant sets the current tenant" do
+    tenant = tenant_model('foo')
+    called = false
+    ensuring_tenant(tenant) do
+      assert_equal tenant, Roomer.current_tenant
+      called = true
+    end
+    assert called
+  end
 end
