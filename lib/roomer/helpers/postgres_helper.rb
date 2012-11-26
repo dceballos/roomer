@@ -54,6 +54,12 @@ module Roomer
         end
       end
 
+      def ensuring_tenant(tenant,&blk)
+        ensuring_schema(tenant.try(Roomer.tenant_schema_name_column)) do
+          Roomer.with_tenant(tenant,&blk)
+        end
+      end
+
       # Creates sequence for given table name
       # @param [table_name] table for which sequence will be created
       # @param [pk] primary key for table.  Defaults to id
