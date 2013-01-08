@@ -7,4 +7,8 @@ namespace :db do
 
   Rake::Task["db:schema:load"].clear
   task "schema:load" => ["roomer:shared:abort_if_pending_migrations", "roomer:shared:schema:load"]
+
+  Rake::Task["db:migrate:status"].clear
+  task "migrate:status" => "roomer:migrate:status"
+
 end
