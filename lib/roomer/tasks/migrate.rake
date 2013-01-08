@@ -1,5 +1,6 @@
 include Roomer::Helpers::PostgresHelper
 include Roomer::Helpers::GeneratorHelper
+include Roomer::Helpers::MigrationHelper
 
 namespace :roomer do
   namespace :shared do
@@ -46,6 +47,14 @@ namespace :roomer do
         Roomer::Schema.dump(:shared)
       end
     end
+
+    desc "Display status of migrations for shared schema"
+    task :status => :environment do
+      ensuring_schema(Roomer.shared_schema_name) do
+        status(Roomer.shared_schema_name,Roomer.shared_migrations_directory)
+     end
+   end
+
   end
 
   namespace :tenanted do
@@ -84,6 +93,18 @@ namespace :roomer do
         Roomer::Schema.dump
       end
     end
+
+    desc "Display status of migrations for tenanted schema"
+    task :status do
+      Roomer.tenant_model.find(:all).each do |tenant|
+        ensuring_tenant(tenant) do
+          ensuring_schema(Roomer.current_tenant.schema_name) do
+            status(Roomer.current_tenant.schema_name,Roomer.tenanted_migrations_directory)
+          end
+        end
+      end
+    end
+
   end
 
   desc "Runs shared and tenanted migrations"
@@ -96,4 +117,15 @@ namespace :roomer do
       Rake::Task["roomer:shared:migrate"].invoke
     end
   end
+
+namespace :migrate do
+
+desc "'Display status of migrations "
+
+  task :status do
+    Rake::Task["roomer:shared:status"].invoke
+    Rake::Task["roomer:tenanted:status"].invoke
+  end
+end
+
 end
