@@ -41,8 +41,8 @@ After you've done the necessary config changes to the initializer, run the setup
 rails generate roomer:setup
 ```
 
-### Running Migrations
 
+### Running Migrations
 #### Shared
 
 The setup will generate migrations under db/migrate/[shared_shema_name], by default it should be db/migrate/global. You need to run the shared migrations to setup the tenant tables
