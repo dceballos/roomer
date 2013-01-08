@@ -50,7 +50,7 @@ module Roomer
         end
         filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
         return unless File.exists?(filepath)
-        Object.load(filepath) 
+        Object.load(filepath)
       end
     end
 
@@ -69,5 +69,8 @@ module Roomer
       return nil if current_schema == Roomer.shared_schema_name.to_s
       Tenant.find_by_schema_name(current_schema)
     end
+
+
+
   end
 end
