@@ -64,13 +64,10 @@ module Roomer
     # Replace current_tenant with @tenant
     # during the execution of @blk
     def with_tenant(tenant,&blk)
-      orig = self.current_tenant
-      begin
+      unless self.current_tenant == tenant
         self.current_tenant = tenant
-        return blk.call(tenant)
-      ensure
-        self.current_tenant = orig
       end
+      blk.call(self.current_tenant)
     end
 
     # Reset cached data in tenanted models
