@@ -103,20 +103,18 @@ module Roomer
     end
 
     def register_model(model)
-      unless roomered_models.include?(model)
-        roomered_models.push(model)
-      end
+      roomered_models[model] ||= true
     end
 
     protected
     def reset_models
-      roomered_models.each do |model|
+      roomered_models.keys.each do |model|
         model.roomer_reset
       end
     end
 
     def roomered_models
-      @roomered_models ||= []
+      @roomered_models ||= {}
     end
 
     def clean_environment
