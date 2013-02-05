@@ -11,7 +11,7 @@ class MiddlewareTest < RoomerTestCase
     end
     middleware = Roomer::Middleware.new(app)
     middleware.call(env(tenant.url_identifier))
-    assert_equal(tenant,Roomer.current_tenant)
+    assert_nil(Roomer.current_tenant)
   end
   test "should require a tenant" do
     middleware = Roomer::Middleware.new("")

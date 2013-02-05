@@ -1,9 +1,6 @@
 require 'test_helper'
 
 class RoomerUtilsTest < RoomerTestCase
-  teardown do
-    Roomer.current_tenant = nil
-  end
   test 'identifier_from_request uses the host when routing strategy is domain' do
     assert_equal 'unknown', Roomer.identifier_from_request(request('unknown'))
   end
@@ -16,13 +13,13 @@ class RoomerUtilsTest < RoomerTestCase
     tenant = tenant_model('foo')
     assert_equal tenant, Roomer.tenant_from_request(request(tenant.url_identifier))
   end
-  test 'with_tenant_from_request should perminantly set the current tenant' do
+  test 'with_tenant_from_request should set the current tenant' do
     tenant = tenant_model('foo')
     Roomer.current_tenant = nil
     Roomer.with_tenant_from_request(request(tenant.url_identifier)) do
       assert_equal(tenant,Roomer.current_tenant)
     end
-    assert_equal(tenant,Roomer.current_tenant)
+    assert_nil Roomer.current_tenant
   end
   test 'with_tenant_from_request should yield the current tenant' do
     tenant = tenant_model('foo')
@@ -31,22 +28,22 @@ class RoomerUtilsTest < RoomerTestCase
       assert_equal(tenant,current)
     end
   end
-  test 'with_tenant should perminantly set the current when there is no current tenant' do
+  test 'with_tenant should set the current when there is no current tenant' do
     tenant = tenant_model('foo')
     Roomer.current_tenant = nil
     Roomer.with_tenant(tenant) do
       assert_equal(tenant,Roomer.current_tenant)
     end
-    assert_equal tenant, Roomer.current_tenant
+    assert_nil Roomer.current_tenant
   end
-  test 'with_tenant should perminantly set the current when there is a current tenant' do
+  test 'with_tenant should set the current when there is a current tenant' do
     current = tenant_model('orig')
     tenant  = tenant_model('foo')
     Roomer.current_tenant = current
     Roomer.with_tenant(tenant) do
       assert_equal(tenant,Roomer.current_tenant)
     end
-    assert_equal tenant, Roomer.current_tenant
+    assert_equal current, Roomer.current_tenant
   end
   test 'with_tenant should yield the current tenant' do
     tenant = tenant_model('foo')

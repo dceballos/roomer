@@ -2,11 +2,9 @@ require "test_helper"
 
 class PostgresHelperTest < RoomerTestCase
   include Roomer::Helpers::PostgresHelper
+
   setup do
     @connection = ActiveRecord::Base.connection
-  end
-  teardown do
-    Roomer.current_tenant = nil
   end
 
   test 'create schema' do
