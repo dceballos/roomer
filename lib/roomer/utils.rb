@@ -46,6 +46,7 @@ module Roomer
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
+        #  We'll set the search path here too so it works with console
         ActiveRecord::Base.connection.schema_search_path = "#{val.schema_name},#{Roomer.shared_schema_name.to_s}"
       end
       Thread.current[key]
@@ -78,7 +79,9 @@ module Roomer
     end
 
     def with_tenant_from_request(request,&blk)
-      with_tenant(tenant_from_request(request),&blk)
+      ActiveRecord::Base.transaction do
+        with_tenant(tenant_from_request(request),&blk)
+      end
     end
 
     def tenant_from_request(request)
@@ -87,6 +90,7 @@ module Roomer
       if !tenant
         raise Roomer::Error, "No tenant found for '#{identifier}' url identifier"
       end
+      ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name.to_s}"
       return tenant
     end
 

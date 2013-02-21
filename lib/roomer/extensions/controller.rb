@@ -6,6 +6,7 @@ module Roomer
       end
       protected
       def roomer_set_current_tenant!
+        $stderr.puts("setting current tenant #{request.inspect}")
         Roomer::with_tenant_from_request(request) do
           yield
         end
