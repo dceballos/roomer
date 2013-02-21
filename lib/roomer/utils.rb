@@ -88,6 +88,7 @@ module Roomer
       identifier = identifier_from_request(request)
       tenant     = tenant_from_identifier(identifier)
       if !tenant
+        ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
         raise Roomer::Error, "No tenant found for '#{identifier}' url identifier"
       end
       ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name.to_s}"
