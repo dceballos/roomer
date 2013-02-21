@@ -39,10 +39,14 @@ module Roomer
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
+      if val.nil?
+        ActiveRecord::Base.connection.schema_search_path = "#{Roomer.shared_schema_name.to_s}"
+        return
+      end
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
-        ensure_tenant_model_reset
+        ActiveRecord::Base.connection.schema_search_path = "#{val.schema_name},#{Roomer.shared_schema_name.to_s}"
       end
       Thread.current[key]
     end
@@ -71,11 +75,6 @@ module Roomer
       ensure
         self.current_tenant = orig
       end
-    end
-
-    # Reset cached data in tenanted models
-    def ensure_tenant_model_reset
-      reset_models
     end
 
     def with_tenant_from_request(request,&blk)
@@ -107,12 +106,6 @@ module Roomer
     end
 
     protected
-    def reset_models
-      roomered_models.keys.each do |model|
-        model.roomer_reset
-      end
-    end
-
     def roomered_models
       @roomered_models ||= {}
     end
