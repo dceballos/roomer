@@ -34,6 +34,24 @@ module Roomer
         })
       end
 
+      # Ensures the same ActiveRecord::Base#table_name_prefix for all the 
+      # models executed in the block
+      # @param [#to_s] A Symbol declaring the table name prefix
+      # @param [#call] code to execute
+      # @note All the Models will have the same prefix, caution is advised
+      #   
+      # Example:
+      #   
+      #   ensure_prefix(:global) do
+      #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
+      #   end
+      def ensure_prefix(prefix, &block)
+        old_prefix = ActiveRecord::Base.table_name_prefix
+        ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator.to_s}"
+        yield
+        ActiveRecord::Base.table_name_prefix = old_prefix
+      end 
+
       # Ensures the schema and schema_migrations exist(creates them otherwise) 
       # and executes the code block
       # @param [#to_s] schema_name declaring name to ensure
