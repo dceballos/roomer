@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency 'rails' , '>= 3.0.9'
-  s.add_dependency 'pg'    , '>= 0.11.0'
-
+  s.add_dependency 'rails', '>= 3.0.9'
+  s.add_dependency 'pg'   , '>= 0.11.0'
+  s.add_development_dependency 'debugger'
   s.add_development_dependency 'appraisal', '~> 0.4.1'
 end

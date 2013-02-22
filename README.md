@@ -104,6 +104,21 @@ rails generate roomer:migration AddPhoneToPerson phone:string
 rails generate roomer:migration AddPhoneToPerson phone:string --shared
 ```
 
+
+## Development
+
+### Running Tests
+
+Migrate schema is the test rails all
+```
+cd test/rails_app
+bundle exec env RAILS_ENV=test rake roomer:migrate
+```
+
+```
+rake appraisal test
+```
+
 ## Contributors
 
 https://github.com/gosuri/roomer/contributors

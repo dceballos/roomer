@@ -47,6 +47,7 @@ class RoomerUtilsTest < RoomerTestCase
   end
   test 'with_tenant should yield the current tenant' do
     tenant = tenant_model('foo')
+
     Roomer.with_tenant(tenant) do |current|
       assert_equal(tenant,Roomer.current_tenant)
       assert_equal(tenant,current)
