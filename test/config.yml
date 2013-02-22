@@ -1,5 +1,1 @@
 # TODO: Remove this file, currently unused
-postgresql: &postgresql
-  adapter:  postgresql
-  encoding: unicode
-  database: roomer_test
