@@ -39,11 +39,7 @@ module Roomer
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
-      if val.nil?
-        ActiveRecord::Base.connection.schema_search_path = "#{Roomer.shared_schema_name.to_s}"
-        reset_current_tenant
-        return
-      end
+      reset_current_tenant && return if val.nil?
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
@@ -65,6 +61,7 @@ module Roomer
     def reset_current_tenant
       key = :"roomer_current_tenant"
       Thread.current[key] = nil
+      ActiveRecord::Base.connection.schema_search_path = "#{Roomer.shared_schema_name.to_s}"
     end
 
     # Replace current_tenant with @tenant
@@ -80,9 +77,7 @@ module Roomer
     end
 
     def with_tenant_from_request(request,&blk)
-      ActiveRecord::Base.transaction do
-        with_tenant(tenant_from_request(request),&blk)
-      end
+      with_tenant(tenant_from_request(request),&blk)
     end
 
     def tenant_from_request(request)
