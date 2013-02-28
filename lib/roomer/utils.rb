@@ -39,7 +39,7 @@ module Roomer
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
-      Rails.logger.debug "Roomer current_tenant=#{val.schema_name}"
+      Rails.logger.debug "Roomer current_tenant=#{val.try(:schema_name)}"
       reset_current_tenant && return if val.nil?
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
