@@ -77,7 +77,7 @@ module Roomer
     end
 
     def with_tenant_from_request(request,&blk)
-      ActiveRecord::Base.connection do
+      ActiveRecord::Base.connection.transaction do
         with_tenant(tenant_from_request(request),&blk)
       end
     end
