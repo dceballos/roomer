@@ -39,14 +39,12 @@ module Roomer
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
     def current_tenant=(val)
-      Rails.logger.debug "Roomer current_tenant=#{val.try(:schema_name)}"
       reset_current_tenant && return if val.nil?
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
         #  We'll set the search path here too so it works with console
         ActiveRecord::Base.connection.schema_search_path = "#{val.schema_name},#{Roomer.shared_schema_name.to_s}"
-        Rails.logger.debug "Roomer search_path = #{ActiveRecord::Base.connection.schema_search_path}"
       end
       Thread.current[key]
     end
@@ -63,8 +61,7 @@ module Roomer
     def reset_current_tenant
       key = :"roomer_current_tenant"
       Thread.current[key] = nil
-      ActiveRecord::Base.connection.schema_search_path = "#{Roomer.shared_schema_name.to_s}"
-      Rails.logger.debug "Roomer reset search_path to #{ActiveRecord::Base.connection.schema_search_path}"
+      set_shared_search_path
     end
 
     # Replace current_tenant with @tenant
@@ -81,9 +78,13 @@ module Roomer
 
     def with_tenant_from_request(request,&blk)
       ActiveRecord::Base.connection.transaction do
-        #ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
+        set_shared_search_path
         with_tenant(tenant_from_request(request),&blk)
       end
+    end
+
+    def set_shared_search_path
+      ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
     end
 
     def tenant_from_request(request)
