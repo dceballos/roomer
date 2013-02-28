@@ -62,7 +62,7 @@ module Roomer
     end
 
     def self.current_schema
-      ActiveRecord::Base.table_name_prefix.split('.').first
+      ActiveRecord::Base.connection.schema_search_path.split(",").first
     end
 
     def self.current_tenant
