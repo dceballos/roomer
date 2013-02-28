@@ -81,7 +81,7 @@ module Roomer
 
     def with_tenant_from_request(request,&blk)
       ActiveRecord::Base.connection.transaction do
-        ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
+        #ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
         with_tenant(tenant_from_request(request),&blk)
       end
     end
