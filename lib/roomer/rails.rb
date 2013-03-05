@@ -4,11 +4,8 @@ module Roomer
     initializer 'roomer.extensions' do |app|
       # load model extensions
       ActiveSupport.on_load(:active_record) do
-        include Roomer::Extensions::Model
         ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.send(:include, Roomer::Helpers::PostgresHelper)
-
-        # set shared search path here for rails/console support
-        ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
+        include Roomer::Extensions::Model 
       end
 
       # load controller extensions
