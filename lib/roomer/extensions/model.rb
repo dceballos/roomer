@@ -4,7 +4,7 @@ module Roomer
       def self.included(base)
         base.extend(ClassMethods)
         
-        # Set shared search path here if it exists for rails/console support
+        # Set shared search path if it exists for rails/console support
         if (ActiveRecord::Base.connection.schemas.include?(Roomer.shared_schema_name.to_s))
           ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
         end

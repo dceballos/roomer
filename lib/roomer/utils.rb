@@ -43,7 +43,6 @@ module Roomer
       key = :"roomer_current_tenant"
       unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
         Thread.current[key] = val
-        #  We'll set the search path here too so it works with console
       end
       search_path = "#{val.schema_name},#{Roomer.shared_schema_name.to_s}"
       ActiveRecord::Base.connection.schema_search_path = search_path 
