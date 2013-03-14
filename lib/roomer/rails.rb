@@ -4,7 +4,7 @@ module Roomer
     initializer 'roomer.extensions' do |app|
       # load model extensions
       ActiveSupport.on_load(:active_record) do
-        ActiveRecord::ConnectionAdapters::AbstractAdapter.send(:include, Roomer::Helpers::PostgresHelper)
+        ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.send(:include, Roomer::Helpers::PostgresHelper)
         ActiveRecord::ConnectionAdapters::ConnectionPool.send(:include, Roomer::Extensions::ConnectionPool)
         include Roomer::Extensions::Model
       end
