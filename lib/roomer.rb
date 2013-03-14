@@ -21,6 +21,7 @@ module Roomer
   module Extensions
     autoload :Model,            'roomer/extensions/model'
     autoload :Controller,       'roomer/extensions/controller'
+    autoload :ConnectionPool,   'roomer/extensions/connection_pool'
   end
 
   autoload :SchemaDumper,       'roomer/schema_dumper'

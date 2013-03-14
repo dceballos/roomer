@@ -38,14 +38,13 @@ module Roomer
     # local variable.  Works only with thread-safe Rails as long as
     # it gets set on every request
     # @return [Symbol] the current tenant key in the thread
-    def current_tenant=(val)
-      reset_current_tenant && return if val.nil?
+    def current_tenant=(tenant)
+      reset_current_tenant && return if tenant.nil?
       key = :"roomer_current_tenant"
-      unless  Thread.current[key].try(:url_identifier) == val.try(:url_identifier)
-        Thread.current[key] = val
+      unless  Thread.current[key].try(:url_identifier) == tenant.try(:url_identifier)
+        Thread.current[key] = tenant
       end
-      search_path = "#{val.schema_name},#{Roomer.shared_schema_name.to_s}"
-      ActiveRecord::Base.connection.schema_search_path = search_path 
+      ActiveRecord::Base.connection.set_roomer_search_path
       Thread.current[key]
     end
 

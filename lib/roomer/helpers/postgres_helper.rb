@@ -1,6 +1,44 @@
 module Roomer
   module Helpers
     module PostgresHelper
+      # Set search path to Roomer.current_tenant's schema
+      # @return search_path csv list
+      def set_roomer_search_path
+        paths = ["public"]
+        if (self.schema_exists?(Roomer.shared_schema_name.to_s))
+          paths.unshift(Roomer.shared_schema_name.to_s)
+        end
+        if (Roomer.current_tenant)
+          if (self.schema_exists?(Roomer.current_tenant.schema_name.to_s))
+            paths.unshift(Roomer.current_tenant.schema_name.to_s)
+          end
+        end
+        return self.schema_search_path if self.schema_search_path == paths.join(",")
+        self.schema_search_path = paths.join(",")
+      end
+
+      # Reset search path to Roomer's shared search schema
+      # @return search_path csv list
+      def reset_search_path
+        paths = ["public"]
+        if (self.schema_exists?(Roomer.shared_schema_name.to_s))
+          paths.unshift(Roomer.shared_schema_name.to_s)
+        end
+        return self.schema_search_path if self.schema_search_path == paths.join(",")
+        self.schema_search_path = paths.join(",")
+      end
+
+      # Note: This method has been copied here from Rails 3.2.8 
+      # for backwards compatibility with Rails 3.1
+      #
+      # Returns true if schema exists.
+      def schema_exists?(name)
+        exec_query(<<-SQL, 'SCHEMA', [[nil, name]]).rows.first[0].to_i > 0
+          SELECT COUNT(*)
+          FROM pg_namespace
+          WHERE nspname = $1
+        SQL
+      end  
 
       # Creates a schema in PostgreSQL
       # @param [#to_s] schema_name declaring the name of the schema
