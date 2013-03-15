@@ -35,32 +35,29 @@ module Roomer
     end
 
     # Sets current tenant from ApplicationController into a Thread
-    # local variable.  Works only with thread-safe Rails as long as
-    # it gets set on every request
-    # @return [Symbol] the current tenant key in the thread
+    # local variable.
+    # @return current tenant
     def current_tenant=(tenant)
       reset_current_tenant && return if tenant.nil?
-      key = :"roomer_current_tenant"
-      unless  Thread.current[key].try(:url_identifier) == tenant.try(:url_identifier)
-        Thread.current[key] = tenant
+      unless  Thread.current[current_tenant_key].try(:url_identifier) == tenant.try(:url_identifier)
+        Thread.current[current_tenant_key] = tenant
       end
       ActiveRecord::Base.connection.set_roomer_search_path
-      Thread.current[key]
+      Thread.current[current_tenant_key]
     end
 
     # Fetches the current tenant
-    # @return [Symbol] the current tenant key in the thread
+    # @return current tenant
     def current_tenant
-      key = :"roomer_current_tenant"
-      Thread.current[key]
+      Thread.current[current_tenant_key]
     end
 
     # Reset current tenant
     # @return [Nil]
     def reset_current_tenant
-      key = :"roomer_current_tenant"
-      Thread.current[key] = nil
+      Thread.current[current_tenant_key] = nil
       ActiveRecord::Base.connection.reset_roomer_search_path
+      nil
     end
 
     # Replace current_tenant with @tenant
@@ -99,17 +96,10 @@ module Roomer
       return request.host
     end
 
-    def register_model(model)
-      roomered_models[model] ||= true
-    end
-
     protected
-    def roomered_models
-      @roomered_models ||= {}
-    end
-
-    def clean_environment
-      ActionDispatch::Reloader.cleanup!
+    
+    def current_tenant_key
+      :roomer_current_tenant
     end
   end
 end
