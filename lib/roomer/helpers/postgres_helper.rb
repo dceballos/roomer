@@ -13,19 +13,21 @@ module Roomer
             paths.unshift(Roomer.current_tenant.schema_name.to_s)
           end
         end
-        return self.schema_search_path if self.schema_search_path == paths.join(",")
-        self.schema_search_path = paths.join(",")
+        path_string = paths.join(",")
+        return self.schema_search_path if self.schema_search_path == path_string
+        self.schema_search_path = path_string
       end
 
       # Reset search path to Roomer's shared search schema
       # @return search_path csv list
-      def reset_search_path
+      def reset_roomer_search_path
         paths = ["public"]
         if (self.schema_exists?(Roomer.shared_schema_name.to_s))
           paths.unshift(Roomer.shared_schema_name.to_s)
         end
-        return self.schema_search_path if self.schema_search_path == paths.join(",")
-        self.schema_search_path = paths.join(",")
+        path_string = paths.join(",")
+        return self.schema_search_path if self.schema_search_path == path_string
+        self.schema_search_path = path_string
       end
 
       # Note: This method has been copied here from Rails 3.2.8 

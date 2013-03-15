@@ -10,14 +10,18 @@ module Roomer
           # @returns connection
           def checkout
             conn = original_checkout
-            conn.set_roomer_search_path if conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
+            if (conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter))
+              conn.set_roomer_search_path
+            end
             conn
           end
 
           # Resets connection to shared schema when checked in
           # @returns original ConnectionPool#checkin
           def checkin(conn)
-            conn.reset_search_path if conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
+            if (conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter))
+              conn.reset_roomer_search_path
+            end
             original_checkin(conn)
           end
         end

@@ -60,7 +60,7 @@ module Roomer
     def reset_current_tenant
       key = :"roomer_current_tenant"
       Thread.current[key] = nil
-      set_shared_search_path
+      ActiveRecord::Base.connection.reset_roomer_search_path
     end
 
     # Replace current_tenant with @tenant
@@ -76,12 +76,7 @@ module Roomer
     end
 
     def with_tenant_from_request(request,&blk)
-      set_shared_search_path
       with_tenant(tenant_from_request(request),&blk)
-    end
-
-    def set_shared_search_path
-      ActiveRecord::Base.connection.schema_search_path = Roomer.shared_schema_name.to_s
     end
 
     def tenant_from_request(request)
