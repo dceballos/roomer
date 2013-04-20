@@ -5,11 +5,11 @@ module Roomer
       # @return search_path csv list
       def set_roomer_search_path
         paths = ["public"]
-        if (self.schema_exists?(Roomer.shared_schema_name.to_s))
+        if (roomer_schema_exists?(Roomer.shared_schema_name.to_s))
           paths.unshift(Roomer.shared_schema_name.to_s)
         end
         if (Roomer.current_tenant)
-          if (self.schema_exists?(Roomer.current_tenant.schema_name.to_s))
+          if (roomer_schema_exists?(Roomer.current_tenant.schema_name.to_s))
             paths.unshift(Roomer.current_tenant.schema_name.to_s)
           end
         end
@@ -22,7 +22,7 @@ module Roomer
       # @return search_path csv list
       def reset_roomer_search_path
         paths = ["public"]
-        if (self.schema_exists?(Roomer.shared_schema_name.to_s))
+        if (roomer_schema_exists?(Roomer.shared_schema_name.to_s))
           paths.unshift(Roomer.shared_schema_name.to_s)
         end
         path_string = paths.join(",")
@@ -34,7 +34,7 @@ module Roomer
       # for backwards compatibility with Rails 3.1
       #
       # Returns true if schema exists.
-      def schema_exists?(name)
+      def roomer_schema_exists?(name)
         exec_query(<<-SQL, 'SCHEMA', [[nil, name]]).rows.first[0].to_i > 0
           SELECT COUNT(*)
           FROM pg_namespace
