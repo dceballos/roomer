@@ -40,6 +40,7 @@ module Roomer
     end
 
     def self.load(schema_name, scope=:tenanted)
+      ActiveRecord::Base.connection.schema_search_path = "#{schema_name},#{Roomer.shared_schema_name}"
       ensuring_schema(schema_name) do
         filename = begin
           if scope == :shared
@@ -62,7 +63,8 @@ module Roomer
     end
 
     def self.current_schema
-      ActiveRecord::Base.connection.schema_search_path.split(",").first
+      $stderr.puts "current search path is #{ActiveRecord::Base.connection.schema_search_path}"
+      ActiveRecord::Base.connection.schema_search_path.split(",")[0]
     end
 
     def self.current_tenant

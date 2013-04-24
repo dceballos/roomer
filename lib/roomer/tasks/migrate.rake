@@ -63,6 +63,7 @@ namespace :roomer do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       Roomer.tenant_model.find(:all).each do |tenant|
         ensuring_tenant(tenant) do
+          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
           ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
@@ -74,6 +75,7 @@ namespace :roomer do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       Roomer.tenant_model.find(:all).each do |tenant|
         ensuring_tenant(tenant) do
+          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
           ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
         end
       end
@@ -98,6 +100,7 @@ namespace :roomer do
     task :status do
       Roomer.tenant_model.find(:all).each do |tenant|
         ensuring_tenant(tenant) do
+          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
           ensuring_schema(Roomer.current_tenant.schema_name) do
             status(Roomer.current_tenant.schema_name,Roomer.tenanted_migrations_directory)
           end
