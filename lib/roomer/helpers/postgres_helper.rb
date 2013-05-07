@@ -1,3 +1,4 @@
+require 'ruby-debug'
 module Roomer
   module Helpers
     module PostgresHelper
