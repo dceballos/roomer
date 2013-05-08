@@ -39,7 +39,7 @@ module Roomer
     # @return current tenant
     def current_tenant=(tenant)
       reset_current_tenant && return if tenant.nil?
-      unless  Thread.current[current_tenant_key].try(:schema_name) == tenant.try(:schema_name)
+      unless  Thread.current[current_tenant_key].try(:url_identifier) == tenant.try(:url_identifier)
         Thread.current[current_tenant_key] = tenant
       end
       ActiveRecord::Base.connection.set_roomer_search_path
