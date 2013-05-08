@@ -40,8 +40,8 @@ module Roomer
     end
 
     def self.load(schema_name, scope=:tenanted)
-      ActiveRecord::Base.connection.schema_search_path = "#{schema_name},#{Roomer.shared_schema_name}"
       ensuring_schema(schema_name) do
+        ActiveRecord::Base.connection.schema_search_path = "#{schema_name},#{Roomer.shared_schema_name}"
         filename = begin
           if scope == :shared
             Roomer.shared_schema_filename
