@@ -20,7 +20,7 @@ module Roomer
           # @returns original ConnectionPool#checkin
           def checkin(conn)
             if (conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter))
-              conn.reset_roomer_search_path
+              #conn.reset_roomer_search_path
             end
             original_checkin(conn)
           end
