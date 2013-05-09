@@ -9,8 +9,8 @@ Roomer::Schema.define(:version => 20110825231409) do
     t.datetime "updated_at",     :null => false
   end
 
-  add_index "tenants", ["schema_name"], :name => "index.tenants_on_schema_name", :unique => true
-  add_index "tenants", ["url_identifier"], :name => "index.tenants_on_url_identifier", :unique => true
+  add_index "tenants", ["schema_name"], :name => "index_tenants_on_schema_name", :unique => true
+  add_index "tenants", ["url_identifier"], :name => "index_tenants_on_url_identifier", :unique => true
 
   # Database Views
   # The following statements persist database views across tenants

@@ -86,10 +86,7 @@ module Roomer
       #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
       #   end
       def ensure_prefix(prefix, &block)
-        #old_prefix = ActiveRecord::Base.table_name_prefix
-        #ActiveRecord::Base.table_name_prefix = "#{prefix.to_s}#{Roomer.schema_seperator.to_s}"
         yield
-        #ActiveRecord::Base.table_name_prefix = old_prefix
       end 
 
       # Ensures the schema and schema_migrations exist(creates them otherwise) 

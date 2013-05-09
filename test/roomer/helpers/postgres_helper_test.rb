@@ -19,14 +19,6 @@ class PostgresHelperTest < RoomerTestCase
     assert !(schemas.include?("old_test_schema"))
   end
 
-  test 'ensure prefix' do
-    ActiveRecord::Base.table_name_prefix = "old_prefix_"
-    ensure_prefix(:global) do
-      assert_equal ActiveRecord::Base.table_name_prefix, "global."
-    end
-    assert_equal ActiveRecord::Base.table_name_prefix, "old_prefix_"
-  end
-
   test 'ensure schema migrations' do
     create_schema("test_schema")
     ensure_prefix(:test_schema) do
@@ -44,7 +36,6 @@ class PostgresHelperTest < RoomerTestCase
       assert !(schemas.include?("new_tenant"))
       ensuring_schema(:new_tenant) do
         assert schemas.include? "new_tenant"
-        assert_equal ActiveRecord::Base.table_name_prefix, "new_tenant."
       end
     end
   end
@@ -54,7 +45,6 @@ class PostgresHelperTest < RoomerTestCase
       create_schema("Testschema")
       ensuring_schema("Testschema") do
         assert schemas.include? "Testschema"
-        assert_equal ActiveRecord::Base.table_name_prefix, "Testschema."
       end
     end
   end
