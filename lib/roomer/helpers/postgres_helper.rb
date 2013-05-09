@@ -86,6 +86,7 @@ module Roomer
       #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
       #   end
       def ensure_prefix(prefix, &block)
+        ActiveRecord::Base.connection.set_roomer_search_path
         yield
       end 
 

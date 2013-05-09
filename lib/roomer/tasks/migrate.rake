@@ -63,7 +63,6 @@ namespace :roomer do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       Roomer.tenant_model.find(:all).each do |tenant|
         ensuring_tenant(tenant) do
-          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
           ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
         end
       end
