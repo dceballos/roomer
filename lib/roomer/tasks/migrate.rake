@@ -7,7 +7,7 @@ namespace :roomer do
     desc "Migrates the shared tables. Target specific version with VERSION=x"
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
-      ensuring_schema(Roomer.shared_schema_name) do
+      ensuring_schema_and_search_path(Roomer.shared_schema_name) do
         ActiveRecord::Migrator.migrate(Roomer.shared_migrations_directory, version)
       end
       Roomer::Schema.dump(:shared)
@@ -30,7 +30,7 @@ namespace :roomer do
     desc "Rolls back shared tables. Target specific version with STEP=x"
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
-      ensuring_schema(Roomer.shared_schema_name) do
+      ensuring_schema_and_search_path(Roomer.shared_schema_name) do
         ActiveRecord::Migrator.rollback(Roomer.shared_migrations_directory, step)
       end
       Roomer::Schema.dump(:shared)
@@ -50,7 +50,7 @@ namespace :roomer do
 
     desc "Display status of migrations for shared schema"
     task :status => :environment do
-      ensuring_schema(Roomer.shared_schema_name) do
+      ensuring_schema_and_search_path(Roomer.shared_schema_name) do
         status(Roomer.shared_schema_name,Roomer.shared_migrations_directory)
      end
    end
@@ -100,8 +100,7 @@ namespace :roomer do
     task :status do
       Roomer.tenant_model.find(:all).each do |tenant|
         ensuring_tenant(tenant) do
-          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
-          ensuring_schema(Roomer.current_tenant.schema_name) do
+          ensuring_schema_and_search_path(Roomer.current_tenant.schema_name) do
             status(Roomer.current_tenant.schema_name,Roomer.tenanted_migrations_directory)
           end
         end
