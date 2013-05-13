@@ -127,7 +127,7 @@ module Roomer
       end
 
       def ensuring_tenant(tenant,&blk)
-        ensuring_schema(tenant.try(Roomer.tenant_schema_name_column)) do
+        ensuring_schema_and_search_path(tenant.try(Roomer.tenant_schema_name_column)) do
           Roomer.with_tenant(tenant,&blk)
         end
       end

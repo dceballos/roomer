@@ -27,14 +27,14 @@ class PostgresHelperTest < RoomerTestCase
     end
   end
 
-  test 'ensure schema' do
+  test 'ensure schema and search path' do
     assert_raises(ArgumentError) do
-      ensuring_schema {}
+      ensuring_schema_and_search_path {}
     end
 
     assert_nothing_raised do
       assert !(schemas.include?("new_tenant"))
-      ensuring_schema(:new_tenant) do
+      ensuring_schema_and_search_path(:new_tenant) do
         assert schemas.include? "new_tenant"
       end
     end
@@ -43,7 +43,7 @@ class PostgresHelperTest < RoomerTestCase
   test 'ensure schema with capital letters in the name' do
     assert_nothing_raised do
       create_schema("Testschema")
-      ensuring_schema("Testschema") do
+      ensuring_schema_and_search_path("Testschema") do
         assert schemas.include? "Testschema"
       end
     end
