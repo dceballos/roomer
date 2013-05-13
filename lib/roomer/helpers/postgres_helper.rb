@@ -110,6 +110,15 @@ module Roomer
         end
       end
 
+      def ensuring_schema_and_search_path(schema_name, &block)
+        raise ArgumentError.new("schema_name not present") unless schema_name
+        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+        create_schema(schema_name) unless schemas.include?(schema_name.to_s)
+        ActiveRecord::Base.connection.schema_search_path = "#{schema_name}, public"
+        ensure_schema_migrations
+        yield
+      end
+
       def ensuring_tenant(tenant,&blk)
         ensuring_schema(tenant.try(Roomer.tenant_schema_name_column)) do
           Roomer.with_tenant(tenant,&blk)
