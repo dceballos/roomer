@@ -110,11 +110,18 @@ module Roomer
         end
       end
 
+      # Ensures the schema and schema_migrations exist(creates them otherwise) 
+      # and sets current search path to it
+      # @param [#to_s] schema_name declaring name to ensure
+      # @param [#call] &block code to execute
+      #
       def ensuring_schema_and_search_path(schema_name, &block)
         raise ArgumentError.new("schema_name not present") unless schema_name
         ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+        is_shared = schema_name == Roomer.shared_schema_name.to_s
         create_schema(schema_name) unless schemas.include?(schema_name.to_s)
-        ActiveRecord::Base.connection.schema_search_path = "#{schema_name}, public"
+        search_path = is_shared ? "#{schema_name},public" : "#{schema_name}, #{Roomer.shared_schema_name.to_s}, public"
+        ActiveRecord::Base.connection.schema_search_path = search_path
         ensure_schema_migrations
         yield
       end
