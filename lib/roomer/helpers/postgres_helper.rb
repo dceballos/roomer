@@ -74,42 +74,6 @@ module Roomer
         })
       end
 
-      # Ensures the same ActiveRecord::Base#table_name_prefix for all the 
-      # models executed in the block
-      # @param [#to_s] A Symbol declaring the table name prefix
-      # @param [#call] code to execute
-      # @note All the Models will have the same prefix, caution is advised
-      #   
-      # Example:
-      #   
-      #   ensure_prefix(:global) do
-      #      Person.find(1)  # => will execute "SELECT id FROM 'global.person' where 'id' = 1"
-      #   end
-      def ensure_prefix(prefix, &block)
-        ActiveRecord::Base.connection.set_roomer_search_path
-        yield
-      end 
-
-      # Ensures the schema and schema_migrations exist(creates them otherwise) 
-      # and executes the code block
-      # @param [#to_s] schema_name declaring name to ensure
-      # @param [#call] &block code to execute
-      #
-      # Example:
-      #
-      #    ensuring_schema(:global) do
-      #       ActiveRecord::Migrator.migrate('/db/migrate', '20110812012536')
-      #    end
-      def ensuring_schema(schema_name, &block)
-        raise ArgumentError.new("schema_name not present") unless schema_name
-        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
-        create_schema(schema_name) unless schemas.include?(schema_name.to_s)
-        ensure_prefix(schema_name) do
-          ensure_schema_migrations
-          yield
-        end
-      end
-
       # Ensures the schema and schema_migrations exist(creates them otherwise) 
       # and sets current search path to it
       # @param [#to_s] schema_name declaring name to ensure

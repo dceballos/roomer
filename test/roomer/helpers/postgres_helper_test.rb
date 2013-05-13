@@ -21,7 +21,7 @@ class PostgresHelperTest < RoomerTestCase
 
   test 'ensure schema migrations' do
     create_schema("test_schema")
-    ensure_prefix(:test_schema) do
+    ensuring_schema_and_search_path(:test_schema) do
       ensure_schema_migrations
       assert @connection.table_exists?(ActiveRecord::Migrator.schema_migrations_table_name) 
     end
