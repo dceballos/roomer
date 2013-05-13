@@ -74,7 +74,6 @@ module Roomer
 
     def with_tenant_from_request(request,&blk)
       with_tenant(tenant_from_request(request),&blk)
-      Roomer.current_tenant = nil
     end
 
     def tenant_from_request(request)
