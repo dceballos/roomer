@@ -108,7 +108,12 @@ module Roomer
       # Ensures schema_migrations table exists and creates otherwise
       # @see ActiveRecord::Base.connection#initialize_schema_migrations_table
       def ensure_schema_migrations
-        ActiveRecord::Base.connection.initialize_schema_migrations_table
+        old_search_path = ActiveRecord::Base.connection.schema_search_path
+        old_search_path.split(",").each do |search_path|
+          ActiveRecord::Base.connection.schema_search_path = search_path
+          ActiveRecord::Base.connection.initialize_schema_migrations_table
+        end
+        ActiveRecord::Base.connection.schema_search_path = old_search_path
       end
 
       # Determine if there are any pending migrations in the shared migrations directory

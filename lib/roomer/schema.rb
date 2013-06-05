@@ -61,7 +61,6 @@ module Roomer
     end
 
     def self.current_schema
-      $stderr.puts "current search path is #{ActiveRecord::Base.connection.schema_search_path}"
       ActiveRecord::Base.connection.schema_search_path.split(",")[0]
     end
 
