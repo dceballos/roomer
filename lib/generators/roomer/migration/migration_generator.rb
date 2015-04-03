@@ -24,7 +24,6 @@ module Roomer
       
       # Generates the migration
       def create_migration_file
-        puts "!!!!!!! create_migration_file called"
         set_local_assigns!
         # migration_template "migration.rb", "#{migration_dir}/roomer_#{file_name}"
         # had to append the .rb for rails 4.0
@@ -35,7 +34,6 @@ module Roomer
         attr_reader :migration_action
 
         def set_local_assigns!
-          puts "!!!!!!! set_local_assigns! called"
           if file_name =~ /^(add|remove)_.*_(?:to|from)_(.*)/
             @migration_action = $1
             @table_name       = $2.pluralize
