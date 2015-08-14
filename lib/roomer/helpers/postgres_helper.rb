@@ -84,7 +84,7 @@ module Roomer
         ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
         is_shared = schema_name == Roomer.shared_schema_name.to_s
         create_schema(schema_name) unless schemas.include?(schema_name.to_s)
-        search_path = is_shared ? "#{schema_name},public" : "#{schema_name}, #{Roomer.shared_schema_name.to_s}, public"
+        search_path = is_shared ? "\"#{schema_name}\",public" : "#{schema_name}, #{Roomer.shared_schema_name.to_s}, public"
         ActiveRecord::Base.connection.schema_search_path = search_path
         ensure_schema_migrations
         yield
