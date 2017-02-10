@@ -30,17 +30,17 @@ module Roomer
         self.schema_search_path = path_string
       end
 
-      # Note: This method has been copied here from Rails 3.2.8 
-      # for backwards compatibility with Rails 3.1
-      #
-      # Returns true if schema exists.
-      def schema_exists?(name)
-        exec_query(<<-SQL, 'SCHEMA', [[nil, name]]).rows.first[0].to_i > 0
-          SELECT COUNT(*)
-          FROM pg_namespace
-          WHERE nspname = $1
-        SQL
-      end  
+      # # Note: This method has been copied here from Rails 3.2.8
+      # # for backwards compatibility with Rails 3.1
+      # #
+      # # Returns true if schema exists.
+      # def schema_exists?(name)
+      #   exec_query(<<-SQL, 'SCHEMA', [[nil, name]]).rows.first[0].to_i > 0
+      #     SELECT COUNT(*)
+      #     FROM pg_namespace
+      #     WHERE nspname = $1
+      #   SQL
+      # end
 
       # Creates a schema in PostgreSQL
       # @param [#to_s] schema_name declaring the name of the schema

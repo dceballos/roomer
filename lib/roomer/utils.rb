@@ -4,7 +4,7 @@ module Roomer
     # Rails DB Migrations Directory
     # @return [String] full path to the current migrations directory
     def migrations_directory
-      ActiveRecord::Migrator.migrations_path
+      ActiveRecord::Migrator.migrations_paths
     end
 
     # Directory where the models are stored
