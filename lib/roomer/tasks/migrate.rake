@@ -69,6 +69,28 @@ namespace :roomer do
       Roomer::Schema.dump(:tenanted)
     end
 
+    desc "Updates tenanted SQL Views."
+    task :sqlviews => :environment do      
+      Roomer.tenant_model.all.each do |tenant|
+        ensuring_tenant(tenant) do
+          Dir["#{Rails.root}/db/sqlviews/tenanted/*.sql"].each do |file|
+            fd = File.new(file, 'r')
+            sqlView = fd.read
+            if fd and sqlView
+              ActiveRecord::Base.transaction do
+                sqlTrans = sqlView.split(/;[ \t]*$/)
+                if sqlTrans.respond_to?(:each)
+                  sqlTrans.each do |transaction|
+                    ActiveRecord::Base.connection.execute "#{transaction};"
+                  end
+                end
+              end  
+            end
+          end  
+        end
+      end
+    end
+
     desc "Rolls back tenanted tables. Target specific version with STEP=x"
     task :rollback => :environment do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
@@ -108,13 +130,21 @@ namespace :roomer do
 
   end
 
+  desc "Updates SQL Views"
+  task :sqlviews do
+    Rake::Task["roomer:tenanted:sqlviews"].invoke
+  end  
+  
   desc "Runs shared and tenanted migrations"
   task :migrate do
+    byebug
     if ENV["VERSION"].blank?
       Rake::Task["roomer:shared:migrate"].invoke
       Rake::Task["roomer:tenanted:migrate"].invoke
+      Rake::Task["roomer:tenanted:sqlviews"].invoke
     else
       Rake::Task["roomer:tenanted:migrate"].invoke
+      Rake::Task["roomer:tenanted:sqlviews"].invoke
       Rake::Task["roomer:shared:migrate"].invoke
     end
   end
