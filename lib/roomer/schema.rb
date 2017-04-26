@@ -34,13 +34,12 @@ module Roomer
         FileUtils.mkdir_p(Roomer.schemas_directory) unless File.exists?(Roomer.schemas_directory)
         filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
         ActiveRecord::Base.connection.schema_search_path = schema_name
-        ActiveRecord::Base.table_name_prefix = "#{schema_name}."
         Roomer::SchemaDumper.dump(ActiveRecord::Base.connection, File.new(filepath, "w"))
       end
     end
 
     def self.load(schema_name, scope=:tenanted)
-      ensuring_schema(schema_name) do
+      ensuring_schema_and_search_path(schema_name) do
         filename = begin
           if scope == :shared
             Roomer.shared_schema_filename
@@ -50,7 +49,8 @@ module Roomer
         end
         filepath = File.expand_path(File.join(Roomer.schemas_directory, filename))
         return unless File.exists?(filepath)
-        Object.load(filepath)
+        # Object.load(filepath)
+        Object.send(:load, filepath)
       end
     end
 
@@ -62,15 +62,13 @@ module Roomer
     end
 
     def self.current_schema
-      ActiveRecord::Base.table_name_prefix.split('.').first
+      ActiveRecord::Base.connection.schema_search_path.split(",")[0]
     end
 
     def self.current_tenant
       return nil if current_schema == Roomer.shared_schema_name.to_s
       Tenant.find_by_schema_name(current_schema)
     end
-
-
 
   end
 end
