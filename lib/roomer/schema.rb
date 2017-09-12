@@ -4,7 +4,7 @@ module Roomer
   # Roomer::Schema extends ActiveRecord::Schema
   # Roomer::Schema is currently only supported by the Postgres database adapter
 
-  class Schema < ActiveRecord::Migration
+  class Schema < ActiveRecord::Migration[4.2]
     extend Roomer::Helpers::PostgresHelper
 
     def self.migrations_path(scope=:tenanted)
