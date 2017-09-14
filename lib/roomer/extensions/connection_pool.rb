@@ -8,8 +8,8 @@ module Roomer
 
           # Sets tenanted search each time connection is checked out
           # @returns connection
-          def checkout
-            conn = original_checkout
+          def checkout(checkout_timeout = @checkout_timeout)
+            conn = original_checkout(checkout_timeout)
             if (conn.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter))
               conn.set_roomer_search_path
             end
