@@ -9,3 +9,4 @@ tmp*
 test/rails_app/log*
 .rvmrc
 tags
+.idea/*

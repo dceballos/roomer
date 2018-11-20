@@ -1,15 +1,18 @@
 module Roomer
   class SchemaDumper < ActiveRecord::SchemaDumper
+    #ActiveRecord::ConnectionAdapters::PostgresSQL::SchemaDumper
 
     def dump(stream)
       header(stream)
+      extensions(stream)
       tables(stream)
       views(stream)
       trailer(stream)
       stream
-    end 
+    end
 
     protected
+
     def header(stream)
       define_params = @version ? ":version => #{@version}" : ""
       stream.puts <<HEADER
@@ -26,7 +29,7 @@ HEADER
   # The following statements persist database views across tenants
 
 VIEWS
-      # Make sure search_path is public so schema name gets dumped 
+      # Make sure search_path is public so schema name gets dumped
       # along with table names.
       current_schema = @connection.schema_search_path
       @connection.schema_search_path = "public"
@@ -43,8 +46,20 @@ VIEWS
   execute("CREATE OR REPLACE VIEW \#{ActiveRecord::Base.table_name_prefix}#{view['viewname']} AS #{view['definition'].gsub(/#{current_schema}\./, '#{ActiveRecord::Base.table_name_prefix}')}")
 VIEWS
         end
-      end 
+      end
     end
+
+    def extensions(stream)
+      extensions = @connection.extensions
+      if extensions.any?
+        stream.puts "  # These are extensions that must be enabled in order to support this database"
+        extensions.sort.each do |extension|
+          stream.puts "  enable_extension #{extension.inspect}"
+        end
+        stream.puts
+      end
+    end
+
 
     def roomer_index_name(index_name)
       sections = index_name.split(".")
@@ -56,25 +71,36 @@ VIEWS
       sections.join(".")
     end
 
+
     def indexes(table, stream)
       if (indexes = @connection.indexes(table)).any?
         add_index_statements = indexes.map do |index|
           statement_parts = [ ('add_index ' + index.table.inspect) ]
           statement_parts << index.columns.inspect
+
           statement_parts << (':name => "' + roomer_index_name(index.name) + '"')
           statement_parts << ':unique => true' if index.unique
-  
+          statement_parts << "order: #{format_index_parts(index.orders)}" if index.orders.present?
+          statement_parts << "opclass: #{format_index_parts(index.opclasses)}" if index.opclasses.present?
+          statement_parts << "where: #{index.where.inspect}" if index.where
+          statement_parts << "using: #{index.using.inspect}" if !@connection.default_index_type?(index)
+          statement_parts << "type: #{index.type.inspect}" if index.type
+          statement_parts << "comment: #{index.comment.inspect}" if index.comment
+
+
           index_lengths = index.lengths.compact if index.lengths.is_a?(Array)
           if index_lengths.present?
             statement_parts << (':length => ' + Hash[*index.columns.zip(index.lengths).flatten].inspect)
           end
-  
+
           '  ' + statement_parts.join(', ')
         end
-  
+
         stream.puts add_index_statements.sort.join("\n")
         stream.puts
       end
     end
   end
+
 end
+

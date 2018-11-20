@@ -8,7 +8,8 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       ensuring_schema_and_search_path(Roomer.shared_schema_name) do
-        ActiveRecord::Migrator.migrate(Roomer.shared_migrations_directory, version)
+        mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory )
+        mc.migrate(version)
       end
       Roomer::Schema.dump(:shared)
     end
@@ -63,8 +64,9 @@ namespace :roomer do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       Roomer.tenant_model.all.each do |tenant|
         ensuring_tenant(tenant) do
-          ActiveRecord::Migrator.migrate(Roomer.tenanted_migrations_directory, version)
-        end
+          mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory )
+          mc.migrate(version)
+          end
       end
       Roomer::Schema.dump(:tenanted)
     end
