@@ -112,6 +112,7 @@ module Roomer
         old_search_path.split(",").each do |search_path|
           ActiveRecord::Base.connection.schema_search_path = search_path
           ActiveRecord::SchemaMigration.create_table
+
         end
         ActiveRecord::Base.connection.schema_search_path = old_search_path
       end

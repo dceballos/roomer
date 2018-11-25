@@ -64,7 +64,7 @@ namespace :roomer do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       Roomer.tenant_model.all.each do |tenant|
         ensuring_tenant(tenant) do
-          mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory )
+          mc = ActiveRecord::MigrationContext.new(Roomer.tenanted_migrations_directory)
           mc.migrate(version)
           end
       end

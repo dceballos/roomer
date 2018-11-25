@@ -1,5 +1,6 @@
 module Roomer
   class SchemaDumper < ActiveRecord::SchemaDumper
+
     #ActiveRecord::ConnectionAdapters::PostgresSQL::SchemaDumper
 
     def dump(stream)
@@ -49,6 +50,7 @@ VIEWS
       end
     end
 
+    #Extensions to deal new postgres functionality
     def extensions(stream)
       extensions = @connection.extensions
       if extensions.any?
@@ -70,6 +72,7 @@ VIEWS
       end
       sections.join(".")
     end
+
 
 
     def indexes(table, stream)
