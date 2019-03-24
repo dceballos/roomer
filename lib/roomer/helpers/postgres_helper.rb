@@ -54,6 +54,10 @@ module Roomer
         ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS \"#{schema_name.to_s}\" CASCADE")
       end
 
+      def create_schema_dumper(options) # :nodoc:
+        Roomer::SchemaDumper.create(self, options)
+      end
+
       # lists the schemas available
       # @return [Array] list of schemas
       def schemas
@@ -132,6 +136,36 @@ module Roomer
           WHERE  schemaname = '#{schema_name}';
         })
       end
+
+      def assume_migrated_upto_version(version, migrations_paths)
+        migrations_paths = Array(migrations_paths)
+        version = version.to_i
+        sm_table = quote_table_name(ActiveRecord::SchemaMigration.table_name)
+
+        migrated = ActiveRecord::SchemaMigration.all_versions.map(&:to_i)
+        versions = ActiveRecord::MigrationContext.new(migrations_paths).migration_files.map do |file|
+          migration_context.parse_migration_filename(file).first.to_i
+        end
+
+        unless migrated.include?(version)
+          execute "INSERT INTO #{sm_table} (version) VALUES (#{quote(version)})"
+        end
+
+        inserting = (versions - migrated).select { |v| v < version }
+        if inserting.any?
+          if (duplicate = inserting.detect { |v| inserting.count(v) > 1 })
+            raise "Duplicate migration #{duplicate}. Please renumber your migrations to resolve the conflict."
+          end
+          if supports_multi_insert?
+            execute insert_versions_sql(inserting)
+          else
+            inserting.each do |v|
+              execute insert_versions_sql(v)
+            end
+          end
+        end
+      end
+
     end
   end
 end

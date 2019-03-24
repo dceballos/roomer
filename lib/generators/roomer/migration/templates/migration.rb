@@ -1,4 +1,4 @@
-class <%= migration_class_name %> < ActiveRecord::Migration
+class <%= migration_class_name %> < ActiveRecord::Migration[5.2]
   def self.up
 <% attributes.each do |attribute| -%>
   <%- if migration_action -%>

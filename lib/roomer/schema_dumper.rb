@@ -1,7 +1,23 @@
-module Roomer
-  class SchemaDumper < ActiveRecord::SchemaDumper
+# require "active_record/connection_adapters/postgresql/schema_dumper"
 
-    #ActiveRecord::ConnectionAdapters::PostgresSQL::SchemaDumper
+module Roomer
+  class SchemaDumper < ActiveRecord::ConnectionAdapters::SchemaDumper
+
+    class << self
+      def dump(connection = ActiveRecord::Base.connection, stream = STDOUT, config = ActiveRecord::Base)
+        create(connection, generate_options(config)).dump(stream)
+        # connection.create_schema_dumper(generate_options(config)).dump(stream)
+        stream
+      end
+
+      private
+        def generate_options(config)
+          {
+            table_name_prefix: config.table_name_prefix,
+            table_name_suffix: config.table_name_suffix
+          }
+        end
+    end
 
     def dump(stream)
       header(stream)
@@ -62,7 +78,6 @@ VIEWS
       end
     end
 
-
     def roomer_index_name(index_name)
       sections = index_name.split(".")
       if sections.length > 1
@@ -73,7 +88,9 @@ VIEWS
       sections.join(".")
     end
 
-
+    def indexes_in_create(table, stream)
+      # do nothing here to prevent duplicate index statements
+    end
 
     def indexes(table, stream)
       if (indexes = @connection.indexes(table)).any?
@@ -90,7 +107,6 @@ VIEWS
           statement_parts << "type: #{index.type.inspect}" if index.type
           statement_parts << "comment: #{index.comment.inspect}" if index.comment
 
-
           index_lengths = index.lengths.compact if index.lengths.is_a?(Array)
           if index_lengths.present?
             statement_parts << (':length => ' + Hash[*index.columns.zip(index.lengths).flatten].inspect)
@@ -104,6 +120,5 @@ VIEWS
       end
     end
   end
-
 end
 
