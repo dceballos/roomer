@@ -8,8 +8,18 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       ensuring_schema_and_search_path(Roomer.shared_schema_name) do
-        mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory )
+        mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory)
         mc.migrate(version)
+      end
+      Roomer::Schema.dump(:shared)
+    end
+
+    desc "Rolls back shared tables. Target specific version with STEP=x"
+    task :rollback => :environment do
+      step = ENV['STEP'] ? ENV['STEP'].to_i : 1
+      ensuring_schema_and_search_path(Roomer.shared_schema_name) do
+        mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory)
+        mc.rollback(step)
       end
       Roomer::Schema.dump(:shared)
     end
@@ -17,7 +27,8 @@ namespace :roomer do
     # copied from https://github.com/rails/rails/blob/master/activerecord/lib/active_record/railties/databases.rake
     task :abort_if_pending_migrations => :environment do
       ensuring_schema_and_search_path(Roomer.shared_schema_name) do
-        pending_migrations = ActiveRecord::Migrator.new(:up, Roomer.shared_migrations_directory).pending_migrations
+        mc = ActiveRecord::MigrationContext.new(Roomer.shared_migrations_directory)
+        pending_migrations = ActiveRecord::Migrator.new(:up, mc.migrations, nil).pending_migrations
         if pending_migrations.any?
           puts "You have #{pending_migrations.size} pending migrations:"
           pending_migrations.each do |pending_migration|
@@ -26,15 +37,6 @@ namespace :roomer do
           abort %{Run "rake roomer:migrate" to update your shared schema, then try again.}
         end
       end
-    end
-
-    desc "Rolls back shared tables. Target specific version with STEP=x"
-    task :rollback => :environment do
-      step = ENV['STEP'] ? ENV['STEP'].to_i : 1
-      ensuring_schema_and_search_path(Roomer.shared_schema_name) do
-        ActiveRecord::Migrator.rollback(Roomer.shared_migrations_directory, step)
-      end
-      Roomer::Schema.dump(:shared)
     end
 
     namespace :schema do
@@ -53,9 +55,8 @@ namespace :roomer do
     task :status => :environment do
       ensuring_schema_and_search_path(Roomer.shared_schema_name) do
         status(Roomer.shared_schema_name,Roomer.shared_migrations_directory)
-     end
-   end
-
+      end
+    end
   end
 
   namespace :tenanted do
@@ -76,8 +77,8 @@ namespace :roomer do
       step = ENV['STEP'] ? ENV['STEP'].to_i : 1
       Roomer.tenant_model.all.each do |tenant|
         ensuring_tenant(tenant) do
-          ActiveRecord::Base.connection.schema_search_path = "#{tenant.schema_name},#{Roomer.shared_schema_name}"
-          ActiveRecord::Migrator.rollback(Roomer.tenanted_migrations_directory, step)
+          mc = ActiveRecord::MigrationContext.new(Roomer.tenanted_migrations_directory)
+          mc.rollback(step)
         end
       end
       Roomer::Schema.dump(:tenanted)
@@ -107,7 +108,6 @@ namespace :roomer do
         end
       end
     end
-
   end
 
   desc "Runs shared and tenanted migrations"
@@ -121,14 +121,11 @@ namespace :roomer do
     end
   end
 
-namespace :migrate do
-
-desc "'Display status of migrations "
-
-  task :status do
-    Rake::Task["roomer:shared:status"].invoke
-    Rake::Task["roomer:tenanted:status"].invoke
+  namespace :migrate do
+    desc "'Display status of migrations "
+    task :status do
+      Rake::Task["roomer:shared:status"].invoke
+      Rake::Task["roomer:tenanted:status"].invoke
+    end
   end
-end
-
 end
