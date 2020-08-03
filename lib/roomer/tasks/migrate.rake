@@ -64,10 +64,11 @@ namespace :roomer do
     task :migrate => :environment do
       version = ENV["VERSION"] ? ENV["VERSION"].to_i : nil
       Roomer.tenant_model.all.each do |tenant|
+        puts "*** Migrating Tenant: #{tenant.schema_name} ***"
         ensuring_tenant(tenant) do
           mc = ActiveRecord::MigrationContext.new(Roomer.tenanted_migrations_directory)
           mc.migrate(version)
-          end
+        end
       end
       Roomer::Schema.dump(:tenanted)
     end
