@@ -7,5 +7,11 @@ class Roomer::Middleware
       env["roomer.tenant"] = tenant
       @app.call(env)
     end
+  rescue Roomer::Error
+    respond_with_error
+  end
+  
+  def respond_with_error
+    [406, {"Content-Type" => "text/plain"}, ["Not Acceptable"]]
   end
 end
