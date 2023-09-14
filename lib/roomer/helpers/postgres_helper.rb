@@ -143,7 +143,7 @@ module Roomer
         sm_table = quote_table_name(ActiveRecord::SchemaMigration.table_name)
 
         migrated = ActiveRecord::SchemaMigration.all_versions.map(&:to_i)
-        versions = ActiveRecord::MigrationContext.new(migrations_paths).migration_files.map do |file|
+        versions = ActiveRecord::MigrationContext.new(migrations_paths, ActiveRecord::SchemaMigration, ActiveRecord::SchemaMigration).migration_files.map do |file|
           migration_context.parse_migration_filename(file).first.to_i
         end
 

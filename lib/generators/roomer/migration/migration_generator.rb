@@ -13,9 +13,10 @@ module Roomer
 
       argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
 
-      class_option  :shared,      :type => :boolean, :default => false,
-                    :aliases => "-s", :desc => "shared?"
+      class_option  :shared,  :type => :boolean, :default => false, :aliases => "-s", :desc => "shared?"
 
+      class_option :database, type: :string, aliases: %i(--db), desc: "The database for your migration. By default, the current environment's primary database is used."
+      
       # needed for rails 4.0 can probably be removed for 4.1
       def self.next_migration_number(dirname)
         next_migration_number = current_migration_number(dirname) + 1
@@ -27,7 +28,7 @@ module Roomer
         set_local_assigns!
         # migration_template "migration.rb", "#{migration_dir}/roomer_#{file_name}"
         # had to append the .rb for rails 4.0
-        migration_template "migration.rb", "#{migration_dir}/roomer_#{file_name}.rb"
+        migration_template "migration.rb", "#{migration_dir.first}/roomer_#{file_name}.rb"
       end
 
       protected
